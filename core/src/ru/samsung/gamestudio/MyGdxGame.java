@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import ru.samsung.gamestudio.screens.GameScreen;
 
 import static ru.samsung.gamestudio.GameSettings.*;
 
@@ -23,6 +24,8 @@ public class MyGdxGame extends Game {
 
 	public World world;
 	private float accumulator;
+
+	public GameScreen gameScreen;
 	
 	@Override
 	public void create () {
@@ -35,6 +38,10 @@ public class MyGdxGame extends Game {
 
 		skin = new Skin(Gdx.files.internal(SKIN_PATH));
 		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+		gameScreen = new GameScreen(this);
+
+		setScreen(gameScreen);
 
 	}
 
