@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="5" nextobjectid="56">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="59">
  <tileset firstgid="1" source="terrian-tileset.tsx"/>
  <layer id="1" name="ground" width="50" height="15">
   <data encoding="csv">
@@ -58,5 +58,8 @@
   <object id="51" x="1150.5" y="417.438" width="34.2466" height="61.0885"/>
   <object id="52" x="864.495" y="385.968" width="158.275" height="92.5583"/>
   <object id="53" x="799.874" y="416.536" width="64.9963" height="63.2491"/>
+ </objectgroup>
+ <objectgroup id="5" name="Actors">
+  <object id="57" name="Player" x="224" y="352" width="32" height="32"/>
  </objectgroup>
 </map>

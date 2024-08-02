@@ -23,7 +23,6 @@ public class MyGdxGame extends Game {
 	public FitViewport viewport;
 
 	public World world;
-	private float accumulator;
 
 	public GameScreen gameScreen;
 	
@@ -31,7 +30,7 @@ public class MyGdxGame extends Game {
 	public void create () {
 
 		Box2D.init();
-		world = new World(new Vector2(0, 0), true);
+		world = new World(new Vector2(0, -10), true);
 
 		camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
 		viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
@@ -50,13 +49,5 @@ public class MyGdxGame extends Game {
 		skin.dispose();
 	}
 
-	public void stepWorld() {
-		float delta = Gdx.graphics.getDeltaTime();
-		accumulator += Math.min(delta, 0.25f);
 
-		if (accumulator >= STEP_TIME) {
-			accumulator -= STEP_TIME;
-			world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
-		}
-	}
 }

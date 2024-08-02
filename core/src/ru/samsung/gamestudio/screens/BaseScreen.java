@@ -29,7 +29,11 @@ public abstract class BaseScreen extends ScreenAdapter {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.GRAY);
+        render(delta, true);
+    }
+
+    void render(float delta, boolean clearScreen) {
+        if (clearScreen) ScreenUtils.clear(Color.GRAY);
         stage.act(delta);
         stage.draw();
         handleInput();

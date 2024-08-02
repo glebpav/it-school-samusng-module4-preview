@@ -22,7 +22,11 @@ public abstract class BaseBlock {
         PolygonShape pShape = new PolygonShape();
 
         bodyDef.type = BodyDef.BodyType.StaticBody;
-        bodyDef.position.set((bounds.getX() + bounds.getWidth() / 2) / SCALE, (bounds.getY() + bounds.getHeight() / 2) / SCALE);
+        bodyDef.position.set(
+                (bounds.getX() + bounds.getWidth() / 2) / SCALE,
+                (bounds.getY() + bounds.getHeight() / 2) / SCALE
+        );
+
         body = world.createBody(bodyDef);
 
         pShape.setAsBox((bounds.getWidth() / 2) / SCALE,(bounds.getHeight() / 2) / SCALE);
