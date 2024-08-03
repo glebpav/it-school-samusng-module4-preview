@@ -2,18 +2,9 @@ package ru.samsung.gamestudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.maps.MapLayer;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
-import com.badlogic.gdx.physics.box2d.World;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.ScreenUtils;
-import ru.samsung.gamestudio.GameSettings;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.utils.B2WorldManager;
 import ru.samsung.gamestudio.utils.MapManager;
@@ -33,10 +24,11 @@ public class GameScreen extends BaseScreen {
 
         debugRenderer = new Box2DDebugRenderer();
 
-        mapManager = new MapManager(1);
+        mapManager = new MapManager(2);
         b2WorldManager = new B2WorldManager(myGdxGame.world, mapManager);
 
         stage.addActor(b2WorldManager.player);
+        b2WorldManager.enemiesList.forEach(enemy -> stage.addActor(enemy));
 
         mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.map, PPI);
 
@@ -54,7 +46,8 @@ public class GameScreen extends BaseScreen {
         b2WorldManager.update(delta);
 
         // ScreenUtils.clear(51f/255, 50f/255, 60f/255, 1f);
-        ScreenUtils.clear(0, 0.5f, 1f, 0.5f);
+       // ScreenUtils.clear(0, 0.5f, 1f, 0.5f);
+        ScreenUtils.clear(0, 0, 0, 0);
 
         mapRenderer.setView(myGdxGame.camera);
         mapRenderer.render();
@@ -74,6 +67,8 @@ public class GameScreen extends BaseScreen {
         }
         else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
             b2WorldManager.player.moveRight();
+        } else if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+            b2WorldManager.player.attack();
         }
 
         /*// Virtual Controls

@@ -10,33 +10,37 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 
-
 import static ru.samsung.gamestudio.GameSettings.PPI;
 import static ru.samsung.gamestudio.GameSettings.SCALE;
 
-public class Player extends Image implements Updatable {
+public class Enemy extends Image implements Updatable {
 
-    public enum State {FALLING, JUMPING, IDLE, RUNNING, ATTACKING}
+    public enum State {IDLE, RUNNING}
 
     public Body body;
     Fixture fixture;
 
     private Animation<TextureRegion> idle;
     private Animation<TextureRegion> run;
-    private Animation<TextureRegion> jump;
-    private Animation<TextureRegion> attack;
 
     float timer;
     State state;
     boolean needToBeSwapped;
+    boolean moveRightFlag;
 
-    public Player(World world, Rectangle bounds) {
+    float territoryLen = 120;
+    float initialX;
+
+    public Enemy(World world, Rectangle bounds) {
 
         createBody(world, bounds);
         createAnimations();
         timer = 0;
         state = State.IDLE;
-        setSize(bounds.getWidth() * 2 * PPI, bounds.getHeight() * PPI);
+        setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);
+
+        initialX = bounds.getX();
+        moveRight();
 
     }
 
@@ -58,30 +62,24 @@ public class Player extends Image implements Updatable {
         fixture = body.createFixture(fixtureDef);
 
         body.setLinearDamping(5);
+        moveRightFlag = true;
 
         pShape.dispose();
     }
 
     private void createAnimations() {
 
-        Texture texture = new Texture("texture/player/hero-tileset.png");
+        Texture texture = new Texture("texture/enemy/enemy1-tileset.png");
         Array<TextureRegion> frames = new Array<>();
 
-        for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 64 * 3, i * 40, 64, 40));
+        for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 0, i * 30, 34, 30));
         idle = new Animation<>(0.3f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 0, i * 40, 64, 40));
+        for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 64, i * 30, 34, 30));
         run = new Animation<>(0.3f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 0, 40, 64, 40));
-        jump = new Animation<>(0.5f, frames, Animation.PlayMode.NORMAL);
-        frames.clear();
-
-        for (int i = 0; i < 3; i++) frames.add(new TextureRegion(texture, 64 * 2, i * 40, 64, 40));
-        attack = new Animation<>(0.3f, frames, Animation.PlayMode.NORMAL);
-        frames.clear();
     }
 
     private Drawable getFrame(float delta) {
@@ -91,14 +89,6 @@ public class Player extends Image implements Updatable {
         switch (state) {
             case RUNNING: {
                 region = run.getKeyFrame(timer, true);
-                break;
-            }
-            case JUMPING: {
-                region = jump.getKeyFrame(timer, false);
-                break;
-            }
-            case ATTACKING: {
-                region = attack.getKeyFrame(timer, false);
                 break;
             }
             default:
@@ -117,31 +107,25 @@ public class Player extends Image implements Updatable {
     public void update(float delta) {
         setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
         setDrawable(getFrame(delta));
-        if (body.getLinearVelocity().y == 0 && body.getLinearVelocity().y == 0) state = State.IDLE;
+        System.out.println(body.getPosition().x * SCALE - initialX);
+
+        if (moveRightFlag) moveRight();
+        else moveLeft();
+
+        if (body.getPosition().x * SCALE - initialX >= territoryLen) moveRightFlag = false;
+        else if (body.getPosition().x * SCALE - initialX <= 0) moveRightFlag = true;
     }
 
     public void moveLeft() {
-        body.applyForceToCenter(new Vector2(-20f, 0), true);
+        body.applyForceToCenter(new Vector2(-7f, 0), true);
         needToBeSwapped = true;
         state = State.RUNNING;
     }
 
     public void moveRight() {
-        body.applyForceToCenter(new Vector2(20f, 0), true);
+        body.applyForceToCenter(new Vector2(7f, 0), true);
         needToBeSwapped = false;
         state = State.RUNNING;
     }
-
-    public void moveUp() {
-        body.applyForceToCenter(new Vector2(0, 300f), true);
-        state = State.JUMPING;
-        timer = 0;
-    }
-
-    public void attack() {
-        state = State.ATTACKING;
-        timer = 0;
-    }
-
 
 }

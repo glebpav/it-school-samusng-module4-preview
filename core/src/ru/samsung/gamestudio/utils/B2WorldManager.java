@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
+import ru.samsung.gamestudio.objects.Enemy;
 import ru.samsung.gamestudio.objects.Player;
 import ru.samsung.gamestudio.objects.Updatable;
 import ru.samsung.gamestudio.objects.blocks.StaticBlock;
@@ -16,6 +17,7 @@ import static ru.samsung.gamestudio.GameSettings.*;
 public class B2WorldManager {
 
     public Player player;
+    public ArrayList<Enemy> enemiesList;
     ArrayList<Updatable> updatableList;
 
     private float accumulator;
@@ -32,6 +34,7 @@ public class B2WorldManager {
         }*/
 
         updatableList = new ArrayList<>();
+        enemiesList = new ArrayList<>();
 
         for(RectangleMapObject object : mapManager.map.getLayers().get("walls").getObjects().getByType(RectangleMapObject.class)) {
             // System.out.println("object class name: " + object.getClass().getName());
@@ -45,6 +48,12 @@ public class B2WorldManager {
                     Rectangle rect = object.getRectangle();
                     player = new Player(world, rect);
                     updatableList.add(player);
+                    break;
+                }
+                case "enemy1" : {
+                    Rectangle rect = object.getRectangle();
+                    enemiesList.add(new Enemy(world, rect));
+                    updatableList.add(enemiesList.get(enemiesList.size() - 1));
                 }
             }
         }
