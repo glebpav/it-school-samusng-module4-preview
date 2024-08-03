@@ -16,10 +16,10 @@ public class MapManager {
     public TiledMap map;
     public MapProperties prop;
 
-    public MapManager(int level) {
+    public MapManager(String pathToMap) {
 
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("maps/level" + level + ".tmx");
+        map = mapLoader.load(pathToMap);
         prop = map.getProperties();
 
     }

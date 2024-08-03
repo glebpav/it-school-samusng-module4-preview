@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import ru.samsung.gamestudio.screens.GameScreen;
+import ru.samsung.gamestudio.screens.MenuScreen;
 
 import static ru.samsung.gamestudio.GameSettings.*;
 
@@ -22,15 +23,11 @@ public class MyGdxGame extends Game {
 	public OrthographicCamera camera;
 	public FitViewport viewport;
 
-	public World world;
-
 	public GameScreen gameScreen;
+	public MenuScreen menuScreen;
 	
 	@Override
 	public void create () {
-
-		Box2D.init();
-		world = new World(new Vector2(0, -10), true);
 
 		camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
 		viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
@@ -39,8 +36,9 @@ public class MyGdxGame extends Game {
 		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 		gameScreen = new GameScreen(this);
+		menuScreen = new MenuScreen(this);
 
-		setScreen(gameScreen);
+		setScreen(menuScreen);
 
 	}
 
