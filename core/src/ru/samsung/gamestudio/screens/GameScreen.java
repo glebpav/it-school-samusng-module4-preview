@@ -8,6 +8,8 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.utils.B2WorldManager;
 import ru.samsung.gamestudio.utils.MapManager;
+import ru.samsung.gamestudio.utils.OnLooseListener;
+import ru.samsung.gamestudio.utils.OnWinListener;
 
 import static ru.samsung.gamestudio.GameSettings.*;
 
@@ -21,13 +23,19 @@ public class GameScreen extends BaseScreen {
     public GameScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
         debugRenderer = new Box2DDebugRenderer();
+        b2WorldManager = new B2WorldManager();
+        b2WorldManager.setOnLooseListener(onLooseListener);
+        b2WorldManager.setOnWinListener(onWinListener);
     }
 
     public void loadLevel(String pathToLevel) {
+
         mapManager = new MapManager(pathToLevel);
         mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.map, PPI);
-        b2WorldManager = new B2WorldManager(mapManager);
+
+        b2WorldManager.buildWorld(mapManager);
         b2WorldManager.getAllActors().forEach(actor -> stage.addActor(actor));
+
     }
 
     @Override
@@ -65,4 +73,12 @@ public class GameScreen extends BaseScreen {
             b2WorldManager.player.attack();
         }
     }
+
+    OnLooseListener onLooseListener = looseText -> {
+        System.out.println("onLooseListener: " + looseText);
+    };
+
+    OnWinListener onWinListener = () -> {
+        System.out.println("onWinListener: win");
+    };
 }

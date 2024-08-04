@@ -4,15 +4,22 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import ru.samsung.gamestudio.GameSettings;
 import ru.samsung.gamestudio.objects.Hittable;
+import ru.samsung.gamestudio.utils.B2WorldManager;
+import ru.samsung.gamestudio.utils.OnWinListener;
 
 public class FinishLine extends StaticBlock implements Hittable {
-    public FinishLine(World world, Rectangle bounds) {
+
+    private final OnWinListener onWinListener;
+
+    public FinishLine(World world, Rectangle bounds, OnWinListener onWinListener) {
         super(world, bounds, GameSettings.EXIT_BIT);
         fixture.setSensor(true);
+        this.onWinListener = onWinListener;
     }
 
     @Override
     public void hit() {
         System.out.println("Finish hit");
+        onWinListener.onWin();
     }
 }

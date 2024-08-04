@@ -29,7 +29,10 @@ public class B2WorldManager {
 
     private float accumulator;
 
-    public B2WorldManager(MapManager mapManager) {
+    private OnLooseListener onLooseListener;
+    private OnWinListener onWinListener;
+
+    public B2WorldManager() {
 
         Box2D.init();
         world = new World(new Vector2(0, -10), true);
@@ -37,6 +40,9 @@ public class B2WorldManager {
 
         updatableList = new ArrayList<>();
         enemiesList = new ArrayList<>();
+    }
+
+    public void buildWorld(MapManager mapManager) {
 
         for (
                 RectangleMapObject object :
@@ -72,17 +78,16 @@ public class B2WorldManager {
             switch (object.getName()) {
                 case "pit": {
                     Rectangle rect = object.getRectangle();
-                    new PitBlock(world, rect);
+                    new PitBlock(world, rect, onLooseListener);
                     break;
                 }
                 case "finishLine": {
                     Rectangle rect = object.getRectangle();
-                    new FinishLine(world, rect);
+                    new FinishLine(world, rect, onWinListener);
                     break;
                 }
             }
         }
-
     }
 
     public void update(float delta) {
@@ -105,6 +110,14 @@ public class B2WorldManager {
         actors.addAll(enemiesList);
         // ...
         return actors;
+    }
+
+    public void setOnLooseListener(OnLooseListener onLooseListener) {
+        this.onLooseListener = onLooseListener;
+    }
+
+    public void setOnWinListener(OnWinListener onWinListener) {
+        this.onWinListener = onWinListener;
     }
 
 }
