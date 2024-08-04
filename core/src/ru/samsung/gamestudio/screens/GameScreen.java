@@ -4,11 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import ru.samsung.gamestudio.MyGdxGame;
+import ru.samsung.gamestudio.ui.components.LoseDialog;
 import ru.samsung.gamestudio.utils.B2WorldManager;
 import ru.samsung.gamestudio.utils.MapManager;
-import ru.samsung.gamestudio.utils.OnLooseListener;
+import ru.samsung.gamestudio.utils.OnLoseListener;
 import ru.samsung.gamestudio.utils.OnWinListener;
 
 import static ru.samsung.gamestudio.GameSettings.*;
@@ -20,12 +23,17 @@ public class GameScreen extends BaseScreen {
     private OrthoCachedTiledMapRenderer mapRenderer;
     private Box2DDebugRenderer debugRenderer;
 
+    private LoseDialog loseDialog;
+
     public GameScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
         debugRenderer = new Box2DDebugRenderer();
         b2WorldManager = new B2WorldManager();
-        b2WorldManager.setOnLooseListener(onLooseListener);
+        b2WorldManager.setOnLoseListener(onLoseListener);
         b2WorldManager.setOnWinListener(onWinListener);
+
+        loseDialog = new LoseDialog("", myGdxGame.skin);
+        loseDialog.homeButton.addListener(onButtonHomeClicked);
     }
 
     public void loadLevel(String pathToLevel) {
@@ -74,11 +82,20 @@ public class GameScreen extends BaseScreen {
         }
     }
 
-    OnLooseListener onLooseListener = looseText -> {
-        System.out.println("onLooseListener: " + looseText);
+    OnLoseListener onLoseListener = loseText -> {
+        loseDialog.setText(loseText);
+        stage.addActor(loseDialog);
     };
 
     OnWinListener onWinListener = () -> {
         System.out.println("onWinListener: win");
+        // stage.addActor(dialog);
+    };
+
+    ClickListener onButtonHomeClicked = new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            myGdxGame.setScreen(myGdxGame.menuScreen);
+        }
     };
 }

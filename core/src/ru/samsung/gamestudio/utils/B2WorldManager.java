@@ -29,7 +29,7 @@ public class B2WorldManager {
 
     private float accumulator;
 
-    private OnLooseListener onLooseListener;
+    private OnLoseListener onLoseListener;
     private OnWinListener onWinListener;
 
     public B2WorldManager() {
@@ -78,7 +78,7 @@ public class B2WorldManager {
             switch (object.getName()) {
                 case "pit": {
                     Rectangle rect = object.getRectangle();
-                    new PitBlock(world, rect, onLooseListener);
+                    new PitBlock(world, rect, onLoseListener);
                     break;
                 }
                 case "finishLine": {
@@ -112,8 +112,8 @@ public class B2WorldManager {
         return actors;
     }
 
-    public void setOnLooseListener(OnLooseListener onLooseListener) {
-        this.onLooseListener = onLooseListener;
+    public void setOnLoseListener(OnLoseListener onLoseListener) {
+        this.onLoseListener = onLoseListener;
     }
 
     public void setOnWinListener(OnWinListener onWinListener) {
