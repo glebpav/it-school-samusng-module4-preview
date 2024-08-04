@@ -14,7 +14,7 @@ public abstract class BaseBlock {
     protected Body body;
     protected Fixture fixture;
 
-    public BaseBlock (World world, Rectangle bounds) {
+    public BaseBlock (World world, Rectangle bounds, short categoryBits) {
         this.bounds = bounds;
 
         BodyDef bodyDef = new BodyDef();
@@ -32,6 +32,8 @@ public abstract class BaseBlock {
         pShape.setAsBox((bounds.getWidth() / 2) / SCALE,(bounds.getHeight() / 2) / SCALE);
         fixtureDef.shape = pShape;
         fixture = body.createFixture(fixtureDef);
+        fixture.setUserData(this);
+        fixture.getFilterData().categoryBits = categoryBits;
 
         pShape.dispose();
     }

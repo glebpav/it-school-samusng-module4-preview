@@ -20,5 +20,6 @@ public class GameSettings {
     public static final short PLAYER_BIT = 4;
     public static final short ENEMY_BIT = 8;
     public static final short EXIT_BIT = 16;
+    public static final short PIT_BIT = 32;
 
 }

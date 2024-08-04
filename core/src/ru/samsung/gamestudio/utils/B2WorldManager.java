@@ -1,15 +1,16 @@
 package ru.samsung.gamestudio.utils;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import ru.samsung.gamestudio.objects.Enemy;
-import ru.samsung.gamestudio.objects.Player;
+import ru.samsung.gamestudio.objects.blocks.FinishLine;
+import ru.samsung.gamestudio.objects.blocks.PitBlock;
+import ru.samsung.gamestudio.objects.characters.Enemy;
+import ru.samsung.gamestudio.objects.characters.Player;
 import ru.samsung.gamestudio.objects.Updatable;
 import ru.samsung.gamestudio.objects.blocks.StaticBlock;
 
@@ -28,31 +29,56 @@ public class B2WorldManager {
 
     private float accumulator;
 
-    public B2WorldManager (MapManager mapManager) {
+    public B2WorldManager(MapManager mapManager) {
 
         Box2D.init();
         world = new World(new Vector2(0, -10), true);
+        world.setContactListener(new ContactManager());
 
         updatableList = new ArrayList<>();
         enemiesList = new ArrayList<>();
 
-        for(RectangleMapObject object : mapManager.map.getLayers().get("walls").getObjects().getByType(RectangleMapObject.class)) {
+        for (
+                RectangleMapObject object :
+                mapManager.map.getLayers().get("walls").getObjects().getByType(RectangleMapObject.class)
+        ) {
             Rectangle rect = object.getRectangle();
             new StaticBlock(world, rect);
         }
 
-        for (RectangleMapObject object : mapManager.map.getLayers().get("Actors").getObjects().getByType(RectangleMapObject.class)) {
-            switch (object.getName())  {
-                case "Player" : {
+        for (
+                RectangleMapObject object :
+                mapManager.map.getLayers().get("actors").getObjects().getByType(RectangleMapObject.class)
+        ) {
+            switch (object.getName()) {
+                case "player": {
                     Rectangle rect = object.getRectangle();
                     player = new Player(world, rect);
                     updatableList.add(player);
                     break;
                 }
-                case "enemy1" : {
+                case "enemy1": {
                     Rectangle rect = object.getRectangle();
                     enemiesList.add(new Enemy(world, rect));
                     updatableList.add(enemiesList.get(enemiesList.size() - 1));
+                }
+            }
+        }
+
+        for (
+                RectangleMapObject object :
+                mapManager.map.getLayers().get("interactiveObjects").getObjects().getByType(RectangleMapObject.class)
+        ) {
+            switch (object.getName()) {
+                case "pit": {
+                    Rectangle rect = object.getRectangle();
+                    new PitBlock(world, rect);
+                    break;
+                }
+                case "finishLine": {
+                    Rectangle rect = object.getRectangle();
+                    new FinishLine(world, rect);
+                    break;
                 }
             }
         }

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="6" nextobjectid="59">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="50" height="15" tilewidth="32" tileheight="32" infinite="0" nextlayerid="7" nextobjectid="64">
  <tileset firstgid="1" source="terrian-tileset.tsx"/>
  <layer id="1" name="ground" width="50" height="15">
   <data encoding="csv">
@@ -59,7 +59,13 @@
   <object id="52" x="864.495" y="385.968" width="158.275" height="92.5583"/>
   <object id="53" x="799.874" y="416.536" width="64.9963" height="63.2491"/>
  </objectgroup>
- <objectgroup id="5" name="Actors">
-  <object id="57" name="Player" x="224" y="352" width="32" height="32"/>
+ <objectgroup id="5" name="actors">
+  <object id="57" name="player" x="224" y="352" width="32" height="32"/>
+  <object id="63" name="enemy1" x="864" y="320" width="32" height="32"/>
+ </objectgroup>
+ <objectgroup id="6" name="interactiveObjects">
+  <object id="60" name="pit" x="576" y="468.798" width="223.939" height="11.2022"/>
+  <object id="61" name="pit" x="1024" y="465.739" width="126.964" height="14.2612"/>
+  <object id="62" name="finishLine" x="1528.75" y="193.484" width="39.245" height="126.516"/>
  </objectgroup>
 </map>

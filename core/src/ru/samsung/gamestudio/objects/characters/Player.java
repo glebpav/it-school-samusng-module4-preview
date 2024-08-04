@@ -1,4 +1,4 @@
-package ru.samsung.gamestudio.objects;
+package ru.samsung.gamestudio.objects.characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -9,17 +9,13 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import ru.samsung.gamestudio.objects.Updatable;
 
+import static ru.samsung.gamestudio.GameSettings.*;
 
-import static ru.samsung.gamestudio.GameSettings.PPI;
-import static ru.samsung.gamestudio.GameSettings.SCALE;
-
-public class Player extends Image implements Updatable {
+public class Player extends Hero implements Updatable {
 
     public enum State {FALLING, JUMPING, IDLE, RUNNING, ATTACKING}
-
-    public Body body;
-    Fixture fixture;
 
     private Animation<TextureRegion> idle;
     private Animation<TextureRegion> run;
@@ -31,8 +27,7 @@ public class Player extends Image implements Updatable {
     boolean needToBeSwapped;
 
     public Player(World world, Rectangle bounds) {
-
-        createBody(world, bounds);
+        super(world, bounds, PLAYER_BIT);
         createAnimations();
         timer = 0;
         state = State.IDLE;
@@ -40,27 +35,6 @@ public class Player extends Image implements Updatable {
 
     }
 
-    private void createBody(World world, Rectangle bounds) {
-        BodyDef bodyDef = new BodyDef();
-        FixtureDef fixtureDef = new FixtureDef();
-        PolygonShape pShape = new PolygonShape();
-
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(
-                (bounds.getX() + bounds.getWidth() / 2) / SCALE,
-                (bounds.getY() + bounds.getHeight() / 2) / SCALE
-        );
-
-        body = world.createBody(bodyDef);
-
-        pShape.setAsBox((bounds.getWidth() / 2) / SCALE, (bounds.getHeight() / 2) / SCALE);
-        fixtureDef.shape = pShape;
-        fixture = body.createFixture(fixtureDef);
-
-        body.setLinearDamping(5);
-
-        pShape.dispose();
-    }
 
     private void createAnimations() {
 
@@ -68,20 +42,21 @@ public class Player extends Image implements Updatable {
         Array<TextureRegion> frames = new Array<>();
 
         for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 64 * 3, i * 40, 64, 40));
-        idle = new Animation<>(0.3f, frames, Animation.PlayMode.LOOP);
+        idle = new Animation<>(0.1f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
         for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 0, i * 40, 64, 40));
         run = new Animation<>(0.3f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 0, 40, 64, 40));
-        jump = new Animation<>(0.5f, frames, Animation.PlayMode.NORMAL);
+        for (int i = 0; i < 3; i++) frames.add(new TextureRegion(texture, 64, i * 40, 64, 40));
+        jump = new Animation<>(0.1f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
 
         for (int i = 0; i < 3; i++) frames.add(new TextureRegion(texture, 64 * 2, i * 40, 64, 40));
-        attack = new Animation<>(0.3f, frames, Animation.PlayMode.NORMAL);
+        attack = new Animation<>(0.1f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
+
     }
 
     private Drawable getFrame(float delta) {
@@ -117,7 +92,10 @@ public class Player extends Image implements Updatable {
     public void update(float delta) {
         setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
         setDrawable(getFrame(delta));
-        if (body.getLinearVelocity().y == 0 && body.getLinearVelocity().y == 0) state = State.IDLE;
+        if (state == State.RUNNING && body.getLinearVelocity().y == 0 && body.getLinearVelocity().y == 0
+                || state == State.ATTACKING && attack.isAnimationFinished(timer)
+                || state == State.JUMPING && jump.isAnimationFinished(timer))
+            state = State.IDLE;
     }
 
     public void moveLeft() {
@@ -143,5 +121,8 @@ public class Player extends Image implements Updatable {
         timer = 0;
     }
 
-
+    @Override
+    public void hit() {
+        System.out.println("Player hit");
+    }
 }

@@ -1,4 +1,4 @@
-package ru.samsung.gamestudio.objects;
+package ru.samsung.gamestudio.objects.characters;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
@@ -9,16 +9,13 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import ru.samsung.gamestudio.objects.Updatable;
 
-import static ru.samsung.gamestudio.GameSettings.PPI;
-import static ru.samsung.gamestudio.GameSettings.SCALE;
+import static ru.samsung.gamestudio.GameSettings.*;
 
-public class Enemy extends Image implements Updatable {
+public class Enemy extends Hero implements Updatable {
 
     public enum State {IDLE, RUNNING}
-
-    public Body body;
-    Fixture fixture;
 
     private Animation<TextureRegion> idle;
     private Animation<TextureRegion> run;
@@ -32,39 +29,16 @@ public class Enemy extends Image implements Updatable {
     float initialX;
 
     public Enemy(World world, Rectangle bounds) {
-
-        createBody(world, bounds);
+        super(world, bounds, ENEMY_BIT);
         createAnimations();
         timer = 0;
         state = State.IDLE;
         setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);
+        // fixture.setFilterData();
 
         initialX = bounds.getX();
         moveRight();
 
-    }
-
-    private void createBody(World world, Rectangle bounds) {
-        BodyDef bodyDef = new BodyDef();
-        FixtureDef fixtureDef = new FixtureDef();
-        PolygonShape pShape = new PolygonShape();
-
-        bodyDef.type = BodyDef.BodyType.DynamicBody;
-        bodyDef.position.set(
-                (bounds.getX() + bounds.getWidth() / 2) / SCALE,
-                (bounds.getY() + bounds.getHeight() / 2) / SCALE
-        );
-
-        body = world.createBody(bodyDef);
-
-        pShape.setAsBox((bounds.getWidth() / 2) / SCALE, (bounds.getHeight() / 2) / SCALE);
-        fixtureDef.shape = pShape;
-        fixture = body.createFixture(fixtureDef);
-
-        body.setLinearDamping(5);
-        moveRightFlag = true;
-
-        pShape.dispose();
     }
 
     private void createAnimations() {
@@ -73,11 +47,11 @@ public class Enemy extends Image implements Updatable {
         Array<TextureRegion> frames = new Array<>();
 
         for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 0, i * 30, 34, 30));
-        idle = new Animation<>(0.3f, frames, Animation.PlayMode.LOOP);
+        idle = new Animation<>(0.1f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
         for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 64, i * 30, 34, 30));
-        run = new Animation<>(0.3f, frames, Animation.PlayMode.LOOP);
+        run = new Animation<>(0.1f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
     }
@@ -95,7 +69,7 @@ public class Enemy extends Image implements Updatable {
                 region = idle.getKeyFrame(timer, true);
         }
 
-        if (needToBeSwapped != region.isFlipX())
+        if (needToBeSwapped == region.isFlipX())
             region.flip(true, false);
 
         timer += delta;
@@ -107,7 +81,7 @@ public class Enemy extends Image implements Updatable {
     public void update(float delta) {
         setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
         setDrawable(getFrame(delta));
-        System.out.println(body.getPosition().x * SCALE - initialX);
+        // System.out.println(body.getPosition().x * SCALE - initialX);
 
         if (moveRightFlag) moveRight();
         else moveLeft();
@@ -128,4 +102,8 @@ public class Enemy extends Image implements Updatable {
         state = State.RUNNING;
     }
 
+    @Override
+    public void hit() {
+        System.out.println("enemy hit");
+    }
 }
