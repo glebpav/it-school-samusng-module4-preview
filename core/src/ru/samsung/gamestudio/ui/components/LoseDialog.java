@@ -24,7 +24,7 @@ public class LoseDialog extends Dialog {
         textLabel.setScale(10);
 
         setSize(400, 300);
-        setPosition(SCREEN_WIDTH / 2f - getWidth() / 2, SCREEN_HEIGHT / 2f - getHeight() / 2);
+        // setPosition(SCREEN_WIDTH / 2f - getWidth() / 2, SCREEN_HEIGHT / 2f - getHeight() / 2);
 
         getContentTable().columnDefaults(2);
 
@@ -39,6 +39,5 @@ public class LoseDialog extends Dialog {
     public void setText(String text) {
         textLabel.setText(text);
     }
-
 
 }

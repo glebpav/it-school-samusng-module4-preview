@@ -120,4 +120,12 @@ public class B2WorldManager {
         this.onWinListener = onWinListener;
     }
 
+    public void clearWorld() {
+        world = new World(new Vector2(0, -10), true);
+        world.setContactListener(new ContactManager());
+
+        player = null;
+        enemiesList.clear();
+    }
+
 }

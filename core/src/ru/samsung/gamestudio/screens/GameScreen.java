@@ -4,10 +4,14 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import org.w3c.dom.ls.LSOutput;
 import ru.samsung.gamestudio.MyGdxGame;
+import ru.samsung.gamestudio.game.GameSession;
+import ru.samsung.gamestudio.game.GameState;
 import ru.samsung.gamestudio.ui.components.LoseDialog;
 import ru.samsung.gamestudio.utils.B2WorldManager;
 import ru.samsung.gamestudio.utils.MapManager;
@@ -23,6 +27,8 @@ public class GameScreen extends BaseScreen {
     private OrthoCachedTiledMapRenderer mapRenderer;
     private Box2DDebugRenderer debugRenderer;
 
+    private GameSession session;
+
     private LoseDialog loseDialog;
 
     public GameScreen(MyGdxGame myGdxGame) {
@@ -31,23 +37,22 @@ public class GameScreen extends BaseScreen {
         b2WorldManager = new B2WorldManager();
         b2WorldManager.setOnLoseListener(onLoseListener);
         b2WorldManager.setOnWinListener(onWinListener);
+        session = new GameSession();
 
         loseDialog = new LoseDialog("", myGdxGame.skin);
         loseDialog.homeButton.addListener(onButtonHomeClicked);
     }
 
-    public void loadLevel(String pathToLevel) {
-
-        mapManager = new MapManager(pathToLevel);
-        mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.map, PPI);
-
-        b2WorldManager.buildWorld(mapManager);
-        b2WorldManager.getAllActors().forEach(actor -> stage.addActor(actor));
-
+    @Override
+    public void show() {
+        super.show();
+        session.startGame();
     }
 
     @Override
     public void render(float delta) {
+
+        System.out.println("fps: " + Gdx.graphics.getFramesPerSecond());
 
         myGdxGame.camera.position.x =
                 Math.min(Math.max(b2WorldManager.player.getX(), SCREEN_WIDTH / 2f),
@@ -71,21 +76,53 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void handleInput() {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
-            b2WorldManager.player.moveUp();
-        } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            b2WorldManager.player.moveLeft();
-        } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            b2WorldManager.player.moveRight();
-        } else if (Gdx.input.isKeyPressed(Input.Keys.F)) {
-            b2WorldManager.player.attack();
+
+        if (session.state == GameState.PLAYING) {
+
+            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+                b2WorldManager.player.moveUp();
+            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+                b2WorldManager.player.moveLeft();
+            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+                b2WorldManager.player.moveRight();
+            } else if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+                b2WorldManager.player.attack();
+            }
+
         }
+
+    }
+
+    public void loadLevel(String pathToLevel) {
+
+        mapManager = new MapManager(pathToLevel);
+        mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.map, PPI);
+
+        b2WorldManager.buildWorld(mapManager);
+        b2WorldManager.getAllActors().forEach(actor -> stage.addActor(actor));
+
+    }
+
+    public void exitLevel() {
+        b2WorldManager.getAllActors().forEach(Actor::remove);
+        b2WorldManager.clearWorld();
+        myGdxGame.setScreen(myGdxGame.menuScreen);
     }
 
     OnLoseListener onLoseListener = loseText -> {
         loseDialog.setText(loseText);
+        loseDialog.setPosition(
+                myGdxGame.camera.position.x - loseDialog.getWidth() / 2,
+                myGdxGame.camera.position.y - loseDialog.getHeight() / 2
+        );
         stage.addActor(loseDialog);
+        session.endGame();
     };
+
+    @Override
+    public void hide() {
+        myGdxGame.camera.position.x = SCREEN_WIDTH / 2f;
+    }
 
     OnWinListener onWinListener = () -> {
         System.out.println("onWinListener: win");
@@ -95,7 +132,8 @@ public class GameScreen extends BaseScreen {
     ClickListener onButtonHomeClicked = new ClickListener() {
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            myGdxGame.setScreen(myGdxGame.menuScreen);
+            loseDialog.remove();
+            exitLevel();
         }
     };
 }
