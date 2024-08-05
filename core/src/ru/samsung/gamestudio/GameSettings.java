@@ -7,6 +7,8 @@ public class GameSettings {
 
     public static final String SKIN_PATH = "skin/uiskin.json";
 
+    public static final int COIN_VALUE = 50;
+
     // Physics settings
 
     public static final float STEP_TIME = 1f / 60f;

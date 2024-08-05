@@ -108,7 +108,7 @@ public class Enemy extends Hero implements Updatable {
     }
 
     @Override
-    public void hit() {
+    public void hit(short hitObjectBits) {
         System.out.println("enemy hit");
     }
 }

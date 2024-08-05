@@ -12,9 +12,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import ru.samsung.gamestudio.objects.Updatable;
 import ru.samsung.gamestudio.objects.blocks.StaticBlock;
+import ru.samsung.gamestudio.world.listeners.OnCollectCoinListener;
 
-import static ru.samsung.gamestudio.GameSettings.COIN_BIT;
-import static ru.samsung.gamestudio.GameSettings.PPI;
+import static ru.samsung.gamestudio.GameSettings.*;
 
 public class Coin extends Hero {
 
@@ -26,8 +26,11 @@ public class Coin extends Hero {
     State state;
     float timer;
 
-    public Coin(World world, Rectangle bounds) {
+    OnCollectCoinListener onCollectCoinListener;
+
+    public Coin(World world, Rectangle bounds, OnCollectCoinListener onCollectCoinListener) {
         super(world, bounds, COIN_BIT);
+        this.onCollectCoinListener = onCollectCoinListener;
         state = State.IDLE;
         createAnimations();
         setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);
@@ -81,9 +84,12 @@ public class Coin extends Hero {
     }
 
     @Override
-    public void hit() {
-        state = State.COLLECTED;
-        timer = 0;
+    public void hit(short hitObjectBits) {
+        if (hitObjectBits == PLAYER_BIT) {
+            state = State.COLLECTED;
+            timer = 0;
+            onCollectCoinListener.onCollectCoin(COIN_VALUE);
+        }
     }
 
 }

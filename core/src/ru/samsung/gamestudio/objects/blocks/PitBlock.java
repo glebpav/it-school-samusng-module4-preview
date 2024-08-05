@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
 import ru.samsung.gamestudio.GameSettings;
 import ru.samsung.gamestudio.objects.Hittable;
-import ru.samsung.gamestudio.utils.OnLoseListener;
+import ru.samsung.gamestudio.world.listeners.OnLoseListener;
 
 public class PitBlock extends StaticBlock implements Hittable {
 
@@ -17,7 +17,7 @@ public class PitBlock extends StaticBlock implements Hittable {
     }
 
     @Override
-    public void hit() {
+    public void hit(short hitObjectBits) {
         System.out.println("Pit hit");
         onLoseListener.onLose("Don't fall into the pit");
     }

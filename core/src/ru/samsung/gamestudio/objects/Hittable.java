@@ -1,5 +1,5 @@
 package ru.samsung.gamestudio.objects;
 
 public interface Hittable {
-    public void hit();
+    void hit(short hitObjectBits);
 }

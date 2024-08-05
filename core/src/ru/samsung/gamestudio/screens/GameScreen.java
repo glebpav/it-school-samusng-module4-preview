@@ -6,19 +6,21 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
-import org.w3c.dom.ls.LSOutput;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.game.GameSession;
 import ru.samsung.gamestudio.game.GameState;
 import ru.samsung.gamestudio.ui.components.LoseDialog;
 import ru.samsung.gamestudio.ui.components.WinDialog;
-import ru.samsung.gamestudio.utils.B2WorldManager;
+import ru.samsung.gamestudio.world.B2WorldManager;
 import ru.samsung.gamestudio.utils.MapManager;
-import ru.samsung.gamestudio.utils.OnLoseListener;
-import ru.samsung.gamestudio.utils.OnWinListener;
+import ru.samsung.gamestudio.world.listeners.OnCollectCoinListener;
+import ru.samsung.gamestudio.world.listeners.OnDamageListener;
+import ru.samsung.gamestudio.world.listeners.OnLoseListener;
+import ru.samsung.gamestudio.world.listeners.OnWinListener;
 
 import static ru.samsung.gamestudio.GameSettings.*;
 
@@ -33,17 +35,26 @@ public class GameScreen extends BaseScreen {
 
     private LoseDialog loseDialog;
     private WinDialog winDialog;
+    private Label scoreLabel;
 
     public GameScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
         debugRenderer = new Box2DDebugRenderer();
         b2WorldManager = new B2WorldManager();
-        b2WorldManager.setOnLoseListener(onLoseListener);
-        b2WorldManager.setOnWinListener(onWinListener);
         session = new GameSession();
 
         loseDialog = new LoseDialog(myGdxGame.skin);
         winDialog = new WinDialog(myGdxGame.skin);
+        scoreLabel = new Label("Score: ", myGdxGame.skin);
+        scoreLabel.setPosition(100, SCREEN_HEIGHT - 50);
+
+        stage.addActor(scoreLabel);
+
+        b2WorldManager.setOnLoseListener(onLoseListener);
+        b2WorldManager.setOnWinListener(onWinListener);
+        b2WorldManager.setOnCollectCoinListener(onCollectCoinListener);
+        b2WorldManager.setOnDamageListener(onDamageListener);
+
         loseDialog.homeButton.addListener(onButtonHomeClicked);
         winDialog.homeButton.addListener(onButtonHomeClicked);
     }
@@ -60,12 +71,16 @@ public class GameScreen extends BaseScreen {
         // System.out.println("fps: " + Gdx.graphics.getFramesPerSecond());
 
         myGdxGame.camera.position.x =
-                Math.min(Math.max(b2WorldManager.player.getX(), SCREEN_WIDTH / 2f),
+                Math.min(
+                        Math.max(b2WorldManager.player.getX(), SCREEN_WIDTH / 2f),
                         PPI * mapManager.prop.get("width", Integer.class)
                                 * mapManager.prop.get("tilewidth", Integer.class) - SCREEN_WIDTH / 2f
                 );
+
         b2WorldManager.stepWorld();
         b2WorldManager.update(delta);
+        scoreLabel.setPosition(myGdxGame.camera.position.x, SCREEN_HEIGHT - 50);
+        scoreLabel.setText("Score: " + session.getScore());
 
         // ScreenUtils.clear(51f/255, 50f/255, 60f/255, 1f);
         // ScreenUtils.clear(0, 0.5f, 1f, 0.5f);
@@ -114,6 +129,11 @@ public class GameScreen extends BaseScreen {
         myGdxGame.setScreen(myGdxGame.menuScreen);
     }
 
+    @Override
+    public void hide() {
+        myGdxGame.camera.position.x = SCREEN_WIDTH / 2f;
+    }
+
     OnLoseListener onLoseListener = loseText -> {
         loseDialog.setText(loseText);
         loseDialog.setPosition(
@@ -123,11 +143,6 @@ public class GameScreen extends BaseScreen {
         stage.addActor(loseDialog);
         session.endGame();
     };
-
-    @Override
-    public void hide() {
-        myGdxGame.camera.position.x = SCREEN_WIDTH / 2f;
-    }
 
     OnWinListener onWinListener = () -> {
         winDialog.setTime(TimeUtils.millis() - session.sessionStartTime);
@@ -139,6 +154,14 @@ public class GameScreen extends BaseScreen {
         session.endGame();
     };
 
+    OnCollectCoinListener onCollectCoinListener = coinValue -> {
+        session.addScore(coinValue);
+    };
+
+    OnDamageListener onDamageListener = damage -> {
+
+    };
+
     ClickListener onButtonHomeClicked = new ClickListener() {
         @Override
         public void clicked(InputEvent event, float x, float y) {
@@ -147,4 +170,5 @@ public class GameScreen extends BaseScreen {
             exitLevel();
         }
     };
+
 }

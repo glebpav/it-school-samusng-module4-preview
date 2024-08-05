@@ -2,7 +2,6 @@ package ru.samsung.gamestudio.game;
 
 import com.badlogic.gdx.utils.TimeUtils;
 
-import java.util.ArrayList;
 
 public class GameSession {
 
@@ -30,6 +29,14 @@ public class GameSession {
     public void endGame() {
         // todo: implement end case
         state = GameState.ENDED;
+    }
+
+    public void addScore(int score) {
+        this.score += score;
+    }
+
+    public int getScore() {
+        return score;
     }
 
 }

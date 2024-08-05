@@ -1,4 +1,4 @@
-package ru.samsung.gamestudio.utils;
+package ru.samsung.gamestudio.world;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import org.w3c.dom.ls.LSOutput;
 import ru.samsung.gamestudio.objects.blocks.FinishLine;
 import ru.samsung.gamestudio.objects.blocks.PitBlock;
 import ru.samsung.gamestudio.objects.characters.Coin;
@@ -15,6 +14,8 @@ import ru.samsung.gamestudio.objects.characters.Enemy;
 import ru.samsung.gamestudio.objects.characters.Player;
 import ru.samsung.gamestudio.objects.Updatable;
 import ru.samsung.gamestudio.objects.blocks.StaticBlock;
+import ru.samsung.gamestudio.utils.*;
+import ru.samsung.gamestudio.world.listeners.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,8 @@ public class B2WorldManager {
 
     private OnLoseListener onLoseListener;
     private OnWinListener onWinListener;
+    private OnCollectCoinListener onCollectCoinListener;
+    private OnDamageListener onDamageListener;
 
     public B2WorldManager() {
 
@@ -92,7 +95,7 @@ public class B2WorldManager {
                 }
                 case "coin": {
                     Rectangle rect = object.getRectangle();
-                    coinsList.add(new Coin(world, rect));
+                    coinsList.add(new Coin(world, rect, onCollectCoinListener));
                     break;
                 }
             }
@@ -128,6 +131,14 @@ public class B2WorldManager {
 
     public void setOnWinListener(OnWinListener onWinListener) {
         this.onWinListener = onWinListener;
+    }
+
+    public void setOnCollectCoinListener(OnCollectCoinListener onCollectCoinListener) {
+        this.onCollectCoinListener = onCollectCoinListener;
+    }
+
+    public void setOnDamageListener(OnDamageListener onDamageListener) {
+        this.onDamageListener = onDamageListener;
     }
 
     public void clearWorld() {

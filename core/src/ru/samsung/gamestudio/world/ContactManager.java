@@ -1,9 +1,8 @@
-package ru.samsung.gamestudio.utils;
+package ru.samsung.gamestudio.world;
 
 import com.badlogic.gdx.physics.box2d.*;
 import ru.samsung.gamestudio.GameSettings;
 import ru.samsung.gamestudio.objects.Hittable;
-import ru.samsung.gamestudio.objects.characters.Hero;
 
 public class ContactManager implements ContactListener {
 
@@ -25,8 +24,8 @@ public class ContactManager implements ContactListener {
                 || (GameSettings.PLAYER_BIT | GameSettings.PIT_BIT) == cDef
                 || (GameSettings.PLAYER_BIT | GameSettings.COIN_BIT) == cDef) {
 
-            ((Hittable) fixA.getUserData()).hit();
-            ((Hittable) fixB.getUserData()).hit();
+            ((Hittable) fixA.getUserData()).hit(cDef2);
+            ((Hittable) fixB.getUserData()).hit(cDef1);
 
         }
 
