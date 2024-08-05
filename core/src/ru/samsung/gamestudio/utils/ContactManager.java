@@ -17,9 +17,13 @@ public class ContactManager implements ContactListener {
         short cDef2 = fixB.getFilterData().categoryBits;
         int cDef = cDef1 | cDef2;
 
+        // System.out.println("cdef1: " + cDef1);
+        // System.out.println("cdef2: " + cDef2);
+
         if ((GameSettings.PLAYER_BIT | GameSettings.ENEMY_BIT) == cDef
                 || (GameSettings.PLAYER_BIT | GameSettings.EXIT_BIT) == cDef
-                || (GameSettings.PLAYER_BIT | GameSettings.PIT_BIT) == cDef) {
+                || (GameSettings.PLAYER_BIT | GameSettings.PIT_BIT) == cDef
+                || (GameSettings.PLAYER_BIT | GameSettings.COIN_BIT) == cDef) {
 
             ((Hittable) fixA.getUserData()).hit();
             ((Hittable) fixB.getUserData()).hit();

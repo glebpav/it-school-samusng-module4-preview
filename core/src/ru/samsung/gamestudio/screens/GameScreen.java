@@ -57,7 +57,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
 
-        System.out.println("fps: " + Gdx.graphics.getFramesPerSecond());
+        // System.out.println("fps: " + Gdx.graphics.getFramesPerSecond());
 
         myGdxGame.camera.position.x =
                 Math.min(Math.max(b2WorldManager.player.getX(), SCREEN_WIDTH / 2f),

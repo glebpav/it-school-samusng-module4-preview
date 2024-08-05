@@ -7,8 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import org.w3c.dom.ls.LSOutput;
 import ru.samsung.gamestudio.objects.blocks.FinishLine;
 import ru.samsung.gamestudio.objects.blocks.PitBlock;
+import ru.samsung.gamestudio.objects.characters.Coin;
 import ru.samsung.gamestudio.objects.characters.Enemy;
 import ru.samsung.gamestudio.objects.characters.Player;
 import ru.samsung.gamestudio.objects.Updatable;
@@ -25,6 +27,7 @@ public class B2WorldManager {
 
     public Player player;
     public ArrayList<Enemy> enemiesList;
+    public ArrayList<Coin> coinsList;
     ArrayList<Updatable> updatableList;
 
     private float accumulator;
@@ -40,6 +43,7 @@ public class B2WorldManager {
 
         updatableList = new ArrayList<>();
         enemiesList = new ArrayList<>();
+        coinsList = new ArrayList<>();
     }
 
     public void buildWorld(MapManager mapManager) {
@@ -86,6 +90,11 @@ public class B2WorldManager {
                     new FinishLine(world, rect, onWinListener);
                     break;
                 }
+                case "coin": {
+                    Rectangle rect = object.getRectangle();
+                    coinsList.add(new Coin(world, rect));
+                    break;
+                }
             }
         }
     }
@@ -108,6 +117,7 @@ public class B2WorldManager {
         List<Actor> actors = new ArrayList<>();
         actors.add(player);
         actors.addAll(enemiesList);
+        actors.addAll(coinsList);
         // ...
         return actors;
     }
@@ -126,6 +136,7 @@ public class B2WorldManager {
 
         player = null;
         enemiesList.clear();
+        coinsList.clear();
     }
 
 }

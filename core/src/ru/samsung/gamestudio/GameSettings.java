@@ -12,7 +12,7 @@ public class GameSettings {
     public static final float STEP_TIME = 1f / 60f;
     public static final int VELOCITY_ITERATIONS = 6;
     public static final int POSITION_ITERATIONS = 6;
-    public static final float SCALE = 70f;
+    public static final float SCALE = 70;
      public static final float PPI = SCREEN_HEIGHT / 15f / 32;
 
     public static final short FLOOR_BIT = 1;
@@ -21,5 +21,6 @@ public class GameSettings {
     public static final short ENEMY_BIT = 8;
     public static final short EXIT_BIT = 16;
     public static final short PIT_BIT = 32;
+    public static final short COIN_BIT = 64;
 
 }

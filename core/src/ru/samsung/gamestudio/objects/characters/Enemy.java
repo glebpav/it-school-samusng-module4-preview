@@ -78,6 +78,11 @@ public class Enemy extends Hero implements Updatable {
     }
 
     @Override
+    public void act(float delta) {
+        // todo: rewrite update to act method
+    }
+
+    @Override
     public void update(float delta) {
         setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
         setDrawable(getFrame(delta));
