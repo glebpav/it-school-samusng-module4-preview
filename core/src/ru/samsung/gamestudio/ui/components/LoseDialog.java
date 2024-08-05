@@ -15,12 +15,12 @@ public class LoseDialog extends Dialog {
     public TextButton homeButton;
     private Label textLabel;
 
-    public LoseDialog(String loseText, Skin skin) {
+    public LoseDialog(Skin skin) {
         super("You've lost =(", skin);
 
         restartButton = new TextButton("restart", skin);
         homeButton = new TextButton("home", skin);
-        textLabel = new Label(loseText, skin);
+        textLabel = new Label("", skin);
         textLabel.setScale(10);
 
         setSize(400, 300);

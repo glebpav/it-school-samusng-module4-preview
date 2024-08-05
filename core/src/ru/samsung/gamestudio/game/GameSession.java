@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class GameSession {
 
     public GameState state;
-    long sessionStartTime;
+    public long sessionStartTime;
     long pauseStartTime;
     private int score;
 

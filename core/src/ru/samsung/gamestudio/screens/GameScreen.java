@@ -8,11 +8,13 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.TimeUtils;
 import org.w3c.dom.ls.LSOutput;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.game.GameSession;
 import ru.samsung.gamestudio.game.GameState;
 import ru.samsung.gamestudio.ui.components.LoseDialog;
+import ru.samsung.gamestudio.ui.components.WinDialog;
 import ru.samsung.gamestudio.utils.B2WorldManager;
 import ru.samsung.gamestudio.utils.MapManager;
 import ru.samsung.gamestudio.utils.OnLoseListener;
@@ -30,6 +32,7 @@ public class GameScreen extends BaseScreen {
     private GameSession session;
 
     private LoseDialog loseDialog;
+    private WinDialog winDialog;
 
     public GameScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
@@ -39,8 +42,10 @@ public class GameScreen extends BaseScreen {
         b2WorldManager.setOnWinListener(onWinListener);
         session = new GameSession();
 
-        loseDialog = new LoseDialog("", myGdxGame.skin);
+        loseDialog = new LoseDialog(myGdxGame.skin);
+        winDialog = new WinDialog(myGdxGame.skin);
         loseDialog.homeButton.addListener(onButtonHomeClicked);
+        winDialog.homeButton.addListener(onButtonHomeClicked);
     }
 
     @Override
@@ -125,14 +130,20 @@ public class GameScreen extends BaseScreen {
     }
 
     OnWinListener onWinListener = () -> {
-        System.out.println("onWinListener: win");
-        // stage.addActor(dialog);
+        winDialog.setTime(TimeUtils.millis() - session.sessionStartTime);
+        winDialog.setPosition(
+                myGdxGame.camera.position.x - loseDialog.getWidth() / 2,
+                myGdxGame.camera.position.y - loseDialog.getHeight() / 2
+        );
+        stage.addActor(winDialog);
+        session.endGame();
     };
 
     ClickListener onButtonHomeClicked = new ClickListener() {
         @Override
         public void clicked(InputEvent event, float x, float y) {
             loseDialog.remove();
+            winDialog.remove();
             exitLevel();
         }
     };
