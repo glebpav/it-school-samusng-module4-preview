@@ -14,7 +14,7 @@ import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class Coin extends Hero {
+public class Coin extends PhysicalActors {
 
     enum State {IDLE, COLLECTED}
 

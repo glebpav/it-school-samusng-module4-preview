@@ -8,12 +8,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import ru.samsung.gamestudio.objects.blocks.FinishLine;
+import ru.samsung.gamestudio.objects.characters.FinishLine;
 import ru.samsung.gamestudio.objects.blocks.PitBlock;
 import ru.samsung.gamestudio.objects.characters.Coin;
 import ru.samsung.gamestudio.objects.characters.Enemy;
 import ru.samsung.gamestudio.objects.characters.Player;
-import ru.samsung.gamestudio.objects.Updatable;
 import ru.samsung.gamestudio.objects.blocks.StaticBlock;
 import ru.samsung.gamestudio.utils.*;
 import ru.samsung.gamestudio.world.listeners.*;
@@ -28,6 +27,8 @@ public class B2WorldManager {
     public World world;
 
     public Player player;
+    public FinishLine finishLine;
+
     public ArrayList<Enemy> enemiesList;
     public ArrayList<Coin> coinsList;
     private ArrayList<Body> bodiesGarbageList;
@@ -89,7 +90,7 @@ public class B2WorldManager {
                 }
                 case "finishLine": {
                     Rectangle rect = object.getRectangle();
-                    new FinishLine(world, rect, onWinListener);
+                    finishLine = new FinishLine(world, rect, onWinListener);
                     break;
                 }
                 case "coin": {
@@ -118,6 +119,7 @@ public class B2WorldManager {
     public List<Actor> getAllActors() {
         List<Actor> actors = new ArrayList<>();
         actors.add(player);
+        actors.add(finishLine);
         actors.addAll(enemiesList);
         actors.addAll(coinsList);
         return actors;

@@ -13,7 +13,7 @@ import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class Enemy extends Hero {
+public class Enemy extends PhysicalActors {
 
     public enum State {IDLE, RUNNING, DEAD}
 

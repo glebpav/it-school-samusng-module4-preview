@@ -7,12 +7,12 @@ import ru.samsung.gamestudio.objects.Hittable;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public abstract class Hero extends Image implements Hittable {
+public abstract class PhysicalActors extends Image implements Hittable {
 
     public Body body;
     Fixture fixture;
 
-    Hero(World world, Rectangle bounds, short categoryBits) {
+    PhysicalActors(World world, Rectangle bounds, short categoryBits) {
         createBody(world, bounds, categoryBits);
     }
 

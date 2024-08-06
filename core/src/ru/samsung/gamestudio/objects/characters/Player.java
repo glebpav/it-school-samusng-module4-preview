@@ -9,13 +9,12 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
-import ru.samsung.gamestudio.objects.Updatable;
 import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
 import ru.samsung.gamestudio.world.listeners.OnDamageListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class Player extends Hero {
+public class Player extends PhysicalActors {
 
     public enum State {FALLING, JUMPING, IDLE, RUNNING, ATTACKING}
 
@@ -56,7 +55,7 @@ public class Player extends Hero {
         Array<TextureRegion> frames = new Array<>();
 
         for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 64 * 3, i * 40, 64, 40));
-        idle = new Animation<>(0.1f, frames, Animation.PlayMode.LOOP);
+        idle = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
         for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 0, i * 40, 64, 40));
@@ -64,11 +63,11 @@ public class Player extends Hero {
         frames.clear();
 
         for (int i = 0; i < 3; i++) frames.add(new TextureRegion(texture, 64, i * 40, 64, 40));
-        jump = new Animation<>(0.1f, frames, Animation.PlayMode.NORMAL);
+        jump = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
 
         for (int i = 0; i < 3; i++) frames.add(new TextureRegion(texture, 64 * 2, i * 40, 64, 40));
-        attack = new Animation<>(0.1f, frames, Animation.PlayMode.NORMAL);
+        attack = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
 
     }
@@ -115,6 +114,7 @@ public class Player extends Hero {
     }
 
     public void moveUp() {
+        if (state == State.JUMPING) return;
         body.applyForceToCenter(new Vector2(0, 300f), true);
         state = State.JUMPING;
         timer = 0;
