@@ -6,9 +6,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 
-import static ru.samsung.gamestudio.GameSettings.SCREEN_HEIGHT;
-import static ru.samsung.gamestudio.GameSettings.SCREEN_WIDTH;
-
 public class LoseDialog extends Dialog {
 
     public TextButton restartButton;

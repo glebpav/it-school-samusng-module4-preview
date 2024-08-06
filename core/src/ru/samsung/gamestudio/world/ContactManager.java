@@ -1,7 +1,7 @@
 package ru.samsung.gamestudio.world;
 
 import com.badlogic.gdx.physics.box2d.*;
-import ru.samsung.gamestudio.GameSettings;
+import ru.samsung.gamestudio.game.GameSettings;
 import ru.samsung.gamestudio.objects.Hittable;
 
 public class ContactManager implements ContactListener {

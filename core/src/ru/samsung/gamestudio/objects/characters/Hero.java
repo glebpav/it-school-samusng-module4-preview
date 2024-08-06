@@ -3,10 +3,9 @@ package ru.samsung.gamestudio.objects.characters;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import ru.samsung.gamestudio.GameSettings;
 import ru.samsung.gamestudio.objects.Hittable;
 
-import static ru.samsung.gamestudio.GameSettings.*;
+import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public abstract class Hero extends Image implements Hittable {
 

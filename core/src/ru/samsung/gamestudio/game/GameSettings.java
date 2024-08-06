@@ -1,4 +1,4 @@
-package ru.samsung.gamestudio;
+package ru.samsung.gamestudio.game;
 
 public class GameSettings {
 
@@ -8,6 +8,8 @@ public class GameSettings {
     public static final String SKIN_PATH = "skin/uiskin.json";
 
     public static final int COIN_VALUE = 50;
+    public static final int PLAYER_LIVES = 3;
+    public static final int ENEMY_DAMAGE = 1;
 
     // Physics settings
 
@@ -15,7 +17,7 @@ public class GameSettings {
     public static final int VELOCITY_ITERATIONS = 6;
     public static final int POSITION_ITERATIONS = 6;
     public static final float SCALE = 70;
-     public static final float PPI = SCREEN_HEIGHT / 15f / 32;
+    public static final float PPI = SCREEN_HEIGHT / 15f / 32;
 
     public static final short FLOOR_BIT = 1;
     public static final short WALL_BIT = 2;

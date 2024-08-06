@@ -3,8 +3,8 @@ package ru.samsung.gamestudio;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
 
-import static ru.samsung.gamestudio.GameSettings.SCREEN_HEIGHT;
-import static ru.samsung.gamestudio.GameSettings.SCREEN_WIDTH;
+import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
+import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
 
 
 public class DesktopLauncher {

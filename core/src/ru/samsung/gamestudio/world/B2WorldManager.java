@@ -20,7 +20,7 @@ import ru.samsung.gamestudio.world.listeners.*;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ru.samsung.gamestudio.GameSettings.*;
+import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public class B2WorldManager {
 
@@ -66,7 +66,7 @@ public class B2WorldManager {
             switch (object.getName()) {
                 case "player": {
                     Rectangle rect = object.getRectangle();
-                    player = new Player(world, rect);
+                    player = new Player(world, rect, onDamageListener);
                     updatableList.add(player);
                     break;
                 }

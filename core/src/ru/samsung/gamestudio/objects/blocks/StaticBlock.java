@@ -2,7 +2,7 @@ package ru.samsung.gamestudio.objects.blocks;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.World;
-import ru.samsung.gamestudio.GameSettings;
+import ru.samsung.gamestudio.game.GameSettings;
 
 public class StaticBlock extends BaseBlock {
 

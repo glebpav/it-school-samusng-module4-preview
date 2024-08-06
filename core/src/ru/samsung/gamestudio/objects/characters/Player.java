@@ -10,8 +10,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import ru.samsung.gamestudio.objects.Updatable;
+import ru.samsung.gamestudio.world.listeners.OnDamageListener;
 
-import static ru.samsung.gamestudio.GameSettings.*;
+import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public class Player extends Hero implements Updatable {
 
@@ -24,17 +25,21 @@ public class Player extends Hero implements Updatable {
 
     float timer;
     State state;
+    private int leftLives;
     boolean needToBeSwapped;
+    private OnDamageListener onDamageListener;
 
-    public Player(World world, Rectangle bounds) {
+    public Player(World world, Rectangle bounds, OnDamageListener onDamageListener) {
         super(world, bounds, PLAYER_BIT);
+        this.onDamageListener = onDamageListener;
+
         createAnimations();
         timer = 0;
         state = State.IDLE;
+        leftLives = PLAYER_LIVES;
         setSize(bounds.getWidth() * 2 * PPI, bounds.getHeight() * PPI);
 
     }
-
 
     private void createAnimations() {
 
@@ -88,16 +93,6 @@ public class Player extends Hero implements Updatable {
 
     }
 
-    @Override
-    public void update(float delta) {
-        setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
-        setDrawable(getFrame(delta));
-        if (state == State.RUNNING && body.getLinearVelocity().y == 0 && body.getLinearVelocity().y == 0
-                || state == State.ATTACKING && attack.isAnimationFinished(timer)
-                || state == State.JUMPING && jump.isAnimationFinished(timer))
-            state = State.IDLE;
-    }
-
     public void moveLeft() {
         body.applyForceToCenter(new Vector2(-20f, 0), true);
         needToBeSwapped = true;
@@ -121,8 +116,30 @@ public class Player extends Hero implements Updatable {
         timer = 0;
     }
 
+    public int getLeftLives() {
+        return leftLives;
+    }
+
+    public void setLeftLives(int leftLives) {
+        this.leftLives = leftLives;
+    }
+
     @Override
     public void hit(short hitObjectBits) {
-        System.out.println("Player hit");
+        if (hitObjectBits == ENEMY_BIT) {
+            setLeftLives(getLeftLives() - ENEMY_DAMAGE);
+            onDamageListener.onDamage(getLeftLives());
+        }
     }
+
+    @Override
+    public void update(float delta) {
+        setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
+        setDrawable(getFrame(delta));
+        if (state == State.RUNNING && body.getLinearVelocity().y == 0 && body.getLinearVelocity().y == 0
+                || state == State.ATTACKING && attack.isAnimationFinished(timer)
+                || state == State.JUMPING && jump.isAnimationFinished(timer))
+            state = State.IDLE;
+    }
+
 }

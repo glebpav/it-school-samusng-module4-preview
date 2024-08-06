@@ -1,12 +1,9 @@
 package ru.samsung.gamestudio.objects.blocks;
 
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
-import ru.samsung.gamestudio.MyGdxGame;
 
-import static ru.samsung.gamestudio.GameSettings.SCALE;
+import static ru.samsung.gamestudio.game.GameSettings.SCALE;
 
 public abstract class BaseBlock {
 

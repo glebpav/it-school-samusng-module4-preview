@@ -11,7 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import ru.samsung.gamestudio.objects.Updatable;
 
-import static ru.samsung.gamestudio.GameSettings.*;
+import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public class Enemy extends Hero implements Updatable {
 

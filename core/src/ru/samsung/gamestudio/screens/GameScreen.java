@@ -6,8 +6,11 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import ru.samsung.gamestudio.MyGdxGame;
@@ -22,7 +25,7 @@ import ru.samsung.gamestudio.world.listeners.OnDamageListener;
 import ru.samsung.gamestudio.world.listeners.OnLoseListener;
 import ru.samsung.gamestudio.world.listeners.OnWinListener;
 
-import static ru.samsung.gamestudio.GameSettings.*;
+import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public class GameScreen extends BaseScreen {
 
@@ -33,9 +36,12 @@ public class GameScreen extends BaseScreen {
 
     private GameSession session;
 
+    // private HorizontalGroup hudGroup;
+    private Table hudGroup;
     private LoseDialog loseDialog;
     private WinDialog winDialog;
     private Label scoreLabel;
+    private Label leftLivesLabel;
 
     public GameScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
@@ -43,12 +49,19 @@ public class GameScreen extends BaseScreen {
         b2WorldManager = new B2WorldManager();
         session = new GameSession();
 
+        hudGroup = new Table();
         loseDialog = new LoseDialog(myGdxGame.skin);
         winDialog = new WinDialog(myGdxGame.skin);
-        scoreLabel = new Label("Score: ", myGdxGame.skin);
-        scoreLabel.setPosition(100, SCREEN_HEIGHT - 50);
+        scoreLabel = new Label("Score: 0", myGdxGame.skin);
+        // scoreLabel.setPosition(100, SCREEN_HEIGHT - 50);
+        leftLivesLabel = new Label("Left Lives: " + PLAYER_LIVES, myGdxGame.skin);
 
-        stage.addActor(scoreLabel);
+        hudGroup.add(scoreLabel).padRight(50);
+        hudGroup.add(leftLivesLabel).padLeft(50);
+        hudGroup.setPosition((SCREEN_WIDTH - hudGroup.getWidth()) / 2, SCREEN_HEIGHT - 50);
+
+        stage.addActor(hudGroup);
+        // stage.addActor(scoreLabel);
 
         b2WorldManager.setOnLoseListener(onLoseListener);
         b2WorldManager.setOnWinListener(onWinListener);
@@ -79,8 +92,9 @@ public class GameScreen extends BaseScreen {
 
         b2WorldManager.stepWorld();
         b2WorldManager.update(delta);
-        scoreLabel.setPosition(myGdxGame.camera.position.x, SCREEN_HEIGHT - 50);
-        scoreLabel.setText("Score: " + session.getScore());
+        hudGroup.setPosition(myGdxGame.camera.position.x - hudGroup.getWidth() / 2, SCREEN_HEIGHT - 50);
+        // scoreLabel.setPosition(myGdxGame.camera.position.x, SCREEN_HEIGHT - 50);
+        // scoreLabel.setText("Score: " + session.getScore());
 
         // ScreenUtils.clear(51f/255, 50f/255, 60f/255, 1f);
         // ScreenUtils.clear(0, 0.5f, 1f, 0.5f);
@@ -156,10 +170,11 @@ public class GameScreen extends BaseScreen {
 
     OnCollectCoinListener onCollectCoinListener = coinValue -> {
         session.addScore(coinValue);
+        scoreLabel.setText("Score: " + session.getScore());
     };
 
-    OnDamageListener onDamageListener = damage -> {
-
+    OnDamageListener onDamageListener = leftLives -> {
+        leftLivesLabel.setText("Left lives: " + leftLives);
     };
 
     ClickListener onButtonHomeClicked = new ClickListener() {
