@@ -9,7 +9,8 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
-import ru.samsung.gamestudio.world.listeners.OnCollectCoinListener;
+import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
+import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
@@ -23,11 +24,19 @@ public class Coin extends Hero {
     State state;
     float timer;
 
-    OnCollectCoinListener onCollectCoinListener;
+    OnRemoveBodyListener onRemoveBodyListener;
+    OnScoreEarnedListener onScoreEarnedListener;
 
-    public Coin(World world, Rectangle bounds, OnCollectCoinListener onCollectCoinListener) {
+    public Coin(
+            World world,
+            Rectangle bounds,
+            OnScoreEarnedListener onScoreEarnedListener,
+            OnRemoveBodyListener onRemoveBodyListener
+    ) {
         super(world, bounds, COIN_BIT);
-        this.onCollectCoinListener = onCollectCoinListener;
+        this.onScoreEarnedListener = onScoreEarnedListener;
+        this.onRemoveBodyListener = onRemoveBodyListener;
+
         state = State.IDLE;
         createAnimations();
         setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);
@@ -76,7 +85,7 @@ public class Coin extends Hero {
         setDrawable(getFrame(delta));
         if (state == State.COLLECTED && disappearAnimation.isAnimationFinished(timer)) {
             remove();
-            body.destroyFixture(fixture);
+            onRemoveBodyListener.onRemoveBody(body);
         }
     }
 
@@ -85,7 +94,7 @@ public class Coin extends Hero {
         if (hitObjectBits == PLAYER_BIT) {
             state = State.COLLECTED;
             timer = 0;
-            onCollectCoinListener.onCollectCoin(COIN_VALUE);
+            onScoreEarnedListener.onScoreEarned(COIN_VALUE);
         }
     }
 

@@ -9,16 +9,19 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
-import ru.samsung.gamestudio.objects.Updatable;
+import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class Enemy extends Hero implements Updatable {
+public class Enemy extends Hero {
 
-    public enum State {IDLE, RUNNING}
+    public enum State {IDLE, RUNNING, DEAD}
 
     private Animation<TextureRegion> idle;
     private Animation<TextureRegion> run;
+    private Animation<TextureRegion> dead;
+
+    private OnRemoveBodyListener onRemoveBodyListener;
 
     float timer;
     State state;
@@ -28,8 +31,10 @@ public class Enemy extends Hero implements Updatable {
     float territoryLen = 120;
     float initialX;
 
-    public Enemy(World world, Rectangle bounds) {
+    public Enemy(World world, Rectangle bounds, OnRemoveBodyListener onRemoveBodyListener) {
         super(world, bounds, ENEMY_BIT);
+        this.onRemoveBodyListener = onRemoveBodyListener;
+
         createAnimations();
         timer = 0;
         state = State.IDLE;
@@ -43,15 +48,19 @@ public class Enemy extends Hero implements Updatable {
 
     private void createAnimations() {
 
-        Texture texture = new Texture("texture/enemy/enemy1-tileset.png");
+        Texture texture = new Texture("texture/enemy/enemy-tileset.png");
         Array<TextureRegion> frames = new Array<>();
 
-        for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 0, i * 30, 34, 30));
+        for (int i = 0; i < 8; i++) frames.add(new TextureRegion(texture, i * 34, 30, 34, 30));
         idle = new Animation<>(0.1f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 64, i * 30, 34, 30));
+        for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, i * 34, 30, 34, 30));
         run = new Animation<>(0.1f, frames, Animation.PlayMode.LOOP);
+        frames.clear();
+
+        for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, i * 34, 60, 34, 30));
+        dead = new Animation<>(0.1f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
 
     }
@@ -65,6 +74,9 @@ public class Enemy extends Hero implements Updatable {
                 region = run.getKeyFrame(timer, true);
                 break;
             }
+            case DEAD:
+                region = dead.getKeyFrame(timer, false);
+                break;
             default:
                 region = idle.getKeyFrame(timer, true);
         }
@@ -79,20 +91,21 @@ public class Enemy extends Hero implements Updatable {
 
     @Override
     public void act(float delta) {
-        // todo: rewrite update to act method
-    }
-
-    @Override
-    public void update(float delta) {
-        setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
         setDrawable(getFrame(delta));
-        // System.out.println(body.getPosition().x * SCALE - initialX);
+        if (state != State.DEAD) {
 
-        if (moveRightFlag) moveRight();
-        else moveLeft();
+            setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
+            if (moveRightFlag) moveRight();
+            else moveLeft();
+            if (body.getPosition().x * SCALE - initialX >= territoryLen) moveRightFlag = false;
+            else if (body.getPosition().x * SCALE - initialX <= 0) moveRightFlag = true;
 
-        if (body.getPosition().x * SCALE - initialX >= territoryLen) moveRightFlag = false;
-        else if (body.getPosition().x * SCALE - initialX <= 0) moveRightFlag = true;
+        } else if (dead.isAnimationFinished(timer)) {
+
+            onRemoveBodyListener.onRemoveBody(body);
+            remove();
+
+        }
     }
 
     public void moveLeft() {
@@ -109,6 +122,11 @@ public class Enemy extends Hero implements Updatable {
 
     @Override
     public void hit(short hitObjectBits) {
-        System.out.println("enemy hit");
+
+        if (hitObjectBits == PLAYER_BIT && state != State.DEAD) {
+            state = State.DEAD;
+            timer = 0;
+        }
+
     }
 }

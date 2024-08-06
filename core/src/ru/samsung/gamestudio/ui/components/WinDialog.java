@@ -13,11 +13,13 @@ public class WinDialog extends Dialog {
 
     public TextButton homeButton;
     private Label timeLabel;
+    private Label scoreLabel;
 
     public WinDialog(Skin skin) {
         super("You won!", skin);
         homeButton = new TextButton("home", skin);
         timeLabel = new Label("00:00", skin);
+        scoreLabel = new Label("0", skin);
 
         setSize(400, 300);
 
@@ -28,6 +30,9 @@ public class WinDialog extends Dialog {
         getContentTable().add(new Label("Time:", skin)).align(Align.right);
         getContentTable().add(timeLabel).align(Align.left);
         getContentTable().row();
+        getContentTable().add(new Label("Score:", skin)).align(Align.right);
+        getContentTable().add(scoreLabel).align(Align.left);
+        getContentTable().row();
         getContentTable().add(homeButton).height(70).width(120).padTop(40).colspan(2);
     }
 
@@ -36,6 +41,10 @@ public class WinDialog extends Dialog {
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         LocalTime colonTime = LocalTime.of(0, (int) (time / 1000 / 60), (int) (time / 1000 % 60));
         timeLabel.setText(timeColonFormatter.format(colonTime));
+    }
+
+    public void setScore(int score) {
+        scoreLabel.setText(String.valueOf(score));
     }
 
 }

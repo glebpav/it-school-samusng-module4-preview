@@ -10,6 +10,7 @@ public class GameSettings {
     public static final int COIN_VALUE = 50;
     public static final int PLAYER_LIVES = 3;
     public static final int ENEMY_DAMAGE = 1;
+    public static final int KILLED_ENEMY_VALUE = 10;
 
     // Physics settings
 

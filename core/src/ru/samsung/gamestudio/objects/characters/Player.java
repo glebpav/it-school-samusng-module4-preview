@@ -10,11 +10,12 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import ru.samsung.gamestudio.objects.Updatable;
+import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
 import ru.samsung.gamestudio.world.listeners.OnDamageListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class Player extends Hero implements Updatable {
+public class Player extends Hero {
 
     public enum State {FALLING, JUMPING, IDLE, RUNNING, ATTACKING}
 
@@ -27,11 +28,19 @@ public class Player extends Hero implements Updatable {
     State state;
     private int leftLives;
     boolean needToBeSwapped;
-    private OnDamageListener onDamageListener;
 
-    public Player(World world, Rectangle bounds, OnDamageListener onDamageListener) {
+    private final OnDamageListener onDamageListener;
+    private final OnScoreEarnedListener onScoreEarnedListener;
+
+    public Player(
+            World world,
+            Rectangle bounds,
+            OnDamageListener onDamageListener,
+            OnScoreEarnedListener onScoreEarnedListener
+    ) {
         super(world, bounds, PLAYER_BIT);
         this.onDamageListener = onDamageListener;
+        this.onScoreEarnedListener = onScoreEarnedListener;
 
         createAnimations();
         timer = 0;
@@ -127,13 +136,18 @@ public class Player extends Hero implements Updatable {
     @Override
     public void hit(short hitObjectBits) {
         if (hitObjectBits == ENEMY_BIT) {
-            setLeftLives(getLeftLives() - ENEMY_DAMAGE);
-            onDamageListener.onDamage(getLeftLives());
+            if (state != State.ATTACKING) {
+                setLeftLives(getLeftLives() - ENEMY_DAMAGE);
+                onDamageListener.onDamage(getLeftLives());
+            } else {
+                onScoreEarnedListener.onScoreEarned(KILLED_ENEMY_VALUE);
+            }
         }
     }
 
     @Override
-    public void update(float delta) {
+    public void act(float delta) {
+        super.act(delta);
         setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
         setDrawable(getFrame(delta));
         if (state == State.RUNNING && body.getLinearVelocity().y == 0 && body.getLinearVelocity().y == 0

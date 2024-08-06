@@ -6,11 +6,9 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.HorizontalGroup;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import ru.samsung.gamestudio.MyGdxGame;
@@ -20,7 +18,7 @@ import ru.samsung.gamestudio.ui.components.LoseDialog;
 import ru.samsung.gamestudio.ui.components.WinDialog;
 import ru.samsung.gamestudio.world.B2WorldManager;
 import ru.samsung.gamestudio.utils.MapManager;
-import ru.samsung.gamestudio.world.listeners.OnCollectCoinListener;
+import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
 import ru.samsung.gamestudio.world.listeners.OnDamageListener;
 import ru.samsung.gamestudio.world.listeners.OnLoseListener;
 import ru.samsung.gamestudio.world.listeners.OnWinListener;
@@ -53,7 +51,6 @@ public class GameScreen extends BaseScreen {
         loseDialog = new LoseDialog(myGdxGame.skin);
         winDialog = new WinDialog(myGdxGame.skin);
         scoreLabel = new Label("Score: 0", myGdxGame.skin);
-        // scoreLabel.setPosition(100, SCREEN_HEIGHT - 50);
         leftLivesLabel = new Label("Left Lives: " + PLAYER_LIVES, myGdxGame.skin);
 
         hudGroup.add(scoreLabel).padRight(50);
@@ -65,7 +62,7 @@ public class GameScreen extends BaseScreen {
 
         b2WorldManager.setOnLoseListener(onLoseListener);
         b2WorldManager.setOnWinListener(onWinListener);
-        b2WorldManager.setOnCollectCoinListener(onCollectCoinListener);
+        b2WorldManager.setOnCollectCoinListener(onScoreEarnedListener);
         b2WorldManager.setOnDamageListener(onDamageListener);
 
         loseDialog.homeButton.addListener(onButtonHomeClicked);
@@ -91,7 +88,6 @@ public class GameScreen extends BaseScreen {
                 );
 
         b2WorldManager.stepWorld();
-        b2WorldManager.update(delta);
         hudGroup.setPosition(myGdxGame.camera.position.x - hudGroup.getWidth() / 2, SCREEN_HEIGHT - 50);
         // scoreLabel.setPosition(myGdxGame.camera.position.x, SCREEN_HEIGHT - 50);
         // scoreLabel.setText("Score: " + session.getScore());
@@ -160,6 +156,7 @@ public class GameScreen extends BaseScreen {
 
     OnWinListener onWinListener = () -> {
         winDialog.setTime(TimeUtils.millis() - session.sessionStartTime);
+        winDialog.setScore(session.getScore());
         winDialog.setPosition(
                 myGdxGame.camera.position.x - loseDialog.getWidth() / 2,
                 myGdxGame.camera.position.y - loseDialog.getHeight() / 2
@@ -168,7 +165,7 @@ public class GameScreen extends BaseScreen {
         session.endGame();
     };
 
-    OnCollectCoinListener onCollectCoinListener = coinValue -> {
+    OnScoreEarnedListener onScoreEarnedListener = coinValue -> {
         session.addScore(coinValue);
         scoreLabel.setText("Score: " + session.getScore());
     };

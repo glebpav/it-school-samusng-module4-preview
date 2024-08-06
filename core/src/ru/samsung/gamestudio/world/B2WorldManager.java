@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -29,13 +30,13 @@ public class B2WorldManager {
     public Player player;
     public ArrayList<Enemy> enemiesList;
     public ArrayList<Coin> coinsList;
-    ArrayList<Updatable> updatableList;
+    private ArrayList<Body> bodiesGarbageList;
 
     private float accumulator;
 
     private OnLoseListener onLoseListener;
     private OnWinListener onWinListener;
-    private OnCollectCoinListener onCollectCoinListener;
+    private OnScoreEarnedListener onScoreEarnedListener;
     private OnDamageListener onDamageListener;
 
     public B2WorldManager() {
@@ -44,9 +45,9 @@ public class B2WorldManager {
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(new ContactManager());
 
-        updatableList = new ArrayList<>();
         enemiesList = new ArrayList<>();
         coinsList = new ArrayList<>();
+        bodiesGarbageList = new ArrayList<>();
     }
 
     public void buildWorld(MapManager mapManager) {
@@ -66,14 +67,12 @@ public class B2WorldManager {
             switch (object.getName()) {
                 case "player": {
                     Rectangle rect = object.getRectangle();
-                    player = new Player(world, rect, onDamageListener);
-                    updatableList.add(player);
+                    player = new Player(world, rect, onDamageListener, onScoreEarnedListener);
                     break;
                 }
                 case "enemy1": {
                     Rectangle rect = object.getRectangle();
-                    enemiesList.add(new Enemy(world, rect));
-                    updatableList.add(enemiesList.get(enemiesList.size() - 1));
+                    enemiesList.add(new Enemy(world, rect, onRemoveBodyListener));
                 }
             }
         }
@@ -95,15 +94,11 @@ public class B2WorldManager {
                 }
                 case "coin": {
                     Rectangle rect = object.getRectangle();
-                    coinsList.add(new Coin(world, rect, onCollectCoinListener));
+                    coinsList.add(new Coin(world, rect, onScoreEarnedListener, onRemoveBodyListener));
                     break;
                 }
             }
         }
-    }
-
-    public void update(float delta) {
-        updatableList.forEach(updatable -> updatable.update(delta));
     }
 
     public void stepWorld() {
@@ -114,6 +109,10 @@ public class B2WorldManager {
             accumulator -= STEP_TIME;
             world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
         }
+
+        bodiesGarbageList.forEach(body -> world.destroyBody(body));
+        bodiesGarbageList.clear();
+
     }
 
     public List<Actor> getAllActors() {
@@ -121,24 +120,7 @@ public class B2WorldManager {
         actors.add(player);
         actors.addAll(enemiesList);
         actors.addAll(coinsList);
-        // ...
         return actors;
-    }
-
-    public void setOnLoseListener(OnLoseListener onLoseListener) {
-        this.onLoseListener = onLoseListener;
-    }
-
-    public void setOnWinListener(OnWinListener onWinListener) {
-        this.onWinListener = onWinListener;
-    }
-
-    public void setOnCollectCoinListener(OnCollectCoinListener onCollectCoinListener) {
-        this.onCollectCoinListener = onCollectCoinListener;
-    }
-
-    public void setOnDamageListener(OnDamageListener onDamageListener) {
-        this.onDamageListener = onDamageListener;
     }
 
     public void clearWorld() {
@@ -149,5 +131,25 @@ public class B2WorldManager {
         enemiesList.clear();
         coinsList.clear();
     }
+
+    public void setOnLoseListener(OnLoseListener onLoseListener) {
+        this.onLoseListener = onLoseListener;
+    }
+
+    public void setOnWinListener(OnWinListener onWinListener) {
+        this.onWinListener = onWinListener;
+    }
+
+    public void setOnCollectCoinListener(OnScoreEarnedListener onScoreEarnedListener) {
+        this.onScoreEarnedListener = onScoreEarnedListener;
+    }
+
+    public void setOnDamageListener(OnDamageListener onDamageListener) {
+        this.onDamageListener = onDamageListener;
+    }
+
+    OnRemoveBodyListener onRemoveBodyListener = body ->  {
+        bodiesGarbageList.add(body);
+    };
 
 }
