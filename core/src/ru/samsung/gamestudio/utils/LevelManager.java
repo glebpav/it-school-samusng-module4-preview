@@ -27,12 +27,22 @@ public class LevelManager {
         return levelsArray;
     }
 
+    public static Level getLevel(int levelIdx) {
+        levelsArray[levelIdx].updateIsAvailable();
+        return levelsArray[levelIdx];
+    }
+
     public static List<String> getPaths() {
-        return Arrays.stream(levelsArray).map(level -> level.path).collect(Collectors.toList());
+        return Arrays.stream(levelsArray).map(level -> level.getPath()).collect(Collectors.toList());
     }
 
     public static List<String> getNames() {
-        return Arrays.stream(levelsArray).map(level -> level.name).collect(Collectors.toList());
+        return Arrays.stream(levelsArray).map(level -> level.getName()).collect(Collectors.toList());
+    }
+
+    public static boolean isLevelAvailable(int levelIdx) {
+        if (levelIdx == 0) return true;
+        return MemoryManager.loadLevelState(levelsArray[levelIdx - 1].getName());
     }
 
 }

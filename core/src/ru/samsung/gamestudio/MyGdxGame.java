@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import ru.samsung.gamestudio.screens.GameScreen;
 import ru.samsung.gamestudio.screens.MenuScreen;
+import ru.samsung.gamestudio.screens.SettingsScreen;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
@@ -18,6 +19,7 @@ public class MyGdxGame extends Game {
 
 	public GameScreen gameScreen;
 	public MenuScreen menuScreen;
+	public SettingsScreen settingsScreen;
 	
 	@Override
 	public void create () {
@@ -30,6 +32,7 @@ public class MyGdxGame extends Game {
 
 		gameScreen = new GameScreen(this);
 		menuScreen = new MenuScreen(this);
+		settingsScreen = new SettingsScreen(this);
 
 		setScreen(menuScreen);
 

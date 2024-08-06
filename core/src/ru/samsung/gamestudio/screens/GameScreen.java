@@ -16,6 +16,8 @@ import ru.samsung.gamestudio.game.GameSession;
 import ru.samsung.gamestudio.game.GameState;
 import ru.samsung.gamestudio.ui.components.LoseDialog;
 import ru.samsung.gamestudio.ui.components.WinDialog;
+import ru.samsung.gamestudio.utils.Level;
+import ru.samsung.gamestudio.utils.MemoryManager;
 import ru.samsung.gamestudio.world.B2WorldManager;
 import ru.samsung.gamestudio.utils.MapManager;
 import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
@@ -31,6 +33,7 @@ public class GameScreen extends BaseScreen {
     private B2WorldManager b2WorldManager;
     private OrthoCachedTiledMapRenderer mapRenderer;
     private Box2DDebugRenderer debugRenderer;
+    private Level level;
 
     private GameSession session;
 
@@ -123,9 +126,10 @@ public class GameScreen extends BaseScreen {
 
     }
 
-    public void loadLevel(String pathToLevel) {
+    public void loadLevel(Level level) {
+        this.level = level;
 
-        mapManager = new MapManager(pathToLevel);
+        mapManager = new MapManager(level.getPath());
         mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.map, PPI);
 
         b2WorldManager.buildWorld(mapManager);
@@ -163,6 +167,7 @@ public class GameScreen extends BaseScreen {
         );
         stage.addActor(winDialog);
         session.endGame();
+        MemoryManager.saveLevelState(level.getName(), true);
     };
 
     OnScoreEarnedListener onScoreEarnedListener = coinValue -> {

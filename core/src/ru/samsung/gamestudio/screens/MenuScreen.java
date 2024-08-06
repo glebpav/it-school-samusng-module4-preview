@@ -5,9 +5,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.Array;
 import ru.samsung.gamestudio.MyGdxGame;
+import ru.samsung.gamestudio.utils.Level;
 import ru.samsung.gamestudio.utils.LevelManager;
+import ru.samsung.gamestudio.utils.MemoryManager;
 
 public class MenuScreen extends BaseScreen {
 
@@ -23,7 +24,7 @@ public class MenuScreen extends BaseScreen {
         Button settingsButton = new TextButton("Settings", myGdxGame.skin);
         listView = new List<>(myGdxGame.skin);
         scrollPane = new ScrollPane(listView, myGdxGame.skin);
-        listView.setItems(LevelManager.getNames().toArray(new String[0]));
+
         listView.setAlignment(Align.center);
         scrollPane.setActor(listView);
         scrollPane.setSize(400, 150);
@@ -41,9 +42,24 @@ public class MenuScreen extends BaseScreen {
         stage.addActor(rootTable);
 
         exitButton.addListener(onButtonExitClickedListener);
-        startButton.addListener(onButtonStartClickedListener)
-;
+        startButton.addListener(onButtonStartClickedListener);
+        settingsButton.addListener(onButtonSettingsClickedListener);
 
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        updateList();
+    }
+
+    private void updateList() {
+        String[] levelList = new String[LevelManager.getAllLevels().length];
+        for (int i = 0; i < LevelManager.getAllLevels().length; i++) {
+            Level level = LevelManager.getAllLevels()[i];
+            levelList[i] = level.getName() + (LevelManager.isLevelAvailable(i) ? "" : " (unavailable)");
+        }
+        listView.setItems(levelList);
     }
 
     ClickListener onButtonExitClickedListener = new ClickListener() {
@@ -56,9 +72,16 @@ public class MenuScreen extends BaseScreen {
     ClickListener onButtonStartClickedListener = new ClickListener() {
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            myGdxGame.gameScreen.loadLevel(LevelManager.getPaths().get(listView.getSelectedIndex()));
+            if (!LevelManager.isLevelAvailable(listView.getSelectedIndex())) return;
+            myGdxGame.gameScreen.loadLevel(LevelManager.getLevel(listView.getSelectedIndex()));
             myGdxGame.setScreen(myGdxGame.gameScreen);
         }
     };
 
+    ClickListener onButtonSettingsClickedListener = new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            myGdxGame.setScreen(myGdxGame.settingsScreen);
+        }
+    };
 }

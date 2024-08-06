@@ -27,6 +27,7 @@ public class Player extends PhysicalActors {
     State state;
     private int leftLives;
     boolean needToBeSwapped;
+    private boolean hasTouchedFloor;
 
     private final OnDamageListener onDamageListener;
     private final OnScoreEarnedListener onScoreEarnedListener;
@@ -47,6 +48,7 @@ public class Player extends PhysicalActors {
         leftLives = PLAYER_LIVES;
         setSize(bounds.getWidth() * 2 * PPI, bounds.getHeight() * PPI);
 
+        hasTouchedFloor = true;
     }
 
     private void createAnimations() {
@@ -102,21 +104,27 @@ public class Player extends PhysicalActors {
     }
 
     public void moveLeft() {
+        if (!attack.isAnimationFinished(timer) && state == State.ATTACKING) return;
+
         body.applyForceToCenter(new Vector2(-20f, 0), true);
         needToBeSwapped = true;
         state = State.RUNNING;
     }
 
     public void moveRight() {
+        if (!attack.isAnimationFinished(timer) && state == State.ATTACKING) return;
+
         body.applyForceToCenter(new Vector2(20f, 0), true);
         needToBeSwapped = false;
         state = State.RUNNING;
     }
 
     public void moveUp() {
-        if (state == State.JUMPING) return;
+        if (!hasTouchedFloor) return;
+
         body.applyForceToCenter(new Vector2(0, 300f), true);
         state = State.JUMPING;
+        hasTouchedFloor = false;
         timer = 0;
     }
 
@@ -143,12 +151,18 @@ public class Player extends PhysicalActors {
                 onScoreEarnedListener.onScoreEarned(KILLED_ENEMY_VALUE);
             }
         }
+        if (hitObjectBits == 1) {
+            hasTouchedFloor = true;
+        }
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
+        setPosition((
+                        body.getPosition().x) * SCALE * PPI - getWidth() / 2,
+                (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f
+        );
         setDrawable(getFrame(delta));
         if (state == State.RUNNING && body.getLinearVelocity().y == 0 && body.getLinearVelocity().y == 0
                 || state == State.ATTACKING && attack.isAnimationFinished(timer)

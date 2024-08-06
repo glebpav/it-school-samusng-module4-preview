@@ -101,10 +101,7 @@ public class Enemy extends PhysicalActors {
             else if (body.getPosition().x * SCALE - initialX <= 0) moveRightFlag = true;
 
         } else if (dead.isAnimationFinished(timer)) {
-
-            onRemoveBodyListener.onRemoveBody(body);
             remove();
-
         }
     }
 
@@ -126,6 +123,7 @@ public class Enemy extends PhysicalActors {
         if (hitObjectBits == PLAYER_BIT && state != State.DEAD) {
             state = State.DEAD;
             timer = 0;
+            onRemoveBodyListener.onRemoveBody(body);
         }
 
     }

@@ -1,0 +1,43 @@
+package ru.samsung.gamestudio.screens;
+
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import ru.samsung.gamestudio.MyGdxGame;
+import ru.samsung.gamestudio.ui.settings.SettingsUi;
+import ru.samsung.gamestudio.utils.Level;
+import ru.samsung.gamestudio.utils.LevelManager;
+import ru.samsung.gamestudio.utils.MemoryManager;
+
+public class SettingsScreen extends BaseScreen{
+
+    SettingsUi ui;
+
+    public SettingsScreen(MyGdxGame myGdxGame) {
+        super(myGdxGame);
+
+        ui = new SettingsUi(myGdxGame.skin);
+        stage.addActor(ui);
+
+        ui.homeButton.addListener(onButtonHomeClicked);
+        ui.resetLevelsButton.addListener(onButtonResetLevelsClicked);
+
+    }
+
+    ClickListener onButtonHomeClicked = new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            myGdxGame.setScreen(myGdxGame.menuScreen);
+        }
+    };
+
+    ClickListener onButtonResetLevelsClicked = new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            for (Level level : LevelManager.getAllLevels()) {
+                MemoryManager.saveLevelState(level.getName(), false);
+            }
+        }
+    };
+
+}
+
