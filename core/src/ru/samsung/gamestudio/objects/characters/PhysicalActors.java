@@ -34,11 +34,14 @@ public abstract class PhysicalActors extends Image implements Hittable {
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
 
-        body.setLinearDamping(5);
+        body.setLinearDamping(2);
         body.setTransform((bounds.getX() + bounds.getWidth() / 2) / SCALE,
                 (bounds.getY() + bounds.getHeight() / 2) / SCALE, 0);
         circleShape.dispose();
     }
 
+    @Override
+    public void release(short hitObjectBits) {
 
+    }
 }

@@ -112,13 +112,13 @@ public class GameScreen extends BaseScreen {
 
         if (session.state == GameState.PLAYING) {
 
-            if (Gdx.input.isKeyJustPressed(Input.Keys.UP)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 b2WorldManager.player.moveUp();
-            } else if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            } if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
                 b2WorldManager.player.moveLeft();
-            } else if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            } if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 b2WorldManager.player.moveRight();
-            } else if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+            } if (Gdx.input.isKeyPressed(Input.Keys.F)) {
                 b2WorldManager.player.attack();
             }
 

@@ -27,5 +27,6 @@ public class GameSettings {
     public static final short EXIT_BIT = 16;
     public static final short PIT_BIT = 32;
     public static final short COIN_BIT = 64;
+    public static final short LADDER_BIT = 128;
 
 }

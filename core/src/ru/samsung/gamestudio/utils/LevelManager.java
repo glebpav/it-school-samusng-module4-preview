@@ -9,7 +9,7 @@ public class LevelManager {
     private final static Level[] levelsArray = new Level[] {
             new Level("First fight", "maps/level1.tmx"),
             new Level("New enemies", "maps/level2.tmx"),
-            new Level("Empty test", "maps/level2.tmx"),
+            new Level("Wow, ladder", "maps/level3.tmx"),
             new Level("Empty test", "maps/level2.tmx"),
             new Level("Empty test", "maps/level2.tmx"),
             new Level("Empty test", "maps/level2.tmx"),

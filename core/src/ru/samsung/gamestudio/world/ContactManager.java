@@ -23,7 +23,8 @@ public class ContactManager implements ContactListener {
                 || (GameSettings.PLAYER_BIT | GameSettings.EXIT_BIT) == cDef
                 || (GameSettings.PLAYER_BIT | GameSettings.PIT_BIT) == cDef
                 || (GameSettings.PLAYER_BIT | GameSettings.COIN_BIT) == cDef
-                || (GameSettings.PLAYER_BIT | GameSettings.FLOOR_BIT) == cDef) {
+                || (GameSettings.PLAYER_BIT | GameSettings.FLOOR_BIT) == cDef
+                || (GameSettings.PLAYER_BIT | GameSettings.LADDER_BIT) == cDef) {
 
             ((Hittable) fixA.getUserData()).hit(cDef2);
             ((Hittable) fixB.getUserData()).hit(cDef1);
@@ -34,7 +35,15 @@ public class ContactManager implements ContactListener {
 
     @Override
     public void endContact(Contact contact) {
+        Fixture fixA = contact.getFixtureA();
+        Fixture fixB = contact.getFixtureB();
 
+        if (fixA.getUserData() instanceof Hittable) {
+            ((Hittable) fixA.getUserData()).release(fixB.getFilterData().categoryBits);
+        }
+        if (fixB.getUserData() instanceof Hittable) {
+            ((Hittable) fixB.getUserData()).release(fixA.getFilterData().categoryBits);
+        }
     }
 
     @Override

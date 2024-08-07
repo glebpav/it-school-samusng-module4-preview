@@ -8,11 +8,9 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import ru.samsung.gamestudio.objects.characters.FinishLine;
+import ru.samsung.gamestudio.objects.blocks.Ladder;
+import ru.samsung.gamestudio.objects.characters.*;
 import ru.samsung.gamestudio.objects.blocks.PitBlock;
-import ru.samsung.gamestudio.objects.characters.Coin;
-import ru.samsung.gamestudio.objects.characters.Enemy;
-import ru.samsung.gamestudio.objects.characters.Player;
 import ru.samsung.gamestudio.objects.blocks.StaticBlock;
 import ru.samsung.gamestudio.utils.*;
 import ru.samsung.gamestudio.world.listeners.*;
@@ -96,6 +94,11 @@ public class B2WorldManager {
                 case "coin": {
                     Rectangle rect = object.getRectangle();
                     coinsList.add(new Coin(world, rect, onScoreEarnedListener, onRemoveBodyListener));
+                    break;
+                }
+                case "ladder": {
+                    Rectangle rect = object.getRectangle();
+                    new Ladder(world, rect);
                     break;
                 }
             }

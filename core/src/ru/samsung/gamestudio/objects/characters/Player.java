@@ -28,6 +28,7 @@ public class Player extends PhysicalActors {
     private int leftLives;
     boolean needToBeSwapped;
     private boolean hasTouchedFloor;
+    private boolean onLadder;
 
     private final OnDamageListener onDamageListener;
     private final OnScoreEarnedListener onScoreEarnedListener;
@@ -106,7 +107,7 @@ public class Player extends PhysicalActors {
     public void moveLeft() {
         if (!attack.isAnimationFinished(timer) && state == State.ATTACKING) return;
 
-        body.applyForceToCenter(new Vector2(-20f, 0), true);
+        body.applyForceToCenter(new Vector2(-10f, 0), true);
         needToBeSwapped = true;
         state = State.RUNNING;
     }
@@ -114,12 +115,18 @@ public class Player extends PhysicalActors {
     public void moveRight() {
         if (!attack.isAnimationFinished(timer) && state == State.ATTACKING) return;
 
-        body.applyForceToCenter(new Vector2(20f, 0), true);
+        body.applyForceToCenter(new Vector2(10f, 0), true);
         needToBeSwapped = false;
         state = State.RUNNING;
     }
 
     public void moveUp() {
+
+        if (onLadder) {
+            body.setLinearVelocity(body.getLinearVelocity().x, 2.5f);
+            return;
+        }
+
         if (!hasTouchedFloor) return;
 
         body.applyForceToCenter(new Vector2(0, 300f), true);
@@ -150,9 +157,17 @@ public class Player extends PhysicalActors {
             } else {
                 onScoreEarnedListener.onScoreEarned(KILLED_ENEMY_VALUE);
             }
-        }
-        if (hitObjectBits == 1) {
+        } else if (hitObjectBits == FLOOR_BIT) {
             hasTouchedFloor = true;
+        }
+        if (hitObjectBits == LADDER_BIT) onLadder = true;
+        // System.out.println("onLadder: " + onLadder);
+    }
+
+    @Override
+    public void release(short hitObjectBits) {
+        if (hitObjectBits == LADDER_BIT) {
+            onLadder = false;
         }
     }
 
@@ -169,5 +184,7 @@ public class Player extends PhysicalActors {
                 || state == State.JUMPING && jump.isAnimationFinished(timer))
             state = State.IDLE;
     }
+
+
 
 }

@@ -18,6 +18,10 @@ public class StaticBlock extends BaseBlock implements Hittable {
     @Override
     public void hit(short hitObjectBits) {
 
+    }
+
+    @Override
+    public void release(short releaseBits) {
 
     }
 }
