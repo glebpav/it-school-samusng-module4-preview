@@ -3,7 +3,7 @@ package ru.samsung.gamestudio.screens;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import ru.samsung.gamestudio.MyGdxGame;
-import ru.samsung.gamestudio.ui.settings.SettingsUi;
+import ru.samsung.gamestudio.ui.screens.SettingsUi;
 import ru.samsung.gamestudio.utils.Level;
 import ru.samsung.gamestudio.utils.LevelManager;
 import ru.samsung.gamestudio.utils.MemoryManager;

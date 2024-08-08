@@ -6,16 +6,13 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.game.GameSession;
 import ru.samsung.gamestudio.game.GameState;
-import ru.samsung.gamestudio.ui.components.LoseDialog;
-import ru.samsung.gamestudio.ui.components.WinDialog;
+import ru.samsung.gamestudio.ui.screens.GameUi;
 import ru.samsung.gamestudio.utils.Level;
 import ru.samsung.gamestudio.utils.MemoryManager;
 import ru.samsung.gamestudio.world.B2WorldManager;
@@ -36,39 +33,24 @@ public class GameScreen extends BaseScreen {
     private Level level;
 
     private GameSession session;
-
-    private Table hudGroup;
-    private LoseDialog loseDialog;
-    private WinDialog winDialog;
-    private Label scoreLabel;
-    private Label leftLivesLabel;
+    private GameUi gameUi;
 
     public GameScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
         debugRenderer = new Box2DDebugRenderer();
         b2WorldManager = new B2WorldManager();
         session = new GameSession();
+        gameUi = new GameUi(myGdxGame.skin);
 
-        hudGroup = new Table();
-        loseDialog = new LoseDialog(myGdxGame.skin);
-        winDialog = new WinDialog(myGdxGame.skin);
-        scoreLabel = new Label("Score: 0", myGdxGame.skin);
-        leftLivesLabel = new Label("Left Lives: " + PLAYER_LIVES, myGdxGame.skin);
-
-        hudGroup.add(scoreLabel).padRight(50);
-        hudGroup.add(leftLivesLabel).padLeft(50);
-        hudGroup.setPosition((SCREEN_WIDTH - hudGroup.getWidth()) / 2, SCREEN_HEIGHT - 50);
-
-        stage.addActor(hudGroup);
-        // stage.addActor(scoreLabel);
+        stage.addActor(gameUi);
 
         b2WorldManager.setOnLoseListener(onLoseListener);
         b2WorldManager.setOnWinListener(onWinListener);
         b2WorldManager.setOnCollectCoinListener(onScoreEarnedListener);
         b2WorldManager.setOnDamageListener(onDamageListener);
 
-        loseDialog.homeButton.addListener(onButtonHomeClicked);
-        winDialog.homeButton.addListener(onButtonHomeClicked);
+        gameUi.loseDialog.homeButton.addListener(onButtonHomeClicked);
+        gameUi.winDialog.homeButton.addListener(onButtonHomeClicked);
     }
 
     @Override
@@ -90,12 +72,8 @@ public class GameScreen extends BaseScreen {
                 );
 
         b2WorldManager.stepWorld();
-        hudGroup.setPosition(myGdxGame.camera.position.x - hudGroup.getWidth() / 2, SCREEN_HEIGHT - 50);
-        // scoreLabel.setPosition(myGdxGame.camera.position.x, SCREEN_HEIGHT - 50);
-        // scoreLabel.setText("Score: " + session.getScore());
+        gameUi.makeHudCentered(myGdxGame.camera.position.x);
 
-        // ScreenUtils.clear(51f/255, 50f/255, 60f/255, 1f);
-        // ScreenUtils.clear(0, 0.5f, 1f, 0.5f);
         ScreenUtils.clear(0, 0, 0, 0);
 
         mapRenderer.setView(myGdxGame.camera);
@@ -148,41 +126,33 @@ public class GameScreen extends BaseScreen {
     }
 
     OnLoseListener onLoseListener = loseText -> {
-        loseDialog.setText(loseText);
-        loseDialog.setPosition(
-                myGdxGame.camera.position.x - loseDialog.getWidth() / 2,
-                myGdxGame.camera.position.y - loseDialog.getHeight() / 2
-        );
-        stage.addActor(loseDialog);
+        gameUi.showLoseDialog(loseText, myGdxGame.camera.position);
         session.endGame();
     };
 
     OnWinListener onWinListener = () -> {
-        winDialog.setTime(TimeUtils.millis() - session.getSessionStartTime());
-        winDialog.setScore(session.getScore());
-        winDialog.setPosition(
-                myGdxGame.camera.position.x - loseDialog.getWidth() / 2,
-                myGdxGame.camera.position.y - loseDialog.getHeight() / 2
+        gameUi.showWinDialog(
+                TimeUtils.millis() - session.getSessionStartTime(),
+                session.getScore(),
+                myGdxGame.camera.position
         );
-        stage.addActor(winDialog);
         session.endGame();
         MemoryManager.saveLevelState(level.getName(), true);
     };
 
     OnScoreEarnedListener onScoreEarnedListener = coinValue -> {
         session.addScore(coinValue);
-        scoreLabel.setText("Score: " + session.getScore());
+        gameUi.hudUi.setScore(session.getScore());
     };
 
     OnDamageListener onDamageListener = leftLives -> {
-        leftLivesLabel.setText("Left lives: " + leftLives);
+        gameUi.hudUi.setLeftLives(leftLives);
     };
 
     ClickListener onButtonHomeClicked = new ClickListener() {
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            loseDialog.remove();
-            winDialog.remove();
+            gameUi.hideDialogs();
             exitLevel();
         }
     };

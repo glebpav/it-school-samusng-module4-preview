@@ -6,51 +6,25 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import ru.samsung.gamestudio.MyGdxGame;
+import ru.samsung.gamestudio.ui.screens.MenuUi;
 import ru.samsung.gamestudio.utils.Level;
 import ru.samsung.gamestudio.utils.LevelManager;
 import ru.samsung.gamestudio.utils.MemoryManager;
 
 public class MenuScreen extends BaseScreen {
 
-    ScrollPane scrollPane;
-    List<String> listView;
+    private MenuUi menuUi;
 
     public MenuScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
 
-        Table rootTable = new Table();
-        Button startButton = new TextButton("Start this game", myGdxGame.skin);
-        Button exitButton = new TextButton("Exit game", myGdxGame.skin);
-        Button settingsButton = new TextButton("Settings", myGdxGame.skin);
-        listView = new List<>(myGdxGame.skin);
-        scrollPane = new ScrollPane(listView, myGdxGame.skin);
+        menuUi = new MenuUi(myGdxGame.skin);
+        stage.addActor(menuUi);
 
-        listView.setAlignment(Align.center);
-        scrollPane.setActor(listView);
-        scrollPane.setSize(400, 150);
+        menuUi.exitButton.addListener(onButtonExitClickedListener);
+        menuUi.startButton.addListener(onButtonStartClickedListener);
+        menuUi.settingsButton.addListener(onButtonSettingsClickedListener);
 
-        rootTable.setFillParent(true);
-
-        rootTable.columnDefaults(2);
-        rootTable.add(scrollPane).width(400).height(150).colspan(2).space(10);
-        rootTable.row();
-        rootTable.add(startButton).width(400).height(60).colspan(2).space(10);
-        rootTable.row();
-        rootTable.add(exitButton).width(195).height(60).space(10);
-        rootTable.add(settingsButton).width(195).height(60).space(10);
-
-        stage.addActor(rootTable);
-
-        exitButton.addListener(onButtonExitClickedListener);
-        startButton.addListener(onButtonStartClickedListener);
-        settingsButton.addListener(onButtonSettingsClickedListener);
-
-    }
-
-    @Override
-    public void show() {
-        super.show();
-        updateList();
     }
 
     private void updateList() {
@@ -59,7 +33,13 @@ public class MenuScreen extends BaseScreen {
             Level level = LevelManager.getAllLevels()[i];
             levelList[i] = level.getName() + (LevelManager.isLevelAvailable(i) ? "" : " (unavailable)");
         }
-        listView.setItems(levelList);
+        menuUi.listView.setItems(levelList);
+    }
+
+    @Override
+    public void show() {
+        super.show();
+        updateList();
     }
 
     ClickListener onButtonExitClickedListener = new ClickListener() {
@@ -72,8 +52,8 @@ public class MenuScreen extends BaseScreen {
     ClickListener onButtonStartClickedListener = new ClickListener() {
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            if (!LevelManager.isLevelAvailable(listView.getSelectedIndex())) return;
-            myGdxGame.gameScreen.loadLevel(LevelManager.getLevel(listView.getSelectedIndex()));
+            if (!LevelManager.isLevelAvailable(menuUi.listView.getSelectedIndex())) return;
+            myGdxGame.gameScreen.loadLevel(LevelManager.getLevel(menuUi.listView.getSelectedIndex()));
             myGdxGame.setScreen(myGdxGame.gameScreen);
         }
     };
