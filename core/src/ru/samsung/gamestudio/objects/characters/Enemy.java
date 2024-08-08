@@ -28,12 +28,13 @@ public class Enemy extends PhysicalActors {
     boolean needToBeSwapped;
     boolean moveRightFlag;
 
-    float territoryLen = 120;
+    int walkLength;
     float initialX;
 
-    public Enemy(World world, Rectangle bounds, OnRemoveBodyListener onRemoveBodyListener) {
+    public Enemy(World world, Rectangle bounds, int walkLength, OnRemoveBodyListener onRemoveBodyListener) {
         super(world, bounds, ENEMY_BIT);
         this.onRemoveBodyListener = onRemoveBodyListener;
+        this.walkLength = walkLength;
 
         createAnimations();
         timer = 0;
@@ -97,7 +98,7 @@ public class Enemy extends PhysicalActors {
             setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
             if (moveRightFlag) moveRight();
             else moveLeft();
-            if (body.getPosition().x * SCALE - initialX >= territoryLen) moveRightFlag = false;
+            if (body.getPosition().x * SCALE - initialX >= walkLength * 32) moveRightFlag = false;
             else if (body.getPosition().x * SCALE - initialX <= 0) moveRightFlag = true;
 
         } else if (dead.isAnimationFinished(timer)) {

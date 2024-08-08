@@ -59,6 +59,15 @@ public class B2WorldManager {
             new StaticBlock(world, rect);
         }
 
+        // todo: make floor block
+        for (
+                RectangleMapObject object :
+                mapManager.map.getLayers().get("floor").getObjects().getByType(RectangleMapObject.class)
+        ) {
+            Rectangle rect = object.getRectangle();
+            new StaticBlock(world, rect);
+        }
+
         for (
                 RectangleMapObject object :
                 mapManager.map.getLayers().get("actors").getObjects().getByType(RectangleMapObject.class)
@@ -71,7 +80,7 @@ public class B2WorldManager {
                 }
                 case "enemy1": {
                     Rectangle rect = object.getRectangle();
-                    enemiesList.add(new Enemy(world, rect, onRemoveBodyListener));
+                    enemiesList.add(new Enemy(world, rect, (int) object.getProperties().get("walkLength"), onRemoveBodyListener));
                 }
             }
         }
