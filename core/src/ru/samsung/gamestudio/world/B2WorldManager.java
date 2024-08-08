@@ -53,7 +53,7 @@ public class B2WorldManager {
 
         for (
                 RectangleMapObject object :
-                mapManager.map.getLayers().get("walls").getObjects().getByType(RectangleMapObject.class)
+                mapManager.getMap().getLayers().get("walls").getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = object.getRectangle();
             new StaticBlock(world, rect);
@@ -62,7 +62,7 @@ public class B2WorldManager {
         // todo: make floor block
         for (
                 RectangleMapObject object :
-                mapManager.map.getLayers().get("floor").getObjects().getByType(RectangleMapObject.class)
+                mapManager.getMap().getLayers().get("floor").getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = object.getRectangle();
             new StaticBlock(world, rect);
@@ -70,7 +70,7 @@ public class B2WorldManager {
 
         for (
                 RectangleMapObject object :
-                mapManager.map.getLayers().get("actors").getObjects().getByType(RectangleMapObject.class)
+                mapManager.getMap().getLayers().get("actors").getObjects().getByType(RectangleMapObject.class)
         ) {
             switch (object.getName()) {
                 case "player": {
@@ -87,7 +87,7 @@ public class B2WorldManager {
 
         for (
                 RectangleMapObject object :
-                mapManager.map.getLayers().get("interactiveObjects").getObjects().getByType(RectangleMapObject.class)
+                mapManager.getMap().getLayers().get("interactiveObjects").getObjects().getByType(RectangleMapObject.class)
         ) {
             switch (object.getName()) {
                 case "pit": {

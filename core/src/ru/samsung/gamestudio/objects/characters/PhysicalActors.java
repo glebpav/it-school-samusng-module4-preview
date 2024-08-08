@@ -9,10 +9,10 @@ import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public abstract class PhysicalActors extends Image implements Hittable {
 
-    public Body body;
-    Fixture fixture;
+    protected Body body;
+    protected Fixture fixture;
 
-    PhysicalActors(World world, Rectangle bounds, short categoryBits) {
+    public PhysicalActors(World world, Rectangle bounds, short categoryBits) {
         createBody(world, bounds, categoryBits);
     }
 
@@ -29,14 +29,16 @@ public abstract class PhysicalActors extends Image implements Hittable {
 
         fixtureDef.shape = circleShape;
         fixtureDef.filter.categoryBits = categoryBits;
-        // fixtureDef.filter.maskBits = GameSettings.ENEMY_BIT | GameSettings.PLAYER_BIT | PIT_BIT | EXIT_BIT;
 
         fixture = body.createFixture(fixtureDef);
         fixture.setUserData(this);
 
         body.setLinearDamping(2);
-        body.setTransform((bounds.getX() + bounds.getWidth() / 2) / SCALE,
-                (bounds.getY() + bounds.getHeight() / 2) / SCALE, 0);
+        body.setTransform(
+                (bounds.getX() + bounds.getWidth() / 2) / SCALE,
+                (bounds.getY() + bounds.getHeight() / 2) / SCALE,
+                0
+        );
         circleShape.dispose();
     }
 

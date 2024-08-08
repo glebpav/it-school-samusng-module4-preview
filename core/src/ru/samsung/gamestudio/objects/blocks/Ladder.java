@@ -14,8 +14,4 @@ public class Ladder extends StaticBlock {
         fixture.setSensor(true);
     }
 
-    @Override
-    public void hit(short hitObjectBits) {
-
-    }
 }

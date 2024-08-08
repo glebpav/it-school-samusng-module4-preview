@@ -16,16 +16,16 @@ import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public class Coin extends PhysicalActors {
 
-    enum State {IDLE, COLLECTED}
+    private enum State {IDLE, COLLECTED}
 
-    Animation<TextureRegion> idleAnimation;
-    Animation<TextureRegion> disappearAnimation;
+    private Animation<TextureRegion> idleAnimation;
+    private Animation<TextureRegion> disappearAnimation;
 
-    State state;
-    float timer;
+    private State state;
+    private float timer;
 
-    OnRemoveBodyListener onRemoveBodyListener;
-    OnScoreEarnedListener onScoreEarnedListener;
+    private final OnRemoveBodyListener onRemoveBodyListener;
+    private final OnScoreEarnedListener onScoreEarnedListener;
 
     public Coin(
             World world,

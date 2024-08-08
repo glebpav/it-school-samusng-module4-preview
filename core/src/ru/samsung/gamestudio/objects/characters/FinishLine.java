@@ -18,9 +18,9 @@ import static ru.samsung.gamestudio.game.GameSettings.PPI;
 public class FinishLine extends PhysicalActors implements Hittable {
 
     private final OnWinListener onWinListener;
-    float timer;
+    private float timer;
 
-    Animation<TextureRegion> idleAnimation;
+    private Animation<TextureRegion> idleAnimation;
 
     public FinishLine(World world, Rectangle bounds, OnWinListener onWinListener) {
         super(world, bounds, GameSettings.EXIT_BIT);

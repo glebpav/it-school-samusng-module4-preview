@@ -18,7 +18,6 @@ public class PitBlock extends StaticBlock implements Hittable {
 
     @Override
     public void hit(short hitObjectBits) {
-        System.out.println("Pit hit");
         onLoseListener.onLose("Don't fall into the pit");
     }
 }

@@ -29,15 +29,14 @@ import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public class GameScreen extends BaseScreen {
 
+    private final B2WorldManager b2WorldManager;
+    private final Box2DDebugRenderer debugRenderer;
     private MapManager mapManager;
-    private B2WorldManager b2WorldManager;
     private OrthoCachedTiledMapRenderer mapRenderer;
-    private Box2DDebugRenderer debugRenderer;
     private Level level;
 
     private GameSession session;
 
-    // private HorizontalGroup hudGroup;
     private Table hudGroup;
     private LoseDialog loseDialog;
     private WinDialog winDialog;
@@ -86,8 +85,8 @@ public class GameScreen extends BaseScreen {
         myGdxGame.camera.position.x =
                 Math.min(
                         Math.max(b2WorldManager.player.getX(), SCREEN_WIDTH / 2f),
-                        PPI * mapManager.prop.get("width", Integer.class)
-                                * mapManager.prop.get("tilewidth", Integer.class) - SCREEN_WIDTH / 2f
+                        PPI * mapManager.getProperties().get("width", Integer.class)
+                                * mapManager.getProperties().get("tilewidth", Integer.class) - SCREEN_WIDTH / 2f
                 );
 
         b2WorldManager.stepWorld();
@@ -110,7 +109,7 @@ public class GameScreen extends BaseScreen {
     @Override
     public void handleInput() {
 
-        if (session.state == GameState.PLAYING) {
+        if (session.getState() == GameState.PLAYING) {
 
             if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 b2WorldManager.player.moveUp();
@@ -130,7 +129,7 @@ public class GameScreen extends BaseScreen {
         this.level = level;
 
         mapManager = new MapManager(level.getPath());
-        mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.map, PPI);
+        mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.getMap(), PPI);
 
         b2WorldManager.buildWorld(mapManager);
         b2WorldManager.getAllActors().forEach(actor -> stage.addActor(actor));
@@ -159,7 +158,7 @@ public class GameScreen extends BaseScreen {
     };
 
     OnWinListener onWinListener = () -> {
-        winDialog.setTime(TimeUtils.millis() - session.sessionStartTime);
+        winDialog.setTime(TimeUtils.millis() - session.getSessionStartTime());
         winDialog.setScore(session.getScore());
         winDialog.setPosition(
                 myGdxGame.camera.position.x - loseDialog.getWidth() / 2,

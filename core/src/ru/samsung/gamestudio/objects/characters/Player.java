@@ -16,7 +16,7 @@ import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public class Player extends PhysicalActors {
 
-    public enum State {FALLING, JUMPING, IDLE, RUNNING, ATTACKING}
+    private enum State {FALLING, JUMPING, IDLE, RUNNING, ATTACKING}
 
     private Animation<TextureRegion> idle;
     private Animation<TextureRegion> run;
@@ -49,7 +49,7 @@ public class Player extends PhysicalActors {
         leftLives = PLAYER_LIVES;
         setSize(bounds.getWidth() * 2 * PPI, bounds.getHeight() * PPI);
 
-        hasTouchedFloor = true;
+        hasTouchedFloor = false;
     }
 
     private void createAnimations() {
@@ -127,7 +127,7 @@ public class Player extends PhysicalActors {
             return;
         }
 
-        if (!hasTouchedFloor) return;
+        if (!hasTouchedFloor || state == State.JUMPING && jump.isAnimationFinished(timer)) return;
 
         body.applyForceToCenter(new Vector2(0, 300f), true);
         state = State.JUMPING;
@@ -149,29 +149,6 @@ public class Player extends PhysicalActors {
     }
 
     @Override
-    public void hit(short hitObjectBits) {
-        if (hitObjectBits == ENEMY_BIT) {
-            if (state != State.ATTACKING) {
-                setLeftLives(getLeftLives() - ENEMY_DAMAGE);
-                onDamageListener.onDamage(getLeftLives());
-            } else {
-                onScoreEarnedListener.onScoreEarned(KILLED_ENEMY_VALUE);
-            }
-        } else if (hitObjectBits == FLOOR_BIT) {
-            hasTouchedFloor = true;
-        }
-        if (hitObjectBits == LADDER_BIT) onLadder = true;
-        // System.out.println("onLadder: " + onLadder);
-    }
-
-    @Override
-    public void release(short hitObjectBits) {
-        if (hitObjectBits == LADDER_BIT) {
-            onLadder = false;
-        }
-    }
-
-    @Override
     public void act(float delta) {
         super.act(delta);
         setPosition((
@@ -185,6 +162,26 @@ public class Player extends PhysicalActors {
             state = State.IDLE;
     }
 
+    @Override
+    public void hit(short hitObjectBits) {
+        if (hitObjectBits == ENEMY_BIT) {
+            if (state != State.ATTACKING) {
+                setLeftLives(getLeftLives() - ENEMY_DAMAGE);
+                onDamageListener.onDamage(getLeftLives());
+            } else {
+                onScoreEarnedListener.onScoreEarned(KILLED_ENEMY_VALUE);
+            }
+        } else if (hitObjectBits == FLOOR_BIT) {
+            hasTouchedFloor = true;
+        }
+        if (hitObjectBits == LADDER_BIT) onLadder = true;
+    }
 
+    @Override
+    public void release(short hitObjectBits) {
+        if (hitObjectBits == LADDER_BIT) {
+            onLadder = false;
+        }
+    }
 
 }

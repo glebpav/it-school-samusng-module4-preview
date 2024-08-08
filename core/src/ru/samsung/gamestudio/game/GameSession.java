@@ -5,9 +5,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 
 public class GameSession {
 
-    public GameState state;
-    public long sessionStartTime;
-    long pauseStartTime;
+    private GameState state;
+    private long sessionStartTime;
+    private long pauseStartTime;
     private int score;
 
     public void startGame() {
@@ -37,6 +37,14 @@ public class GameSession {
 
     public int getScore() {
         return score;
+    }
+
+    public GameState getState() {
+        return state;
+    }
+
+    public long getSessionStartTime() {
+        return sessionStartTime;
     }
 
 }
