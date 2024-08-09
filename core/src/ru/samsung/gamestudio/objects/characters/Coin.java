@@ -82,6 +82,7 @@ public class Coin extends PhysicalActors {
 
     @Override
     public void act(float delta) {
+        super.act(delta);
         setDrawable(getFrame(delta));
         if (state == State.COLLECTED && disappearAnimation.isAnimationFinished(timer)) {
             remove();

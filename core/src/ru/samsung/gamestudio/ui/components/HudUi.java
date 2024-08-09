@@ -30,6 +30,4 @@ public class HudUi extends UiComponent {
         leftLivesLabel.setText("Left Lives: " + leftLives);
     }
 
-
-
 }

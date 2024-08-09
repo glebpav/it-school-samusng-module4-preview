@@ -40,9 +40,11 @@ public class Player extends PhysicalActors {
             OnScoreEarnedListener onScoreEarnedListener
     ) {
         super(world, bounds, PLAYER_BIT);
+
         this.onDamageListener = onDamageListener;
         this.onScoreEarnedListener = onScoreEarnedListener;
 
+        createHeadHitBox(bounds);
         createAnimations();
         timer = 0;
         state = State.IDLE;
@@ -50,6 +52,27 @@ public class Player extends PhysicalActors {
         setSize(bounds.getWidth() * 2 * PPI, bounds.getHeight() * PPI);
 
         hasTouchedFloor = false;
+    }
+
+    private void createHeadHitBox(Rectangle bounds) {
+
+        FixtureDef fixtureDef = new FixtureDef();
+
+        EdgeShape shape = new EdgeShape();
+        shape.set(
+                - bounds.getWidth() / 4 / SCALE,
+                (bounds.getHeight() / 2) / SCALE,
+                (bounds.getWidth() / 4) / SCALE,
+                (bounds.getHeight() / 2) / SCALE
+        );
+
+        fixtureDef.shape = shape;
+        fixtureDef.filter.categoryBits = PLAYER_HEAD_BIT;
+
+        Fixture headFixture = body.createFixture(fixtureDef);
+        headFixture.setUserData(this);
+
+        shape.dispose();
     }
 
     private void createAnimations() {
@@ -171,7 +194,7 @@ public class Player extends PhysicalActors {
             } else {
                 onScoreEarnedListener.onScoreEarned(KILLED_ENEMY_VALUE);
             }
-        } else if (hitObjectBits == FLOOR_BIT) {
+        } else if (hitObjectBits == FLOOR_BIT || hitObjectBits == BONUS_BIT) {
             hasTouchedFloor = true;
         }
         if (hitObjectBits == LADDER_BIT) onLadder = true;

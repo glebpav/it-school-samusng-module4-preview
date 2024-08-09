@@ -24,7 +24,9 @@ public class ContactManager implements ContactListener {
                 || (GameSettings.PLAYER_BIT | GameSettings.PIT_BIT) == cDef
                 || (GameSettings.PLAYER_BIT | GameSettings.COIN_BIT) == cDef
                 || (GameSettings.PLAYER_BIT | GameSettings.FLOOR_BIT) == cDef
-                || (GameSettings.PLAYER_BIT | GameSettings.LADDER_BIT) == cDef) {
+                || (GameSettings.PLAYER_BIT | GameSettings.LADDER_BIT) == cDef
+                || (GameSettings.PLAYER_HEAD_BIT | GameSettings.BONUS_BIT) == cDef
+                || (GameSettings.PLAYER_BIT | GameSettings.BONUS_BIT) == cDef) {
 
             ((Hittable) fixA.getUserData()).hit(cDef2);
             ((Hittable) fixB.getUserData()).hit(cDef1);

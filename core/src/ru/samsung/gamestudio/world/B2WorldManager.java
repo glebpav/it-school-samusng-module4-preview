@@ -29,6 +29,7 @@ public class B2WorldManager {
 
     public ArrayList<Enemy> enemiesList;
     public ArrayList<Coin> coinsList;
+    private ArrayList<BonusBlock> bonusBlocksList;
     private ArrayList<Body> bodiesGarbageList;
 
     private float accumulator;
@@ -46,6 +47,7 @@ public class B2WorldManager {
 
         enemiesList = new ArrayList<>();
         coinsList = new ArrayList<>();
+        bonusBlocksList = new ArrayList<>();
         bodiesGarbageList = new ArrayList<>();
     }
 
@@ -110,6 +112,12 @@ public class B2WorldManager {
                     new Ladder(world, rect);
                     break;
                 }
+                case "bonusBlock": {
+                    System.out.println("bonusBlock");
+                    Rectangle rect = object.getRectangle();
+                    bonusBlocksList.add(new BonusBlock(world, rect));
+                    break;
+                }
             }
         }
     }
@@ -134,6 +142,7 @@ public class B2WorldManager {
         actors.add(finishLine);
         actors.addAll(enemiesList);
         actors.addAll(coinsList);
+        actors.addAll(bonusBlocksList);
         return actors;
     }
 
