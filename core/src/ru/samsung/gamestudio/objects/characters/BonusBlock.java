@@ -9,12 +9,11 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
-
-import java.util.List;
+import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class BonusBlock extends PhysicalActors {
+public class BonusBlock extends PhysicalActor {
 
     private enum State {IDLE, DESTROYED}
 
@@ -24,14 +23,23 @@ public class BonusBlock extends PhysicalActors {
     private State state;
     private float timer;
 
-    public BonusBlock(World world, Rectangle bounds) {
-        super(world, bounds, BONUS_BIT);
+    private final OnRemoveBodyListener onRemoveBodyListener;
+
+    public BonusBlock(World world, Rectangle bounds, OnRemoveBodyListener onRemoveBodyListener) {
+        this.onRemoveBodyListener = onRemoveBodyListener;
+
+        setPhysicalObject(
+                new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.StaticBody)
+                        .addRectangularFixture(bounds.width, bounds.height, BONUS_BIT)
+                        .setInitialPosition(bounds.x + bounds.getWidth() / 2, bounds.y + bounds.getHeight() / 2)
+                        .build(this)
+        );
 
         state = State.IDLE;
         timer = 0;
         setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);
         setPosition(bounds.getX() * PPI, bounds.getY() * PPI);
-        body.setType(BodyDef.BodyType.StaticBody);
+
         createAnimations();
 
     }
@@ -73,12 +81,13 @@ public class BonusBlock extends PhysicalActors {
         setDrawable(getFrame(delta));
         if (state == State.DESTROYED && destroyAnimation.isAnimationFinished(timer)){
             remove();
+            onRemoveBodyListener.onRemoveBody(getPhysicalObject().getBody());
         }
     }
 
     @Override
     public void hit(short hitObjectBits) {
-        if (hitObjectBits == PLAYER_HEAD_BIT) {
+        if (hitObjectBits == PLAYER_HEAD_BIT && state == State.IDLE) {
             state = State.DESTROYED;
             timer = 0;
         }

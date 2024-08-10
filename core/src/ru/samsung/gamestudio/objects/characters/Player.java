@@ -14,7 +14,7 @@ import ru.samsung.gamestudio.world.listeners.OnDamageListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class Player extends PhysicalActors {
+public class Player extends PhysicalActor {
 
     private enum State {FALLING, JUMPING, IDLE, RUNNING, ATTACKING}
 
@@ -39,12 +39,18 @@ public class Player extends PhysicalActors {
             OnDamageListener onDamageListener,
             OnScoreEarnedListener onScoreEarnedListener
     ) {
-        super(world, bounds, PLAYER_BIT);
-
         this.onDamageListener = onDamageListener;
         this.onScoreEarnedListener = onScoreEarnedListener;
 
-        createHeadHitBox(bounds);
+        setPhysicalObject(
+                new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.DynamicBody)
+                        .addCircularFixture(bounds.getHeight() / 2, PLAYER_BIT)
+                        .addEdgeFixture(-bounds.getWidth() / 4 , (bounds.getHeight() / 2) , (bounds.getWidth() / 4), (bounds.getHeight() / 2), PLAYER_HEAD_BIT)
+                        .setInitialPosition(bounds.x + bounds.getWidth() / 2, bounds.y + bounds.getHeight() / 2)
+                        .build(this)
+        );
+
+        // createHeadHitBox(bounds);
         createAnimations();
         timer = 0;
         state = State.IDLE;
@@ -52,27 +58,6 @@ public class Player extends PhysicalActors {
         setSize(bounds.getWidth() * 2 * PPI, bounds.getHeight() * PPI);
 
         hasTouchedFloor = false;
-    }
-
-    private void createHeadHitBox(Rectangle bounds) {
-
-        FixtureDef fixtureDef = new FixtureDef();
-
-        EdgeShape shape = new EdgeShape();
-        shape.set(
-                - bounds.getWidth() / 4 / SCALE,
-                (bounds.getHeight() / 2) / SCALE,
-                (bounds.getWidth() / 4) / SCALE,
-                (bounds.getHeight() / 2) / SCALE
-        );
-
-        fixtureDef.shape = shape;
-        fixtureDef.filter.categoryBits = PLAYER_HEAD_BIT;
-
-        Fixture headFixture = body.createFixture(fixtureDef);
-        headFixture.setUserData(this);
-
-        shape.dispose();
     }
 
     private void createAnimations() {
@@ -130,7 +115,7 @@ public class Player extends PhysicalActors {
     public void moveLeft() {
         if (!attack.isAnimationFinished(timer) && state == State.ATTACKING) return;
 
-        body.applyForceToCenter(new Vector2(-10f, 0), true);
+        getPhysicalObject().getBody().applyForceToCenter(new Vector2(-10f, 0), true);
         needToBeSwapped = true;
         state = State.RUNNING;
     }
@@ -138,7 +123,7 @@ public class Player extends PhysicalActors {
     public void moveRight() {
         if (!attack.isAnimationFinished(timer) && state == State.ATTACKING) return;
 
-        body.applyForceToCenter(new Vector2(10f, 0), true);
+        getPhysicalObject().getBody().applyForceToCenter(new Vector2(10f, 0), true);
         needToBeSwapped = false;
         state = State.RUNNING;
     }
@@ -146,13 +131,15 @@ public class Player extends PhysicalActors {
     public void moveUp() {
 
         if (onLadder) {
-            body.setLinearVelocity(body.getLinearVelocity().x, 2.5f);
+            getPhysicalObject().getBody().setLinearVelocity(
+                    getPhysicalObject().getBody().getLinearVelocity().x, 2.5f
+            );
             return;
         }
 
         if (!hasTouchedFloor || state == State.JUMPING && jump.isAnimationFinished(timer)) return;
 
-        body.applyForceToCenter(new Vector2(0, 300f), true);
+        getPhysicalObject().getBody().applyForceToCenter(new Vector2(0, 300f), true);
         state = State.JUMPING;
         hasTouchedFloor = false;
         timer = 0;
@@ -175,11 +162,13 @@ public class Player extends PhysicalActors {
     public void act(float delta) {
         super.act(delta);
         setPosition((
-                        body.getPosition().x) * SCALE * PPI - getWidth() / 2,
-                (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f
+                getPhysicalObject().getBody().getPosition().x) * SCALE * PPI - getWidth() / 2,
+                (getPhysicalObject().getBody().getPosition().y) * SCALE * PPI - getHeight() / 1.5f
         );
         setDrawable(getFrame(delta));
-        if (state == State.RUNNING && body.getLinearVelocity().y == 0 && body.getLinearVelocity().y == 0
+        if (state == State.RUNNING
+                && getPhysicalObject().getBody().getLinearVelocity().y == 0
+                && getPhysicalObject().getBody().getLinearVelocity().y == 0
                 || state == State.ATTACKING && attack.isAnimationFinished(timer)
                 || state == State.JUMPING && jump.isAnimationFinished(timer))
             state = State.IDLE;

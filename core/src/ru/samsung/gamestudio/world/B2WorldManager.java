@@ -25,11 +25,8 @@ public class B2WorldManager {
     public World world;
 
     public Player player;
-    public FinishLine finishLine;
 
-    public ArrayList<Enemy> enemiesList;
-    public ArrayList<Coin> coinsList;
-    private ArrayList<BonusBlock> bonusBlocksList;
+    private final ArrayList<Actor> actorsList;
     private ArrayList<Body> bodiesGarbageList;
 
     private float accumulator;
@@ -45,9 +42,7 @@ public class B2WorldManager {
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(new ContactManager());
 
-        enemiesList = new ArrayList<>();
-        coinsList = new ArrayList<>();
-        bonusBlocksList = new ArrayList<>();
+        actorsList = new ArrayList<>();
         bodiesGarbageList = new ArrayList<>();
     }
 
@@ -82,7 +77,7 @@ public class B2WorldManager {
                 }
                 case "enemy1": {
                     Rectangle rect = object.getRectangle();
-                    enemiesList.add(new Enemy(world, rect, (int) object.getProperties().get("walkLength"), onRemoveBodyListener));
+                    actorsList.add(new Enemy(world, rect, (int) object.getProperties().get("walkLength"), onRemoveBodyListener));
                 }
             }
         }
@@ -99,12 +94,12 @@ public class B2WorldManager {
                 }
                 case "finishLine": {
                     Rectangle rect = object.getRectangle();
-                    finishLine = new FinishLine(world, rect, onWinListener);
+                    actorsList.add(new FinishLine(world, rect, onWinListener));
                     break;
                 }
                 case "coin": {
                     Rectangle rect = object.getRectangle();
-                    coinsList.add(new Coin(world, rect, onScoreEarnedListener, onRemoveBodyListener));
+                    actorsList.add(new Coin(world, rect, onScoreEarnedListener, onRemoveBodyListener));
                     break;
                 }
                 case "ladder": {
@@ -115,7 +110,7 @@ public class B2WorldManager {
                 case "bonusBlock": {
                     System.out.println("bonusBlock");
                     Rectangle rect = object.getRectangle();
-                    bonusBlocksList.add(new BonusBlock(world, rect));
+                    actorsList.add(new BonusBlock(world, rect, onRemoveBodyListener));
                     break;
                 }
             }
@@ -139,10 +134,7 @@ public class B2WorldManager {
     public List<Actor> getAllActors() {
         List<Actor> actors = new ArrayList<>();
         actors.add(player);
-        actors.add(finishLine);
-        actors.addAll(enemiesList);
-        actors.addAll(coinsList);
-        actors.addAll(bonusBlocksList);
+        actors.addAll(actorsList);
         return actors;
     }
 
@@ -151,8 +143,7 @@ public class B2WorldManager {
         world.setContactListener(new ContactManager());
 
         player = null;
-        enemiesList.clear();
-        coinsList.clear();
+        actorsList.clear();
     }
 
     public void setOnLoseListener(OnLoseListener onLoseListener) {

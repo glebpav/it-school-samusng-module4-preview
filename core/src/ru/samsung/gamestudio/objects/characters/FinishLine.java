@@ -13,9 +13,9 @@ import ru.samsung.gamestudio.game.GameSettings;
 import ru.samsung.gamestudio.objects.Hittable;
 import ru.samsung.gamestudio.world.listeners.OnWinListener;
 
-import static ru.samsung.gamestudio.game.GameSettings.PPI;
+import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class FinishLine extends PhysicalActors implements Hittable {
+public class FinishLine extends PhysicalActor implements Hittable {
 
     private final OnWinListener onWinListener;
     private float timer;
@@ -23,11 +23,16 @@ public class FinishLine extends PhysicalActors implements Hittable {
     private Animation<TextureRegion> idleAnimation;
 
     public FinishLine(World world, Rectangle bounds, OnWinListener onWinListener) {
-        super(world, bounds, GameSettings.EXIT_BIT);
         this.onWinListener = onWinListener;
 
-        fixture.setSensor(true);
-        body.setType(BodyDef.BodyType.StaticBody);
+        setPhysicalObject(
+                new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.StaticBody)
+                        .addRectangularFixture(bounds.getWidth(), bounds.getHeight(), EXIT_BIT)
+                        .setInitialPosition(bounds.x + bounds.getWidth() / 2, bounds.y + bounds.getHeight() / 2)
+                        .setBodyAsSensor()
+                        .build(this)
+        );
+
         createAnimations();
         timer = 0;
         setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);

@@ -14,7 +14,7 @@ import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class Coin extends PhysicalActors {
+public class Coin extends PhysicalActor {
 
     private enum State {IDLE, COLLECTED}
 
@@ -33,17 +33,22 @@ public class Coin extends PhysicalActors {
             OnScoreEarnedListener onScoreEarnedListener,
             OnRemoveBodyListener onRemoveBodyListener
     ) {
-        super(world, bounds, COIN_BIT);
         this.onScoreEarnedListener = onScoreEarnedListener;
         this.onRemoveBodyListener = onRemoveBodyListener;
+
+        setPhysicalObject(
+                new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.StaticBody)
+                        .addCircularFixture(bounds.getHeight() / 2, COIN_BIT)
+                        .setInitialPosition(bounds.x + bounds.getWidth() / 2, bounds.y + bounds.getHeight() / 2)
+                        .setBodyAsSensor()
+                        .build(this)
+        );
 
         state = State.IDLE;
         createAnimations();
         setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);
         setPosition(bounds.getX() * PPI, bounds.getY() * PPI);
         timer = 0;
-        body.setType(BodyDef.BodyType.StaticBody);
-        fixture.setSensor(true);
 
     }
 
@@ -86,7 +91,7 @@ public class Coin extends PhysicalActors {
         setDrawable(getFrame(delta));
         if (state == State.COLLECTED && disappearAnimation.isAnimationFinished(timer)) {
             remove();
-            onRemoveBodyListener.onRemoveBody(body);
+            onRemoveBodyListener.onRemoveBody(getPhysicalObject().getBody());
         }
     }
 

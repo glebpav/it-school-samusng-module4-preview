@@ -21,7 +21,7 @@ public class GameUi extends UiComponent {
         hudUi = new HudUi(skin);
         loseDialog = new LoseDialog(skin);
         winDialog = new WinDialog(skin);
-        // hudUi.setPosition((SCREEN_WIDTH - hudUi.getWidth()) / 2, SCREEN_HEIGHT - 50);
+        hudUi.setPosition((SCREEN_WIDTH - hudUi.getWidth()) / 2, SCREEN_HEIGHT - 50);
 
         add(hudUi);
     }

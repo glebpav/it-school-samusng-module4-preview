@@ -13,7 +13,7 @@ import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class Enemy extends PhysicalActors {
+public class Enemy extends PhysicalActor {
 
     private enum State {IDLE, RUNNING, DEAD}
 
@@ -32,9 +32,15 @@ public class Enemy extends PhysicalActors {
     private boolean moveRightFlag;
 
     public Enemy(World world, Rectangle bounds, int walkLength, OnRemoveBodyListener onRemoveBodyListener) {
-        super(world, bounds, ENEMY_BIT);
         this.onRemoveBodyListener = onRemoveBodyListener;
         this.walkLength = walkLength;
+
+        setPhysicalObject(
+                new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.DynamicBody)
+                        .addCircularFixture(bounds.getHeight() / 2, ENEMY_BIT)
+                        .setInitialPosition(bounds.x + bounds.getWidth() / 2, bounds.y + bounds.getHeight() / 2)
+                        .build(this)
+        );
 
         createAnimations();
         timer = 0;
@@ -90,13 +96,13 @@ public class Enemy extends PhysicalActors {
     }
 
     private void moveLeft() {
-        body.applyForceToCenter(new Vector2(-5f, 0), true);
+        getPhysicalObject().getBody().applyForceToCenter(new Vector2(-5f, 0), true);
         needToBeSwapped = true;
         state = State.RUNNING;
     }
 
     private void moveRight() {
-        body.applyForceToCenter(new Vector2(5f, 0), true);
+        getPhysicalObject().getBody().applyForceToCenter(new Vector2(5f, 0), true);
         needToBeSwapped = false;
         state = State.RUNNING;
     }
@@ -106,13 +112,20 @@ public class Enemy extends PhysicalActors {
         setDrawable(getFrame(delta));
         if (state != State.DEAD) {
 
-            setPosition((body.getPosition().x) * SCALE * PPI - getWidth() / 2, (body.getPosition().y) * SCALE * PPI - getHeight() / 1.5f);
+            setPosition((
+                    getPhysicalObject().getBody().getPosition().x) * SCALE * PPI - getWidth() / 2,
+                    (getPhysicalObject().getBody().getPosition().y) * SCALE * PPI - getHeight() / 1.5f
+            );
 
             if (walkLength != 0) {
                 if (moveRightFlag) moveRight();
                 else moveLeft();
-                if (body.getPosition().x * SCALE - initialX > walkLength * 32) moveRightFlag = false;
-                else if (body.getPosition().x * SCALE - initialX < 0) moveRightFlag = true;
+
+                if (getPhysicalObject().getBody().getPosition().x * SCALE - initialX > walkLength * 32) {
+                    moveRightFlag = false;
+                } else if (getPhysicalObject().getBody().getPosition().x * SCALE - initialX < 0) {
+                    moveRightFlag = true;
+                }
             }
 
         } else if (dead.isAnimationFinished(timer)) {
@@ -125,7 +138,7 @@ public class Enemy extends PhysicalActors {
         if (hitObjectBits == PLAYER_BIT && state != State.DEAD) {
             state = State.DEAD;
             timer = 0;
-            onRemoveBodyListener.onRemoveBody(body);
+            onRemoveBodyListener.onRemoveBody(getPhysicalObject().getBody());
         }
     }
 
