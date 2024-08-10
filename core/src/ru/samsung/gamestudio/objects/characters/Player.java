@@ -52,6 +52,7 @@ public class Player extends PhysicalActor {
                 new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.DynamicBody)
                         .addCircularFixture(bounds.getHeight() / 2, PLAYER_BIT)
                         .addEdgeFixture(-bounds.getWidth() / 4, (bounds.getHeight() / 2), (bounds.getWidth() / 4), (bounds.getHeight() / 2), PLAYER_HEAD_BIT)
+                        .addEdgeFixture(-bounds.getWidth() / 4, -(bounds.getHeight() / 2), (bounds.getWidth() / 4), -(bounds.getHeight() / 2), PLAYER_FEET_BIT)
                         .setInitialPosition(bounds.x + bounds.getWidth() / 2, bounds.y + bounds.getHeight() / 2)
                         .build(this)
         );
@@ -64,6 +65,7 @@ public class Player extends PhysicalActor {
         setSize(bounds.getWidth() * 2 * PPI, bounds.getHeight() * PPI);
 
         hasTouchedFloor = false;
+        onLadder = false;
     }
 
     private void createAnimations() {
@@ -136,7 +138,7 @@ public class Player extends PhysicalActor {
 
     public void moveLeft() {
         if (state == State.ATTACKING && !attackAnimation.isAnimationFinished(timer)
-            || state == State.GETTING_DAMAGE && !gettingDamageAnimation.isAnimationFinished(timer)) return;
+                || state == State.GETTING_DAMAGE && !gettingDamageAnimation.isAnimationFinished(timer)) return;
 
         getPhysicalObject().getBody().applyForceToCenter(new Vector2(-10f, 0), true);
         needToBeSwapped = true;
@@ -164,6 +166,8 @@ public class Player extends PhysicalActor {
         if (!hasTouchedFloor || state == State.JUMPING && jumpAnimation.isAnimationFinished(timer)) return;
 
         getPhysicalObject().getBody().applyForceToCenter(new Vector2(0, 300f), true);
+        /*getPhysicalObject().getBody().setLinearVelocity(new Vector2(
+                getPhysicalObject().getBody().getLinearVelocity().x, 5f));*/
         state = State.JUMPING;
         hasTouchedFloor = false;
         timer = 0;
@@ -219,10 +223,11 @@ public class Player extends PhysicalActor {
                 onScoreEarnedListener.onScoreEarned(KILLED_ENEMY_VALUE);
             }
 
-        } else if (hitObjectBits == FLOOR_BIT || hitObjectBits == BONUS_BIT) {
+        } else if (hitObjectBits == (PLAYER_FEET_BIT | FLOOR_BIT) || hitObjectBits == (PLAYER_FEET_BIT | BONUS_BIT)) {
             hasTouchedFloor = true;
         } else if (hitObjectBits == LADDER_BIT) {
             onLadder = true;
+            System.out.println("hit ladder");
         }
     }
 
@@ -230,6 +235,7 @@ public class Player extends PhysicalActor {
     public void release(short hitObjectBits) {
         if (hitObjectBits == LADDER_BIT) {
             onLadder = false;
+            System.out.println("release ladder");
         }
     }
 

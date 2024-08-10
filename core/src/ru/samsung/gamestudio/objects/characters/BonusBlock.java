@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
+import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
@@ -24,9 +25,11 @@ public class BonusBlock extends PhysicalActor {
     private float timer;
 
     private final OnRemoveBodyListener onRemoveBodyListener;
+    private final OnScoreEarnedListener onScoreEarnedListener;
 
-    public BonusBlock(World world, Rectangle bounds, OnRemoveBodyListener onRemoveBodyListener) {
+    public BonusBlock(World world, Rectangle bounds, OnRemoveBodyListener onRemoveBodyListener, OnScoreEarnedListener onScoreEarnedListener) {
         this.onRemoveBodyListener = onRemoveBodyListener;
+        this.onScoreEarnedListener = onScoreEarnedListener;
 
         setPhysicalObject(
                 new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.StaticBody)
@@ -52,8 +55,8 @@ public class BonusBlock extends PhysicalActor {
         idleAnimation = new Animation<>(1f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 0, i * 32, 32, 32));
-        destroyAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
+        for (int i = 0; i < 8; i++) frames.add(new TextureRegion(texture, 32 * i, 0, 32, 32));
+        destroyAnimation = new Animation<>(0.1f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
     }
 
@@ -82,6 +85,7 @@ public class BonusBlock extends PhysicalActor {
         if (state == State.DESTROYED && destroyAnimation.isAnimationFinished(timer)){
             remove();
             onRemoveBodyListener.onRemoveBody(getPhysicalObject().getBody());
+            onScoreEarnedListener.onScoreEarned(BONUS_VALUE);
         }
     }
 

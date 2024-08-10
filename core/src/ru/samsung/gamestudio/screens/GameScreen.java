@@ -65,6 +65,7 @@ public class GameScreen extends BaseScreen {
 
         // System.out.println("fps: " + Gdx.graphics.getFramesPerSecond());
 
+        b2WorldManager.stepWorld();
         myGdxGame.camera.position.x =
                 Math.min(
                         Math.max(b2WorldManager.player.getX(), SCREEN_WIDTH / 2f),
@@ -72,11 +73,9 @@ public class GameScreen extends BaseScreen {
                                 * mapManager.getProperties().get("tilewidth", Integer.class) - SCREEN_WIDTH / 2f
                 );
 
-        b2WorldManager.stepWorld();
         gameUi.makeHudCentered(myGdxGame.camera.position.x);
 
         ScreenUtils.clear(0, 0, 0, 0);
-
         mapRenderer.setView(myGdxGame.camera);
         mapRenderer.render();
         debugRenderer.render(b2WorldManager.world, myGdxGame.camera.combined);

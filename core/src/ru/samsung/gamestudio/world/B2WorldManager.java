@@ -110,7 +110,7 @@ public class B2WorldManager {
                 case "bonusBlock": {
                     System.out.println("bonusBlock");
                     Rectangle rect = object.getRectangle();
-                    actorsList.add(new BonusBlock(world, rect, onRemoveBodyListener));
+                    actorsList.add(new BonusBlock(world, rect, onRemoveBodyListener, onScoreEarnedListener));
                     break;
                 }
             }

@@ -2,18 +2,19 @@ package ru.samsung.gamestudio.ui.components;
 
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import org.w3c.dom.ls.LSOutput;
 import ru.samsung.gamestudio.ui.UiComponent;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class HudUi extends UiComponent {
+public class HudUi extends Table {
 
     private final Label scoreLabel;
     private final Label leftLivesLabel;
 
     public HudUi(Skin skin) {
-        setFillParent(false);
+        
         scoreLabel = new Label("", skin);
         leftLivesLabel = new Label("" , skin);
 

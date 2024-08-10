@@ -11,6 +11,7 @@ public class GameSettings {
     public static final int PLAYER_LIVES = 3;
     public static final int ENEMY_DAMAGE = 1;
     public static final int KILLED_ENEMY_VALUE = 10;
+    public static final int BONUS_VALUE = 30;
 
     // Physics settings
 
@@ -30,5 +31,6 @@ public class GameSettings {
     public static final short LADDER_BIT = 128;
     public static final short BONUS_BIT = 256;
     public static final short PLAYER_HEAD_BIT = 512;
+    public static final short PLAYER_FEET_BIT = 1024;
 
 }
