@@ -14,8 +14,8 @@ public class HudUi extends UiComponent {
 
     public HudUi(Skin skin) {
         setFillParent(false);
-        scoreLabel = new Label("Score: 0", skin);
-        leftLivesLabel = new Label("Left Lives: " + PLAYER_LIVES, skin);
+        scoreLabel = new Label("", skin);
+        leftLivesLabel = new Label("" , skin);
 
         add(scoreLabel).padRight(50);
         add(leftLivesLabel).padLeft(50);
@@ -28,6 +28,11 @@ public class HudUi extends UiComponent {
 
     public void setLeftLives(int leftLives) {
         leftLivesLabel.setText("Left Lives: " + leftLives);
+    }
+
+    public void clearHud() {
+        scoreLabel.setText("Score: 0");
+        leftLivesLabel.setText("Left Lives: " + PLAYER_LIVES);
     }
 
 }

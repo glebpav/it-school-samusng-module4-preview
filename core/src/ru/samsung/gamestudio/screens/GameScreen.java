@@ -57,6 +57,7 @@ public class GameScreen extends BaseScreen {
     public void show() {
         super.show();
         session.startGame();
+        gameUi.hudUi.clearHud();
     }
 
     @Override
@@ -110,7 +111,10 @@ public class GameScreen extends BaseScreen {
         mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.getMap(), PPI);
 
         b2WorldManager.buildWorld(mapManager);
-        b2WorldManager.getAllActors().forEach(actor -> stage.addActor(actor));
+        b2WorldManager.getAllActors().forEach(actor -> {
+            stage.addActor(actor);
+        });
+        gameUi.toFront();
 
     }
 

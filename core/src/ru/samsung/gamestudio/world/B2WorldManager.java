@@ -72,7 +72,7 @@ public class B2WorldManager {
             switch (object.getName()) {
                 case "player": {
                     Rectangle rect = object.getRectangle();
-                    player = new Player(world, rect, onDamageListener, onScoreEarnedListener);
+                    player = new Player(world, rect, onDamageListener, onScoreEarnedListener, onLoseListener);
                     break;
                 }
                 case "enemy1": {
