@@ -9,6 +9,9 @@ import com.badlogic.gdx.utils.Align;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
+import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
+
 public class WinDialog extends Dialog {
 
     public TextButton homeButton;
@@ -22,6 +25,7 @@ public class WinDialog extends Dialog {
         scoreLabel = new Label("0", skin);
 
         setSize(400, 300);
+        setPosition(SCREEN_WIDTH / 2f - getWidth() / 2, SCREEN_HEIGHT / 2f - getHeight() / 2);
 
         getContentTable().columnDefaults(2);
         getContentTable().align(Align.center);
@@ -34,6 +38,7 @@ public class WinDialog extends Dialog {
         getContentTable().add(scoreLabel).align(Align.left);
         getContentTable().row();
         getContentTable().add(homeButton).height(70).width(120).padTop(40).colspan(2);
+
     }
 
     public void setTime(long time) {

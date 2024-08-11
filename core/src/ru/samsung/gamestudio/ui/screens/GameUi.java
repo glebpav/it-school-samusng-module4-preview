@@ -23,28 +23,21 @@ public class GameUi extends UiComponent {
         winDialog = new WinDialog(skin);
 
         addActor(hudUi);
+        hudUi.setPosition(SCREEN_WIDTH / 2f - hudUi.getWidth() / 2, SCREEN_HEIGHT - 50);
     }
 
     public void makeHudCentered(float cameraX) {
         hudUi.setPosition(cameraX - hudUi.getWidth() / 2, SCREEN_HEIGHT - 50);
     }
 
-    public void showLoseDialog(String loseText, Vector3 cameraPosition) {
+    public void showLoseDialog(String loseText) {
         loseDialog.setText(loseText);
-        loseDialog.setPosition(
-                cameraPosition.x - loseDialog.getWidth() / 2,
-                cameraPosition.y - loseDialog.getHeight() / 2
-        );
         addActor(loseDialog);
     }
 
-    public void showWinDialog(long sessionTime, int score, Vector3 cameraPosition) {
+    public void showWinDialog(long sessionTime, int score) {
         winDialog.setTime(sessionTime);
         winDialog.setScore(score);
-        winDialog.setPosition(
-                cameraPosition.x - loseDialog.getWidth() / 2,
-                cameraPosition.y - loseDialog.getHeight() / 2
-        );
         addActor(winDialog);
     }
 

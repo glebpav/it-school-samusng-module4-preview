@@ -13,6 +13,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 		config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
 		config.setTitle("it-school-samsung-module4-preview");
+		config.setResizable(false);
 		new Lwjgl3Application(new MyGdxGame(), config);
 	}
 }

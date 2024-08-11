@@ -2,14 +2,11 @@ package ru.samsung.gamestudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Align;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.ui.screens.MenuUi;
 import ru.samsung.gamestudio.utils.Level;
 import ru.samsung.gamestudio.utils.LevelManager;
-import ru.samsung.gamestudio.utils.MemoryManager;
 
 public class MenuScreen extends BaseScreen {
 
@@ -19,7 +16,7 @@ public class MenuScreen extends BaseScreen {
         super(myGdxGame);
 
         menuUi = new MenuUi(myGdxGame.skin);
-        stage.addActor(menuUi);
+        baseStage.addActor(menuUi);
 
         menuUi.exitButton.addListener(onButtonExitClickedListener);
         menuUi.startButton.addListener(onButtonStartClickedListener);

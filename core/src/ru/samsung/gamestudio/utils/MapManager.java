@@ -13,6 +13,7 @@ public class MapManager {
 
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load(pathToMap);
+        // todo: create fields (tile width and count of tiles) instead of properties
         properties = map.getProperties();
 
     }

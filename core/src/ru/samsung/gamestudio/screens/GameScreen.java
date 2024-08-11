@@ -2,16 +2,18 @@ package ru.samsung.gamestudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.game.GameSession;
+import ru.samsung.gamestudio.game.GameSettings;
 import ru.samsung.gamestudio.game.GameState;
 import ru.samsung.gamestudio.ui.screens.GameUi;
 import ru.samsung.gamestudio.utils.Level;
@@ -33,17 +35,25 @@ public class GameScreen extends BaseScreen {
     private OrthoCachedTiledMapRenderer mapRenderer;
     private Level level;
 
+    private final Stage stage2;
+    private final FitViewport viewport2;
+
     private GameSession session;
     private GameUi gameUi;
 
     public GameScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
+
+        viewport2 = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
+        viewport2.setScreenBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
+        stage2 = new Stage(viewport2);
+
         debugRenderer = new Box2DDebugRenderer();
         b2WorldManager = new B2WorldManager();
         session = new GameSession();
         gameUi = new GameUi(myGdxGame.skin);
 
-        stage.addActor(gameUi);
+        stage2.addActor(gameUi);
 
         b2WorldManager.setOnLoseListener(onLoseListener);
         b2WorldManager.setOnWinListener(onWinListener);
@@ -56,7 +66,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void show() {
-        super.show();
+        Gdx.input.setInputProcessor(stage2);
         session.startGame();
         gameUi.hudUi.clearHud();
     }
@@ -64,9 +74,8 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
 
-        handleInput();
         b2WorldManager.stepWorld();
-        stage.act(delta);
+        myGdxGame.camera.update();
 
         myGdxGame.camera.position.x =
                 Math.min(
@@ -75,17 +84,15 @@ public class GameScreen extends BaseScreen {
                                 * mapManager.getProperties().get("tilewidth", Integer.class) - SCREEN_WIDTH / 2f
                 );
 
-        gameUi.makeHudCentered(myGdxGame.camera.position.x);
-
-        // System.out.println("fps: " + Gdx.graphics.getFramesPerSecond());
-
         ScreenUtils.clear(0, 0, 0, 0);
+
         mapRenderer.setView(myGdxGame.camera);
         mapRenderer.render();
-        // debugRenderer.render(b2WorldManager.world, myGdxGame.camera.combined);
-        stage.draw();
 
-        // super.render(delta, false);
+        debugRenderer.render(b2WorldManager.world, myGdxGame.camera.combined);
+        super.render(delta, false);
+        stage2.act();
+        stage2.draw();
 
     }
 
@@ -116,7 +123,7 @@ public class GameScreen extends BaseScreen {
 
         b2WorldManager.buildWorld(mapManager);
         b2WorldManager.getAllActors().forEach(actor -> {
-            stage.addActor(actor);
+            baseStage.addActor(actor);
         });
         gameUi.toFront();
 
@@ -134,16 +141,12 @@ public class GameScreen extends BaseScreen {
     }
 
     OnLoseListener onLoseListener = loseText -> {
-        gameUi.showLoseDialog(loseText, myGdxGame.camera.position);
+        gameUi.showLoseDialog(loseText);
         session.endGame();
     };
 
     OnWinListener onWinListener = () -> {
-        gameUi.showWinDialog(
-                TimeUtils.millis() - session.getSessionStartTime(),
-                session.getScore(),
-                myGdxGame.camera.position
-        );
+        gameUi.showWinDialog(TimeUtils.millis() - session.getSessionStartTime(), session.getScore());
         session.endGame();
         MemoryManager.saveLevelState(level.getName(), true);
     };

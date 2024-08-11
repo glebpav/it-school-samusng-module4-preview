@@ -15,7 +15,6 @@ public class MyGdxGame extends Game {
 
 	public Skin skin;
 	public OrthographicCamera camera;
-	public FitViewport viewport;
 
 	public GameScreen gameScreen;
 	public MenuScreen menuScreen;
@@ -25,7 +24,6 @@ public class MyGdxGame extends Game {
 	public void create () {
 
 		camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
-		viewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, camera);
 
 		skin = new Skin(Gdx.files.internal(SKIN_PATH));
 		camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);

@@ -19,7 +19,9 @@ public class GameSettings {
     public static final int VELOCITY_ITERATIONS = 6;
     public static final int POSITION_ITERATIONS = 6;
     public static final float SCALE = 70;
-    public static final float PPI = SCREEN_HEIGHT / 15f / 32;
+
+    // todo: move to MyGdxGame
+    public static float PPI = SCREEN_HEIGHT / 15f / 32;
 
     public static final short FLOOR_BIT = 1;
     public static final short WALL_BIT = 2;
