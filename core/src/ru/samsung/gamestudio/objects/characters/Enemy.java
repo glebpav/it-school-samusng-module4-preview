@@ -25,15 +25,22 @@ public class Enemy extends PhysicalActor {
 
     private final int walkLength;
     private final float initialX;
+    private final float tileScale;
 
     private float timer;
     private State state;
     private boolean needToBeSwapped;
     private boolean moveRightFlag;
 
-    public Enemy(World world, Rectangle bounds, int walkLength, OnRemoveBodyListener onRemoveBodyListener) {
+    public Enemy(
+            World world,
+            Rectangle bounds,
+            int walkLength,
+            OnRemoveBodyListener onRemoveBodyListener,
+            float tileScale) {
         this.onRemoveBodyListener = onRemoveBodyListener;
         this.walkLength = walkLength;
+        this.tileScale = tileScale;
 
         setPhysicalObject(
                 new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.DynamicBody)
@@ -45,7 +52,7 @@ public class Enemy extends PhysicalActor {
         createAnimations();
         timer = 0;
         state = State.IDLE;
-        setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);
+        setSize(bounds.getWidth() * tileScale, bounds.getHeight() * tileScale);
 
         initialX = bounds.getX();
         moveRight();
@@ -113,8 +120,8 @@ public class Enemy extends PhysicalActor {
         if (state != State.DEAD) {
 
             setPosition((
-                    getPhysicalObject().getBody().getPosition().x) * SCALE * PPI - getWidth() / 2,
-                    (getPhysicalObject().getBody().getPosition().y) * SCALE * PPI - getHeight() / 1.5f
+                    getPhysicalObject().getBody().getPosition().x) * SCALE * tileScale - getWidth() / 2,
+                    (getPhysicalObject().getBody().getPosition().y) * SCALE * tileScale - getHeight() / 1.5f
             );
 
             if (walkLength != 0) {

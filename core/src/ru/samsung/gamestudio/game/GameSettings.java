@@ -20,9 +20,6 @@ public class GameSettings {
     public static final int POSITION_ITERATIONS = 6;
     public static final float SCALE = 70;
 
-    // todo: move to MyGdxGame
-    public static float PPI = SCREEN_HEIGHT / 15f / 32;
-
     public static final short FLOOR_BIT = 1;
     public static final short WALL_BIT = 2;
     public static final short PLAYER_BIT = 4;

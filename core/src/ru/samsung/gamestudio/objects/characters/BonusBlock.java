@@ -27,7 +27,13 @@ public class BonusBlock extends PhysicalActor {
     private final OnRemoveBodyListener onRemoveBodyListener;
     private final OnScoreEarnedListener onScoreEarnedListener;
 
-    public BonusBlock(World world, Rectangle bounds, OnRemoveBodyListener onRemoveBodyListener, OnScoreEarnedListener onScoreEarnedListener) {
+    public BonusBlock(
+            World world,
+            Rectangle bounds,
+            OnRemoveBodyListener onRemoveBodyListener,
+            OnScoreEarnedListener onScoreEarnedListener,
+            float tileScale
+    ) {
         this.onRemoveBodyListener = onRemoveBodyListener;
         this.onScoreEarnedListener = onScoreEarnedListener;
 
@@ -40,8 +46,8 @@ public class BonusBlock extends PhysicalActor {
 
         state = State.IDLE;
         timer = 0;
-        setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);
-        setPosition(bounds.getX() * PPI, bounds.getY() * PPI);
+        setSize(bounds.getWidth() * tileScale, bounds.getHeight() * tileScale);
+        setPosition(bounds.getX() * tileScale, bounds.getY() * tileScale);
 
         createAnimations();
 

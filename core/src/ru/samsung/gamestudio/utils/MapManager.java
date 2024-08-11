@@ -4,17 +4,24 @@ import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 
+import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
+
 public class MapManager {
 
     private final TiledMap map;
-    private final MapProperties properties;
+    private final int tileSize;
+    private final int countOfTilesHorizontal;
+    private final float tileScale;
 
     public MapManager(String pathToMap) {
 
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load(pathToMap);
-        // todo: create fields (tile width and count of tiles) instead of properties
-        properties = map.getProperties();
+        MapProperties properties = map.getProperties();
+        tileSize = properties.get("tilewidth", Integer.class);
+        countOfTilesHorizontal = properties.get("width", Integer.class);
+        float countOfTilesVertical = properties.get("height", Integer.class);
+        tileScale = (float) SCREEN_HEIGHT / tileSize / countOfTilesVertical;
 
     }
 
@@ -22,7 +29,16 @@ public class MapManager {
         return map;
     }
 
-    public MapProperties getProperties() {
-        return properties;
+    public int getTileSize() {
+        return tileSize;
     }
+
+    public int getCountOfTilesHorizontal() {
+        return countOfTilesHorizontal;
+    }
+
+    public float getTileScale() {
+        return tileScale;
+    }
+
 }

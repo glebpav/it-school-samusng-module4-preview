@@ -31,7 +31,8 @@ public class Coin extends PhysicalActor {
             World world,
             Rectangle bounds,
             OnScoreEarnedListener onScoreEarnedListener,
-            OnRemoveBodyListener onRemoveBodyListener
+            OnRemoveBodyListener onRemoveBodyListener,
+            float tileScale
     ) {
         this.onScoreEarnedListener = onScoreEarnedListener;
         this.onRemoveBodyListener = onRemoveBodyListener;
@@ -46,8 +47,8 @@ public class Coin extends PhysicalActor {
 
         state = State.IDLE;
         createAnimations();
-        setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);
-        setPosition(bounds.getX() * PPI, bounds.getY() * PPI);
+        setSize(bounds.getWidth() * tileScale, bounds.getHeight() * tileScale);
+        setPosition(bounds.getX() * tileScale, bounds.getY() * tileScale);
         timer = 0;
 
     }

@@ -13,7 +13,6 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.game.GameSession;
-import ru.samsung.gamestudio.game.GameSettings;
 import ru.samsung.gamestudio.game.GameState;
 import ru.samsung.gamestudio.ui.screens.GameUi;
 import ru.samsung.gamestudio.utils.Level;
@@ -84,8 +83,8 @@ public class GameScreen extends BaseScreen {
         myGdxGame.camera.position.x =
                 Math.min(
                         Math.max(b2WorldManager.player.getX(), SCREEN_WIDTH / 2f),
-                        PPI * mapManager.getProperties().get("width", Integer.class)
-                                * mapManager.getProperties().get("tilewidth", Integer.class) - SCREEN_WIDTH / 2f
+                        mapManager.getTileScale() * mapManager.getCountOfTilesHorizontal()
+                                * mapManager.getCountOfTilesHorizontal() - SCREEN_WIDTH / 2f
                 );
 
         ScreenUtils.clear(0, 0, 0, 0);
@@ -129,7 +128,7 @@ public class GameScreen extends BaseScreen {
     public void loadLevel() {
 
         mapManager = new MapManager(level.getPath());
-        mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.getMap(), PPI);
+        mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.getMap(), mapManager.getTileScale());
 
         b2WorldManager.buildWorld(mapManager);
         b2WorldManager.getAllActors().forEach(actor -> {

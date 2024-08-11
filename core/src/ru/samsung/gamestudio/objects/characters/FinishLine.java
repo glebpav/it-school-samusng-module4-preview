@@ -22,7 +22,7 @@ public class FinishLine extends PhysicalActor implements Hittable {
 
     private Animation<TextureRegion> idleAnimation;
 
-    public FinishLine(World world, Rectangle bounds, OnWinListener onWinListener) {
+    public FinishLine(World world, Rectangle bounds, OnWinListener onWinListener, float tileScale) {
         this.onWinListener = onWinListener;
 
         setPhysicalObject(
@@ -35,8 +35,8 @@ public class FinishLine extends PhysicalActor implements Hittable {
 
         createAnimations();
         timer = 0;
-        setSize(bounds.getWidth() * PPI, bounds.getHeight() * PPI);
-        setPosition(bounds.getX() * PPI, bounds.getY() * PPI);
+        setSize(bounds.getWidth() * tileScale, bounds.getHeight() * tileScale);
+        setPosition(bounds.getX() * tileScale, bounds.getY() * tileScale);
     }
 
     private void createAnimations() {

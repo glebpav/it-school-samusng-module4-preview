@@ -30,6 +30,7 @@ public class B2WorldManager {
     private ArrayList<Body> bodiesGarbageList;
 
     private float accumulator;
+    private float tileScale;
 
     private OnLoseListener onLoseListener;
     private OnWinListener onWinListener;
@@ -47,6 +48,8 @@ public class B2WorldManager {
     }
 
     public void buildWorld(MapManager mapManager) {
+
+        tileScale = mapManager.getTileScale();
 
         for (
                 RectangleMapObject object :
@@ -72,12 +75,14 @@ public class B2WorldManager {
             switch (object.getName()) {
                 case "player": {
                     Rectangle rect = object.getRectangle();
-                    player = new Player(world, rect, onDamageListener, onScoreEarnedListener, onLoseListener);
+                    player = new Player(world, rect, onDamageListener, onScoreEarnedListener, onLoseListener, tileScale);
                     break;
                 }
                 case "enemy1": {
                     Rectangle rect = object.getRectangle();
-                    actorsList.add(new Enemy(world, rect, (int) object.getProperties().get("walkLength"), onRemoveBodyListener));
+                    actorsList.add(new Enemy(world, rect, (int) object.getProperties().get("walkLength"),
+                            onRemoveBodyListener, tileScale
+                    ));
                 }
             }
         }
@@ -94,12 +99,12 @@ public class B2WorldManager {
                 }
                 case "finishLine": {
                     Rectangle rect = object.getRectangle();
-                    actorsList.add(new FinishLine(world, rect, onWinListener));
+                    actorsList.add(new FinishLine(world, rect, onWinListener, tileScale));
                     break;
                 }
                 case "coin": {
                     Rectangle rect = object.getRectangle();
-                    actorsList.add(new Coin(world, rect, onScoreEarnedListener, onRemoveBodyListener));
+                    actorsList.add(new Coin(world, rect, onScoreEarnedListener, onRemoveBodyListener, tileScale));
                     break;
                 }
                 case "ladder": {
@@ -110,7 +115,7 @@ public class B2WorldManager {
                 case "bonusBlock": {
                     System.out.println("bonusBlock");
                     Rectangle rect = object.getRectangle();
-                    actorsList.add(new BonusBlock(world, rect, onRemoveBodyListener, onScoreEarnedListener));
+                    actorsList.add(new BonusBlock(world, rect, onRemoveBodyListener, onScoreEarnedListener, tileScale));
                     break;
                 }
             }

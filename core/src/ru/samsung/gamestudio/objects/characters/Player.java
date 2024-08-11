@@ -26,6 +26,8 @@ public class Player extends PhysicalActor {
     private Animation<TextureRegion> gettingDamageAnimation;
     private Animation<TextureRegion> becomeDeadAnimation;
 
+    float tileScale;
+
     float timer;
     State state;
     private int leftLives;
@@ -42,11 +44,13 @@ public class Player extends PhysicalActor {
             Rectangle bounds,
             OnDamageListener onDamageListener,
             OnScoreEarnedListener onScoreEarnedListener,
-            OnLoseListener onLoseListener
+            OnLoseListener onLoseListener,
+            float tileScale
     ) {
         this.onLoseListener = onLoseListener;
         this.onDamageListener = onDamageListener;
         this.onScoreEarnedListener = onScoreEarnedListener;
+        this.tileScale = tileScale;
 
         setPhysicalObject(
                 new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.DynamicBody)
@@ -62,7 +66,7 @@ public class Player extends PhysicalActor {
         timer = 0;
         state = State.IDLE;
         leftLives = PLAYER_LIVES;
-        setSize(bounds.getWidth() * 2 * PPI, bounds.getHeight() * PPI);
+        setSize(bounds.getWidth() * 2 * tileScale, bounds.getHeight() * tileScale);
 
         hasTouchedFloor = false;
         onLadder = false;
@@ -190,8 +194,8 @@ public class Player extends PhysicalActor {
     public void act(float delta) {
         super.act(delta);
         setPosition(
-                (getPhysicalObject().getBody().getPosition().x) * SCALE * PPI - getWidth() / 2,
-                (getPhysicalObject().getBody().getPosition().y) * SCALE * PPI - getHeight() / 1.5f
+                (getPhysicalObject().getBody().getPosition().x) * SCALE * tileScale - getWidth() / 2,
+                (getPhysicalObject().getBody().getPosition().y) * SCALE * tileScale - getHeight() / 1.5f
         );
         setDrawable(getFrame(delta));
         if (state == State.RUNNING
