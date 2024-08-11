@@ -17,9 +17,9 @@ public class Enemy extends PhysicalActor {
 
     private enum State {IDLE, RUNNING, DEAD}
 
-    private Animation<TextureRegion> idle;
-    private Animation<TextureRegion> run;
-    private Animation<TextureRegion> dead;
+    private Animation<TextureRegion> idleAnimation;
+    private Animation<TextureRegion> runAnimation;
+    private Animation<TextureRegion> deadAnimation;
 
     private final OnRemoveBodyListener onRemoveBodyListener;
 
@@ -58,15 +58,15 @@ public class Enemy extends PhysicalActor {
         Array<TextureRegion> frames = new Array<>();
 
         for (int i = 0; i < 8; i++) frames.add(new TextureRegion(texture, i * 34, 0, 34, 30));
-        idle = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
+        idleAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
         for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, i * 34, 30, 34, 30));
-        run = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
+        runAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
         for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, i * 34, 60, 34, 30));
-        dead = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
+        deadAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
 
     }
@@ -77,15 +77,15 @@ public class Enemy extends PhysicalActor {
 
         switch (state) {
             case RUNNING: {
-                region = run.getKeyFrame(timer, true);
+                region = runAnimation.getKeyFrame(timer, true);
                 break;
             }
             case DEAD: {
-                region = dead.getKeyFrame(timer, false);
+                region = deadAnimation.getKeyFrame(timer, false);
                 break;
             }
             default:
-                region = idle.getKeyFrame(timer, true);
+                region = idleAnimation.getKeyFrame(timer, true);
         }
 
         if (needToBeSwapped == region.isFlipX()) region.flip(true, false);
@@ -128,7 +128,7 @@ public class Enemy extends PhysicalActor {
                 }
             }
 
-        } else if (dead.isAnimationFinished(timer)) {
+        } else if (deadAnimation.isAnimationFinished(timer)) {
             remove();
         }
     }

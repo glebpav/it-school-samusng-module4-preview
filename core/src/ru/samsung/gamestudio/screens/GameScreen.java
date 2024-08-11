@@ -2,6 +2,7 @@ package ru.samsung.gamestudio.screens;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -63,9 +64,10 @@ public class GameScreen extends BaseScreen {
     @Override
     public void render(float delta) {
 
-        // System.out.println("fps: " + Gdx.graphics.getFramesPerSecond());
-
+        handleInput();
         b2WorldManager.stepWorld();
+        stage.act(delta);
+
         myGdxGame.camera.position.x =
                 Math.min(
                         Math.max(b2WorldManager.player.getX(), SCREEN_WIDTH / 2f),
@@ -75,12 +77,15 @@ public class GameScreen extends BaseScreen {
 
         gameUi.makeHudCentered(myGdxGame.camera.position.x);
 
+        // System.out.println("fps: " + Gdx.graphics.getFramesPerSecond());
+
         ScreenUtils.clear(0, 0, 0, 0);
         mapRenderer.setView(myGdxGame.camera);
         mapRenderer.render();
-        debugRenderer.render(b2WorldManager.world, myGdxGame.camera.combined);
+        // debugRenderer.render(b2WorldManager.world, myGdxGame.camera.combined);
+        stage.draw();
 
-        super.render(delta, false);
+        // super.render(delta, false);
 
     }
 

@@ -165,9 +165,9 @@ public class Player extends PhysicalActor {
 
         if (!hasTouchedFloor || state == State.JUMPING && jumpAnimation.isAnimationFinished(timer)) return;
 
-        getPhysicalObject().getBody().applyForceToCenter(new Vector2(0, 300f), true);
-        /*getPhysicalObject().getBody().setLinearVelocity(new Vector2(
-                getPhysicalObject().getBody().getLinearVelocity().x, 5f));*/
+
+        getPhysicalObject().getBody().setLinearVelocity(new Vector2(
+                getPhysicalObject().getBody().getLinearVelocity().x, 5f));
         state = State.JUMPING;
         hasTouchedFloor = false;
         timer = 0;
@@ -189,8 +189,8 @@ public class Player extends PhysicalActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        setPosition((
-                        getPhysicalObject().getBody().getPosition().x) * SCALE * PPI - getWidth() / 2,
+        setPosition(
+                (getPhysicalObject().getBody().getPosition().x) * SCALE * PPI - getWidth() / 2,
                 (getPhysicalObject().getBody().getPosition().y) * SCALE * PPI - getHeight() / 1.5f
         );
         setDrawable(getFrame(delta));
