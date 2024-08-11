@@ -36,7 +36,6 @@ public class GameScreen extends BaseScreen {
     private Level level;
 
     private final Stage stage2;
-    private final FitViewport viewport2;
 
     private GameSession session;
     private GameUi gameUi;
@@ -44,7 +43,7 @@ public class GameScreen extends BaseScreen {
     public GameScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
 
-        viewport2 = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
+        FitViewport viewport2 = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
         viewport2.setScreenBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
         stage2 = new Stage(viewport2);
 
@@ -62,13 +61,18 @@ public class GameScreen extends BaseScreen {
 
         gameUi.loseDialog.homeButton.addListener(onButtonHomeClicked);
         gameUi.winDialog.homeButton.addListener(onButtonHomeClicked);
+        gameUi.loseDialog.restartButton.addListener(onButtonRestartClicked);
+
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
     }
 
     @Override
     public void show() {
         Gdx.input.setInputProcessor(stage2);
-        session.startGame();
-        gameUi.hudUi.clearHud();
+        startGame();
     }
 
     @Override
@@ -115,8 +119,14 @@ public class GameScreen extends BaseScreen {
 
     }
 
-    public void loadLevel(Level level) {
-        this.level = level;
+    private void startGame() {
+        session.startGame();
+        gameUi.hideDialogs();
+        gameUi.hudUi.clearHud();
+        loadLevel();
+    }
+
+    public void loadLevel() {
 
         mapManager = new MapManager(level.getPath());
         mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.getMap(), PPI);
@@ -129,9 +139,13 @@ public class GameScreen extends BaseScreen {
 
     }
 
-    public void exitLevel() {
+    public void clearLevel() {
         b2WorldManager.getAllActors().forEach(Actor::remove);
         b2WorldManager.clearWorld();
+    }
+
+    public void exitLevel() {
+        clearLevel();
         myGdxGame.setScreen(myGdxGame.menuScreen);
     }
 
@@ -163,8 +177,15 @@ public class GameScreen extends BaseScreen {
     ClickListener onButtonHomeClicked = new ClickListener() {
         @Override
         public void clicked(InputEvent event, float x, float y) {
-            gameUi.hideDialogs();
             exitLevel();
+        }
+    };
+
+    ClickListener onButtonRestartClicked = new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            clearLevel();
+            startGame();
         }
     };
 

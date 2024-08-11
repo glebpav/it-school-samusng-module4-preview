@@ -50,7 +50,7 @@ public class MenuScreen extends BaseScreen {
         @Override
         public void clicked(InputEvent event, float x, float y) {
             if (!LevelManager.isLevelAvailable(menuUi.listView.getSelectedIndex())) return;
-            myGdxGame.gameScreen.loadLevel(LevelManager.getLevel(menuUi.listView.getSelectedIndex()));
+            myGdxGame.gameScreen.setLevel(LevelManager.getLevel(menuUi.listView.getSelectedIndex()));
             myGdxGame.setScreen(myGdxGame.gameScreen);
         }
     };

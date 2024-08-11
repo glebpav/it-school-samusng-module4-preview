@@ -51,7 +51,7 @@ public class Player extends PhysicalActor {
         setPhysicalObject(
                 new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.DynamicBody)
                         .addCircularFixture(bounds.getHeight() / 2, PLAYER_BIT)
-                        .addEdgeFixture(-bounds.getWidth() / 4, (bounds.getHeight() / 2), (bounds.getWidth() / 4), (bounds.getHeight() / 2), PLAYER_HEAD_BIT)
+                        .addEdgeFixture(-bounds.getWidth() / 8, (bounds.getHeight() / 2), (bounds.getWidth() / 8), (bounds.getHeight() / 2), PLAYER_HEAD_BIT)
                         .addEdgeFixture(-bounds.getWidth() / 4, -(bounds.getHeight() / 2), (bounds.getWidth() / 4), -(bounds.getHeight() / 2), PLAYER_FEET_BIT)
                         .setInitialPosition(bounds.x + bounds.getWidth() / 2, bounds.y + bounds.getHeight() / 2)
                         .build(this)
