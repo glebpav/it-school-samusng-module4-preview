@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import ru.samsung.gamestudio.game.GameResources;
 import ru.samsung.gamestudio.world.listeners.OnLoseListener;
 import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
 import ru.samsung.gamestudio.world.listeners.OnDamageListener;
@@ -74,7 +75,7 @@ public class Player extends PhysicalActor {
 
     private void createAnimations() {
 
-        Texture texture = new Texture("texture/player/hero-tileset.png");
+        Texture texture = new Texture(GameResources.PLAYER_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
 
         for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 64 * i, 4 * 40, 64, 40));
@@ -82,7 +83,7 @@ public class Player extends PhysicalActor {
         frames.clear();
 
         for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 64 * i, 0, 64, 40));
-        runAnimation = new Animation<>(0.3f, frames, Animation.PlayMode.LOOP);
+        runAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
         for (int i = 0; i < 3; i++) frames.add(new TextureRegion(texture, 64 * i, 40, 64, 40));
@@ -186,8 +187,9 @@ public class Player extends PhysicalActor {
         return leftLives;
     }
 
-    public void setLeftLives(int leftLives) {
+    public boolean setLeftLives(int leftLives) {
         this.leftLives = leftLives;
+        return !(leftLives <= 0) ;
     }
 
     @Override
@@ -200,13 +202,13 @@ public class Player extends PhysicalActor {
         setDrawable(getFrame(delta));
         if (state == State.RUNNING
                 && getPhysicalObject().getBody().getLinearVelocity().y == 0
-                && getPhysicalObject().getBody().getLinearVelocity().y == 0
+                && getPhysicalObject().getBody().getLinearVelocity().x == 0
                 || state == State.ATTACKING && attackAnimation.isAnimationFinished(timer)
                 || state == State.JUMPING && jumpAnimation.isAnimationFinished(timer)
                 || state == State.GETTING_DAMAGE && gettingDamageAnimation.isAnimationFinished(timer)) {
             state = State.IDLE;
         } else if (state == State.DEAD && becomeDeadAnimation.isAnimationFinished(timer)) {
-            onLoseListener.onLose("Don't touch enemies, they don't like it");
+            onLoseListener.onLose(GameResources.LOOSE_TEXT_NO_LIVES_LEFT_CASE);
         }
     }
 
@@ -216,12 +218,11 @@ public class Player extends PhysicalActor {
 
             if (state != State.ATTACKING) {
 
-                setLeftLives(getLeftLives() - ENEMY_DAMAGE);
+                if (setLeftLives(getLeftLives() - ENEMY_DAMAGE)) state = State.DEAD;
+                else state = State.GETTING_DAMAGE;
+
                 onDamageListener.onDamage(getLeftLives());
                 timer = 0;
-
-                if (getLeftLives() <= 0) state = State.DEAD;
-                else state = State.GETTING_DAMAGE;
 
             } else {
                 onScoreEarnedListener.onScoreEarned(KILLED_ENEMY_VALUE);
@@ -231,7 +232,6 @@ public class Player extends PhysicalActor {
             hasTouchedFloor = true;
         } else if (hitObjectBits == LADDER_BIT) {
             onLadder = true;
-            System.out.println("hit ladder");
         }
     }
 
@@ -239,7 +239,6 @@ public class Player extends PhysicalActor {
     public void release(short hitObjectBits) {
         if (hitObjectBits == LADDER_BIT) {
             onLadder = false;
-            System.out.println("release ladder");
         }
     }
 

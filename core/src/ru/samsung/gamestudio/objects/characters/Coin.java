@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import ru.samsung.gamestudio.game.GameResources;
 import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
 import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
@@ -55,7 +56,7 @@ public class Coin extends PhysicalActor {
 
     private void createAnimations() {
 
-        Texture texture = new Texture("texture/items/coin-tileset.png");
+        Texture texture = new Texture(GameResources.COIN_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
 
         for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, 0, i * 24, 24, 24));

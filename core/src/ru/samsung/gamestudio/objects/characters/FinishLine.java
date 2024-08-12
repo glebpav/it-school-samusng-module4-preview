@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import ru.samsung.gamestudio.game.GameResources;
 import ru.samsung.gamestudio.game.GameSettings;
 import ru.samsung.gamestudio.objects.Hittable;
 import ru.samsung.gamestudio.world.listeners.OnWinListener;
@@ -41,7 +42,7 @@ public class FinishLine extends PhysicalActor implements Hittable {
 
     private void createAnimations() {
 
-        Texture texture = new Texture("texture/items/finish-line-tileset.png");
+        Texture texture = new Texture(GameResources.FINIS_LINE_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
 
         for (int i = 0; i < 9; i++) frames.add(new TextureRegion(texture, 34 * i, 0, 34, 93));

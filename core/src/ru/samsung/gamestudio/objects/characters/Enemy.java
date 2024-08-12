@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import ru.samsung.gamestudio.game.GameResources;
 import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
@@ -61,7 +62,7 @@ public class Enemy extends PhysicalActor {
 
     private void createAnimations() {
 
-        Texture texture = new Texture("texture/enemy/enemy-tileset.png");
+        Texture texture = new Texture(GameResources.ENEMY_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
 
         for (int i = 0; i < 8; i++) frames.add(new TextureRegion(texture, i * 34, 0, 34, 30));

@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import ru.samsung.gamestudio.game.GameResources;
 import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
 
@@ -54,7 +55,7 @@ public class BonusBlock extends PhysicalActor {
     }
 
     private void createAnimations() {
-        Texture texture = new Texture("texture/items/bonus-tileset.png");
+        Texture texture = new Texture(GameResources.BONUS_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
 
         frames.add(new TextureRegion(new TextureRegion(texture, 0,0, 32, 32)));

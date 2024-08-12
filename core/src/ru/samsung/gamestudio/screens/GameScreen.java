@@ -83,7 +83,7 @@ public class GameScreen extends BaseScreen {
         myGdxGame.camera.position.x =
                 Math.min(
                         Math.max(b2WorldManager.player.getX(), SCREEN_WIDTH / 2f),
-                        mapManager.getTileScale() * mapManager.getCountOfTilesHorizontal()
+                        mapManager.getTileScale() * mapManager.getTileSize()
                                 * mapManager.getCountOfTilesHorizontal() - SCREEN_WIDTH / 2f
                 );
 
