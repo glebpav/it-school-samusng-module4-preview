@@ -3,6 +3,7 @@ package ru.samsung.gamestudio.objects.characters;
 import com.badlogic.gdx.physics.box2d.*;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static ru.samsung.gamestudio.game.GameSettings.SCALE;
 
@@ -11,13 +12,18 @@ public class PhysicalObject {
     private final Body body;
     private final ArrayList<Fixture> fixturesList;
 
-    private PhysicalObject(Body body, ArrayList<Fixture> fixturesList, PhysicalActor objectHolder) {
+    private PhysicalObject(Body body, ArrayList<Fixture> fixturesList, Object objectHolder) {
         this.body = body;
         this.fixturesList = fixturesList;
 
         for (Fixture fixture : this.fixturesList) {
             fixture.setUserData(objectHolder);
         }
+    }
+
+    private PhysicalObject(Body body, ArrayList<Fixture> fixturesList) {
+        this.body = body;
+        this.fixturesList = fixturesList;
     }
 
     public Body getBody() {
@@ -83,8 +89,12 @@ public class PhysicalObject {
             return this;
         }
 
-        public PhysicalObject build(PhysicalActor objectHolder) {
+        public PhysicalObject build(Object objectHolder) {
             return new PhysicalObject(body, fixturesList, objectHolder);
+        }
+
+        public PhysicalObject build() {
+            return new PhysicalObject(body, fixturesList);
         }
 
     }

@@ -8,10 +8,10 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
-import ru.samsung.gamestudio.objects.blocks.Ladder;
+import ru.samsung.gamestudio.objects.wrappers.Ladder;
 import ru.samsung.gamestudio.objects.characters.*;
-import ru.samsung.gamestudio.objects.blocks.PitBlock;
-import ru.samsung.gamestudio.objects.blocks.StaticBlock;
+import ru.samsung.gamestudio.objects.wrappers.PitBlock;
+import ru.samsung.gamestudio.objects.wrappers.StaticBlock;
 import ru.samsung.gamestudio.utils.*;
 import ru.samsung.gamestudio.world.listeners.*;
 

@@ -188,4 +188,12 @@ public class GameScreen extends BaseScreen {
         }
     };
 
+    // todo: remove or got til the end
+    ClickListener onButtonPauseClicked = new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            session.pauseGame();
+        }
+    };
+
 }
