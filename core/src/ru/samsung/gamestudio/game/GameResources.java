@@ -9,6 +9,6 @@ public class GameResources {
     public static final String FINIS_LINE_TILESET_PATH = "texture/items/finish-line-tileset.png";
 
     public static final String LOOSE_TEXT_PIT_CASE = "Don't fall into the pit";
-    public static final String LOOSE_TEXT_NO_LIVES_LEFT_CASE = "Don't touch enemies, they don't like it";
+    public static final String LOOSE_TEXT_NO_LIVES_LEFT_CASE = "Don't touch enemies,\nthey don't like it";
 
 }

@@ -16,7 +16,7 @@ public class LoseDialog extends Dialog {
     private Label textLabel;
 
     public LoseDialog(Skin skin) {
-        super("You've lost =(", skin);
+        super("", skin);
 
         restartButton = new TextButton("restart", skin);
         homeButton = new TextButton("home", skin);

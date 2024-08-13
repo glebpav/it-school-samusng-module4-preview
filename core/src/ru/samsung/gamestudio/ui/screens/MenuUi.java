@@ -23,11 +23,12 @@ public class MenuUi extends UiComponent {
         scrollPane = new ScrollPane(listView, skin);
 
         listView.setAlignment(Align.center);
+        listView.setWidth(300);
         scrollPane.setActor(listView);
-        scrollPane.setSize(400, 150);
+        // scrollPane.setSize(400, 250);
 
         columnDefaults(2);
-        add(scrollPane).width(400).height(150).colspan(2).space(10);
+        add(scrollPane).width(400).height(250).colspan(2).space(10);
         row();
         add(startButton).width(400).height(60).colspan(2).space(10);
         row();

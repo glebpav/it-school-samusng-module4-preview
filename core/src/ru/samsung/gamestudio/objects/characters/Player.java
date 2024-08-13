@@ -189,7 +189,7 @@ public class Player extends PhysicalActor {
 
     public boolean setLeftLives(int leftLives) {
         this.leftLives = leftLives;
-        return !(leftLives <= 0) ;
+        return !(leftLives <= 0);
     }
 
     @Override
@@ -218,8 +218,8 @@ public class Player extends PhysicalActor {
 
             if (state != State.ATTACKING) {
 
-                if (setLeftLives(getLeftLives() - ENEMY_DAMAGE)) state = State.DEAD;
-                else state = State.GETTING_DAMAGE;
+                if (setLeftLives(getLeftLives() - ENEMY_DAMAGE)) state = State.GETTING_DAMAGE;
+                else state = State.DEAD;
 
                 onDamageListener.onDamage(getLeftLives());
                 timer = 0;

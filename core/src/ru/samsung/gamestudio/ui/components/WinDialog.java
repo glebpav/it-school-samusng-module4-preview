@@ -19,7 +19,7 @@ public class WinDialog extends Dialog {
     private Label scoreLabel;
 
     public WinDialog(Skin skin) {
-        super("You won!", skin);
+        super("", skin);
         homeButton = new TextButton("home", skin);
         timeLabel = new Label("00:00", skin);
         scoreLabel = new Label("0", skin);
@@ -45,10 +45,12 @@ public class WinDialog extends Dialog {
         String timeColonPattern = "mm:ss";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
         LocalTime colonTime = LocalTime.of(0, (int) (time / 1000 / 60), (int) (time / 1000 % 60));
+        System.out.println("time: " + timeColonFormatter.format(colonTime));
         timeLabel.setText(timeColonFormatter.format(colonTime));
     }
 
     public void setScore(int score) {
+        System.out.println("score: " + score);
         scoreLabel.setText(String.valueOf(score));
     }
 

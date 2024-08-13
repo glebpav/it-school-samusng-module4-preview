@@ -5,7 +5,7 @@ public class GameSettings {
     public static final float SCREEN_WIDTH = 1280;
     public static final float SCREEN_HEIGHT = 720;
 
-    public static final String SKIN_PATH = "skin/uiskin.json";
+    public static final String SKIN_PATH = "skin/skin.json";
 
     public static final int COIN_VALUE = 50;
     public static final int PLAYER_LIVES = 3;
