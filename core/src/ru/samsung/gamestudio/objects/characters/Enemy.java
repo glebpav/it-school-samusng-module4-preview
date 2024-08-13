@@ -66,6 +66,7 @@ public class Enemy extends PhysicalActor {
         Array<TextureRegion> frames = new Array<>();
 
         for (int i = 0; i < 8; i++) frames.add(new TextureRegion(texture, i * 34, 0, 34, 30));
+
         idleAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 

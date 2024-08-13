@@ -11,7 +11,7 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
-		config.setWindowedMode(SCREEN_WIDTH, SCREEN_HEIGHT);
+		config.setWindowedMode((int) SCREEN_WIDTH, (int) SCREEN_HEIGHT);
 		config.setTitle("it-school-samsung-module4-preview");
 		config.setResizable(false);
 		new Lwjgl3Application(new MyGdxGame(), config);

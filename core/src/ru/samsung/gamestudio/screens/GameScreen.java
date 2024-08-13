@@ -14,6 +14,7 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.game.GameSession;
 import ru.samsung.gamestudio.game.GameState;
+import ru.samsung.gamestudio.ui.components.LiveBackground;
 import ru.samsung.gamestudio.ui.screens.GameUi;
 import ru.samsung.gamestudio.utils.Level;
 import ru.samsung.gamestudio.utils.MemoryManager;
@@ -34,24 +35,29 @@ public class GameScreen extends BaseScreen {
     private OrthoCachedTiledMapRenderer mapRenderer;
     private Level level;
 
-    private final Stage stage2;
+    private final Stage hudStage;
+    private final Stage backgroundStage;
 
-    private GameSession session;
+    private LiveBackground liveBackground;
     private GameUi gameUi;
+    private GameSession session;
 
     public GameScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
 
         FitViewport viewport2 = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT);
-        viewport2.setScreenBounds(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
-        stage2 = new Stage(viewport2);
+        viewport2.setScreenBounds(0, 0, (int) SCREEN_WIDTH, (int) SCREEN_HEIGHT);
+        hudStage = new Stage(viewport2);
+        backgroundStage = new Stage(viewport2);
 
         debugRenderer = new Box2DDebugRenderer();
         b2WorldManager = new B2WorldManager();
         session = new GameSession();
         gameUi = new GameUi(myGdxGame.skin);
+        liveBackground = new LiveBackground();
 
-        stage2.addActor(gameUi);
+        backgroundStage.addActor(liveBackground);
+        hudStage.addActor(gameUi);
 
         b2WorldManager.setOnLoseListener(onLoseListener);
         b2WorldManager.setOnWinListener(onWinListener);
@@ -70,7 +76,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void show() {
-        Gdx.input.setInputProcessor(stage2);
+        Gdx.input.setInputProcessor(hudStage);
         startGame();
     }
 
@@ -87,15 +93,20 @@ public class GameScreen extends BaseScreen {
                                 * mapManager.getCountOfTilesHorizontal() - SCREEN_WIDTH / 2f
                 );
 
+        liveBackground.computeCloudPositions(myGdxGame.camera.position.x);
+
         ScreenUtils.clear(0, 0, 0, 0);
+
+        backgroundStage.act();
+        backgroundStage.draw();
 
         mapRenderer.setView(myGdxGame.camera);
         mapRenderer.render();
 
         debugRenderer.render(b2WorldManager.world, myGdxGame.camera.combined);
         super.render(delta, false);
-        stage2.act();
-        stage2.draw();
+        hudStage.act();
+        hudStage.draw();
 
     }
 
@@ -129,6 +140,7 @@ public class GameScreen extends BaseScreen {
 
         mapManager = new MapManager(level.getPath());
         mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.getMap(), mapManager.getTileScale());
+        mapRenderer.setBlending(true);
 
         b2WorldManager.buildWorld(mapManager);
         b2WorldManager.getAllActors().forEach(actor -> {

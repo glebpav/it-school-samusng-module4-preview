@@ -2,8 +2,8 @@ package ru.samsung.gamestudio.game;
 
 public class GameSettings {
 
-    public static final int SCREEN_WIDTH = 1280;
-    public static final int SCREEN_HEIGHT = 720;
+    public static final float SCREEN_WIDTH = 1280;
+    public static final float SCREEN_HEIGHT = 720;
 
     public static final String SKIN_PATH = "skin/uiskin.json";
 
