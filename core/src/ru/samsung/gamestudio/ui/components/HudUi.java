@@ -11,7 +11,9 @@ public class HudUi extends Table {
 
     private final Label scoreLabel;
     private final Label leftLivesLabel;
-    final Image pauseButton;
+
+    public final Image pauseButton;
+
 
     public HudUi(Skin skin) {
 

@@ -33,6 +33,28 @@ com.badlogic.gdx.graphics.Color: {
 		a: 1
 	}
 }
+com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
+	buttonForward: {
+		up: button-forward-up.9
+		down: button-forward-down.9
+		over: button-forward-over.9
+	}
+	buttonUp: {
+		up: button-up-up.9
+		down: button-up-down.9
+		over: button-up-over.9
+	}
+	buttonAttack: {
+		up: butotn-attcak-up.9
+		down: button-attack-down.9
+		over: button-attck-over.9
+	}
+	buttonBack: {
+		up: button-back-up.9
+		down: button-back-down.9
+		over: button-back-over.9
+	}
+}
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: piratheregular

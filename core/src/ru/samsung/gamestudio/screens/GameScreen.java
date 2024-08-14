@@ -11,6 +11,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import org.w3c.dom.ls.LSOutput;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.game.GameSession;
 import ru.samsung.gamestudio.game.GameState;
@@ -58,6 +59,10 @@ public class GameScreen extends BaseScreen {
 
         backgroundStage.addActor(liveBackground);
         hudStage.addActor(gameUi);
+
+        System.out.println("mobcont: " + gameUi.mobileController);
+        if (gameUi.mobileController != null) {
+        }
 
         b2WorldManager.setOnLoseListener(onLoseListener);
         b2WorldManager.setOnWinListener(onWinListener);
@@ -115,13 +120,17 @@ public class GameScreen extends BaseScreen {
 
         if (session.getState() == GameState.PLAYING) {
 
-            if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            if (Gdx.input.isKeyPressed(Input.Keys.UP)
+                    || gameUi.mobileController != null && gameUi.mobileController.upButton.isPressed()) {
                 b2WorldManager.player.moveUp();
-            } if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            } if (Gdx.input.isKeyPressed(Input.Keys.LEFT)
+                    || gameUi.mobileController != null && gameUi.mobileController.backButton.isPressed()) {
                 b2WorldManager.player.moveLeft();
-            } if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            } if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)
+                    || gameUi.mobileController != null && gameUi.mobileController.forwardButton.isPressed()) {
                 b2WorldManager.player.moveRight();
-            } if (Gdx.input.isKeyPressed(Input.Keys.F)) {
+            } if (Gdx.input.isKeyPressed(Input.Keys.F)
+                    || gameUi.mobileController != null && gameUi.mobileController.attackButton.isPressed()) {
                 b2WorldManager.player.attack();
             }
 
