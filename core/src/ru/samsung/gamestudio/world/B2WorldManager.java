@@ -1,6 +1,7 @@
 package ru.samsung.gamestudio.world;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -50,6 +51,10 @@ public class B2WorldManager {
     public void buildWorld(MapManager mapManager) {
 
         tileScale = mapManager.getTileScale();
+
+        for (MapLayer mapLayer : mapManager.getMap().getLayers()) {
+            System.out.println("mapLayer: " + mapLayer.getName());
+        }
 
         for (
                 RectangleMapObject object :

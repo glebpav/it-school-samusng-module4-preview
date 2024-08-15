@@ -53,6 +53,7 @@ public class Enemy extends PhysicalActor {
         createAnimations();
         timer = 0;
         state = State.IDLE;
+        moveRightFlag = true;
         setSize(bounds.getWidth() * tileScale, bounds.getHeight() * tileScale);
 
         initialX = bounds.getX();
