@@ -32,14 +32,6 @@ public class LevelManager {
         return levelsArray[levelIdx];
     }
 
-    public static List<String> getPaths() {
-        return Arrays.stream(levelsArray).map(level -> level.getPath()).collect(Collectors.toList());
-    }
-
-    public static List<String> getNames() {
-        return Arrays.stream(levelsArray).map(level -> level.getName()).collect(Collectors.toList());
-    }
-
     public static boolean isLevelAvailable(int levelIdx) {
         if (levelIdx == 0) return true;
         return MemoryManager.loadLevelState(levelsArray[levelIdx - 1].getName());

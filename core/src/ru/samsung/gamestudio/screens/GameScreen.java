@@ -39,9 +39,9 @@ public class GameScreen extends BaseScreen {
     private final Stage hudStage;
     private final Stage backgroundStage;
 
-    private LiveBackground liveBackground;
-    private GameUi gameUi;
-    private GameSession session;
+    private final LiveBackground liveBackground;
+    private final GameUi gameUi;
+    private final GameSession session;
 
     public GameScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);
@@ -149,15 +149,17 @@ public class GameScreen extends BaseScreen {
         mapRenderer.setBlending(true);
 
         b2WorldManager.buildWorld(mapManager);
-        b2WorldManager.getAllActors().forEach(actor -> {
+
+        for (Actor actor : b2WorldManager.getAllActors())
             baseStage.addActor(actor);
-        });
+
         gameUi.toFront();
 
     }
 
     public void clearLevel() {
-        b2WorldManager.getAllActors().forEach(Actor::remove);
+        for (Actor actor : b2WorldManager.getAllActors())
+            actor.remove();
         b2WorldManager.clearWorld();
     }
 
@@ -171,24 +173,36 @@ public class GameScreen extends BaseScreen {
         myGdxGame.camera.position.x = SCREEN_WIDTH / 2f;
     }
 
-    OnLoseListener onLoseListener = loseText -> {
-        gameUi.showLoseDialog(loseText);
-        session.endGame();
+    OnLoseListener onLoseListener = new OnLoseListener() {
+        @Override
+        public void onLose(String loseText) {
+            gameUi.showLoseDialog(loseText);
+            session.endGame();
+        }
     };
 
-    OnWinListener onWinListener = () -> {
-        gameUi.showWinDialog(TimeUtils.millis() - session.getSessionStartTime(), session.getScore());
-        session.endGame();
-        MemoryManager.saveLevelState(level.getName(), true);
+    OnWinListener onWinListener = new OnWinListener() {
+        @Override
+        public void onWin() {
+            gameUi.showWinDialog(TimeUtils.millis() - session.getSessionStartTime(), session.getScore());
+            session.endGame();
+            MemoryManager.saveLevelState(level.getName(), true);
+        }
     };
 
-    OnScoreEarnedListener onScoreEarnedListener = coinValue -> {
-        session.addScore(coinValue);
-        gameUi.hudUi.setScore(session.getScore());
+    OnScoreEarnedListener onScoreEarnedListener = new OnScoreEarnedListener() {
+        @Override
+        public void onScoreEarned(int scoreValue) {
+            session.addScore(scoreValue);
+            gameUi.hudUi.setScore(session.getScore());
+        }
     };
 
-    OnDamageListener onDamageListener = leftLives -> {
-        gameUi.hudUi.setLeftLives(leftLives);
+    OnDamageListener onDamageListener = new OnDamageListener() {
+        @Override
+        public void onDamage(int leftLives) {
+            gameUi.hudUi.setLeftLives(leftLives);
+        }
     };
 
     ClickListener onButtonHomeClicked = new ClickListener() {
@@ -205,13 +219,4 @@ public class GameScreen extends BaseScreen {
             startGame();
         }
     };
-
-    // todo: remove or got til the end
-    ClickListener onButtonPauseClicked = new ClickListener() {
-        @Override
-        public void clicked(InputEvent event, float x, float y) {
-            session.pauseGame();
-        }
-    };
-
 }

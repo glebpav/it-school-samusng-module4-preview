@@ -136,7 +136,7 @@ public class B2WorldManager {
             world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
         }
 
-        bodiesGarbageList.forEach(body -> world.destroyBody(body));
+        for (Body body : bodiesGarbageList) world.destroyBody(body);
         bodiesGarbageList.clear();
 
     }
@@ -172,8 +172,11 @@ public class B2WorldManager {
         this.onDamageListener = onDamageListener;
     }
 
-    OnRemoveBodyListener onRemoveBodyListener = body ->  {
-        bodiesGarbageList.add(body);
+    OnRemoveBodyListener onRemoveBodyListener = new OnRemoveBodyListener() {
+        @Override
+        public void onRemoveBody(Body body) {
+            bodiesGarbageList.add(body);
+        }
     };
 
 }
