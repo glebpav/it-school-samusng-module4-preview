@@ -9,16 +9,17 @@ import ru.samsung.gamestudio.objects.characters.PhysicalObject;
 
 public class StaticBlock implements Hittable {
 
-    PhysicalObject physicalObject;
+    private final PhysicalObject physicalObject;
 
     public StaticBlock(World world, Rectangle bounds) {
-
         physicalObject = new PhysicalObject.PhysicalObjectBuilder(world, BodyDef.BodyType.StaticBody)
                 .addRectangularFixture(bounds.width, bounds.height, GameSettings.FLOOR_BIT)
                 .setInitialPosition(bounds.x + bounds.getWidth() / 2, bounds.y + bounds.getHeight() / 2)
                 .build(this);
+    }
 
-        // super(world, bounds, GameSettings.FLOOR_BIT);
+    public PhysicalObject getPhysicalObject() {
+        return physicalObject;
     }
 
     @Override

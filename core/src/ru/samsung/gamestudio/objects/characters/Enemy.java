@@ -123,17 +123,17 @@ public class Enemy extends PhysicalActor {
         if (state != State.DEAD) {
 
             setPosition((
-                    getPhysicalObject().getBody().getPosition().x) * SCALE * tileScale - getWidth() / 2,
-                    (getPhysicalObject().getBody().getPosition().y) * SCALE * tileScale - getHeight() / 1.5f
+                    getPhysicalObject().getBody().getPosition().x) / SCALE * tileScale - getWidth() / 2,
+                    (getPhysicalObject().getBody().getPosition().y) / SCALE * tileScale - getHeight() / 1.5f
             );
 
             if (walkLength != 0) {
                 if (moveRightFlag) moveRight();
                 else moveLeft();
 
-                if (getPhysicalObject().getBody().getPosition().x * SCALE - initialX > walkLength * 32) {
+                if (getPhysicalObject().getBody().getPosition().x / SCALE - initialX > walkLength * 32) {
                     moveRightFlag = false;
-                } else if (getPhysicalObject().getBody().getPosition().x * SCALE - initialX < 0) {
+                } else if (getPhysicalObject().getBody().getPosition().x / SCALE - initialX < 0) {
                     moveRightFlag = true;
                 }
             }

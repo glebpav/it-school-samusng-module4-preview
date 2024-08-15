@@ -11,7 +11,7 @@ public class PhysicalActor extends Image implements Hittable {
         this.physicalObject = physicalObject;
     }
 
-    public PhysicalObject getPhysicalObject() {
+    protected PhysicalObject getPhysicalObject() {
         return physicalObject;
     }
 

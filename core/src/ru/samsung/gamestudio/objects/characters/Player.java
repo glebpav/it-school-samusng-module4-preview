@@ -27,12 +27,12 @@ public class Player extends PhysicalActor {
     private Animation<TextureRegion> gettingDamageAnimation;
     private Animation<TextureRegion> becomeDeadAnimation;
 
-    float tileScale;
+    private final float tileScale;
 
-    float timer;
-    State state;
+    private float timer;
+    private State state;
     private int leftLives;
-    boolean needToBeSwapped;
+    private boolean needToBeSwapped;
     private boolean hasTouchedFloor;
     private boolean onLadder;
 
@@ -62,7 +62,6 @@ public class Player extends PhysicalActor {
                         .build(this)
         );
 
-        // createHeadHitBox(bounds);
         createAnimations();
         timer = 0;
         state = State.IDLE;
@@ -143,7 +142,8 @@ public class Player extends PhysicalActor {
 
     public void moveLeft() {
         if (state == State.ATTACKING && !attackAnimation.isAnimationFinished(timer)
-                || state == State.GETTING_DAMAGE && !gettingDamageAnimation.isAnimationFinished(timer)) return;
+                || state == State.GETTING_DAMAGE && !gettingDamageAnimation.isAnimationFinished(timer)
+                || state == State.DEAD) return;
 
         getPhysicalObject().getBody().applyForceToCenter(new Vector2(-10f, 0), true);
         needToBeSwapped = true;
@@ -152,7 +152,8 @@ public class Player extends PhysicalActor {
 
     public void moveRight() {
         if (state == State.ATTACKING && !attackAnimation.isAnimationFinished(timer)
-                || state == State.GETTING_DAMAGE && !gettingDamageAnimation.isAnimationFinished(timer)) return;
+                || state == State.GETTING_DAMAGE && !gettingDamageAnimation.isAnimationFinished(timer)
+                || state == State.DEAD) return;
 
         getPhysicalObject().getBody().applyForceToCenter(new Vector2(10f, 0), true);
         needToBeSwapped = false;
@@ -168,7 +169,8 @@ public class Player extends PhysicalActor {
             return;
         }
 
-        if (!hasTouchedFloor || state == State.JUMPING && jumpAnimation.isAnimationFinished(timer)) return;
+        if (!hasTouchedFloor || state == State.JUMPING && jumpAnimation.isAnimationFinished(timer)
+                || state == State.DEAD) return;
 
 
         getPhysicalObject().getBody().setLinearVelocity(new Vector2(
@@ -179,15 +181,16 @@ public class Player extends PhysicalActor {
     }
 
     public void attack() {
+        if (state == State.DEAD) return;
         state = State.ATTACKING;
         timer = 0;
     }
 
-    public int getLeftLives() {
+    private int getLeftLives() {
         return leftLives;
     }
 
-    public boolean setLeftLives(int leftLives) {
+    private boolean setLeftLives(int leftLives) {
         this.leftLives = leftLives;
         return !(leftLives <= 0);
     }
@@ -196,8 +199,8 @@ public class Player extends PhysicalActor {
     public void act(float delta) {
         super.act(delta);
         setPosition(
-                (getPhysicalObject().getBody().getPosition().x) * SCALE * tileScale - getWidth() / 2,
-                (getPhysicalObject().getBody().getPosition().y) * SCALE * tileScale - getHeight() / 1.5f
+                (getPhysicalObject().getBody().getPosition().x) / SCALE * tileScale - getWidth() / 2,
+                (getPhysicalObject().getBody().getPosition().y) / SCALE * tileScale - getHeight() / 1.5f
         );
         setDrawable(getFrame(delta));
         if (state == State.RUNNING

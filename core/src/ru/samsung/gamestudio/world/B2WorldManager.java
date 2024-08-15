@@ -28,7 +28,7 @@ public class B2WorldManager {
     public Player player;
 
     private final ArrayList<Actor> actorsList;
-    private ArrayList<Body> bodiesGarbageList;
+    private final ArrayList<Body> bodiesGarbageList;
 
     private float accumulator;
     private float tileScale;
@@ -49,7 +49,6 @@ public class B2WorldManager {
     }
 
     public void buildWorld(MapManager mapManager) {
-
         tileScale = mapManager.getTileScale();
 
         for (MapLayer mapLayer : mapManager.getMap().getLayers()) {
@@ -64,7 +63,6 @@ public class B2WorldManager {
             new StaticBlock(world, rect);
         }
 
-        // todo: make floor block
         for (
                 RectangleMapObject object :
                 mapManager.getMap().getLayers().get("floor").getObjects().getByType(RectangleMapObject.class)

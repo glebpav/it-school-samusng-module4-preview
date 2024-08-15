@@ -10,7 +10,7 @@ import ru.samsung.gamestudio.utils.LevelManager;
 
 public class MenuScreen extends BaseScreen {
 
-    private MenuUi menuUi;
+    private final MenuUi menuUi;
 
     public MenuScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);

@@ -15,10 +15,9 @@ import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
 
 public abstract class BaseScreen extends ScreenAdapter {
 
-    Stage baseStage;
-    Viewport baseViewport;
-    MyGdxGame myGdxGame;
-    
+    protected Stage baseStage;
+    protected Viewport baseViewport;
+    protected MyGdxGame myGdxGame;
 
     public BaseScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;

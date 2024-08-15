@@ -47,14 +47,14 @@ public class PhysicalObject {
         }
 
         public PhysicalObjectBuilder setInitialPosition(float x, float y) {
-            body.setTransform(x / SCALE, y / SCALE, 0);
+            body.setTransform(x * SCALE, y * SCALE, 0);
             return this;
         }
 
         public PhysicalObjectBuilder addCircularFixture(float radius, short categoryBits) {
             FixtureDef fixtureDef = new FixtureDef();
             CircleShape circleShape = new CircleShape();
-            circleShape.setRadius(radius / SCALE);
+            circleShape.setRadius(radius * SCALE);
             fixtureDef.shape = circleShape;
             fixtureDef.filter.categoryBits = categoryBits;
             fixturesList.add(body.createFixture(fixtureDef));
@@ -65,7 +65,7 @@ public class PhysicalObject {
         public PhysicalObjectBuilder addRectangularFixture(float width, float height, short categoryBits) {
             FixtureDef fixtureDef = new FixtureDef();
             PolygonShape polygonShape = new PolygonShape();
-            polygonShape.setAsBox(width / 2 / SCALE, height / 2 / SCALE);
+            polygonShape.setAsBox(width / 2 * SCALE, height / 2 * SCALE);
             fixtureDef.filter.categoryBits = categoryBits;
             fixtureDef.shape = polygonShape;
             fixturesList.add(body.createFixture(fixtureDef));
@@ -76,10 +76,12 @@ public class PhysicalObject {
         public PhysicalObjectBuilder addEdgeFixture(float vx1, float vy1, float vx2, float vy2, short categoryBits) {
             FixtureDef fixtureDef = new FixtureDef();
             EdgeShape edgeShape = new EdgeShape();
-            edgeShape.set(vx1 / SCALE, vy1 / SCALE, vx2 / SCALE, vy2 / SCALE);
+            edgeShape.set(vx1 * SCALE, vy1 * SCALE, vx2 * SCALE, vy2 * SCALE);
             fixtureDef.filter.categoryBits = categoryBits;
             fixtureDef.shape = edgeShape;
-            fixturesList.add(body.createFixture(fixtureDef));
+            Fixture fixture = body.createFixture(fixtureDef);
+            fixture.setSensor(true);
+            fixturesList.add(fixture);
             edgeShape.dispose();
             return this;
         }

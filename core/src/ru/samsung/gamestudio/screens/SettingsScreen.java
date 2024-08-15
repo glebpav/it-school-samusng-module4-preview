@@ -10,7 +10,7 @@ import ru.samsung.gamestudio.utils.MemoryManager;
 
 public class SettingsScreen extends BaseScreen{
 
-    SettingsUi ui;
+    private final SettingsUi ui;
 
     public SettingsScreen(MyGdxGame myGdxGame) {
         super(myGdxGame);

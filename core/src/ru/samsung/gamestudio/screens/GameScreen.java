@@ -114,9 +114,7 @@ public class GameScreen extends BaseScreen {
 
     @Override
     public void handleInput() {
-
         if (session.getState() == GameState.PLAYING) {
-
             if (Gdx.input.isKeyPressed(Input.Keys.UP)
                     || gameUi.mobileController != null && gameUi.mobileController.upButton.isPressed()) {
                 b2WorldManager.player.moveUp();
@@ -130,9 +128,7 @@ public class GameScreen extends BaseScreen {
                     || gameUi.mobileController != null && gameUi.mobileController.attackButton.isPressed()) {
                 b2WorldManager.player.attack();
             }
-
         }
-
     }
 
     private void startGame() {
@@ -143,7 +139,6 @@ public class GameScreen extends BaseScreen {
     }
 
     public void loadLevel() {
-
         mapManager = new MapManager(level.getPath());
         mapRenderer = new OrthoCachedTiledMapRenderer(mapManager.getMap(), mapManager.getTileScale());
         mapRenderer.setBlending(true);
@@ -154,7 +149,6 @@ public class GameScreen extends BaseScreen {
             baseStage.addActor(actor);
 
         gameUi.toFront();
-
     }
 
     public void clearLevel() {

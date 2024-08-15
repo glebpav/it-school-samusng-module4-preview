@@ -13,7 +13,7 @@ import static ru.samsung.gamestudio.game.GameSettings.PIT_BIT;
 public class PitBlock implements Hittable {
 
     private final OnLoseListener onLoseListener;
-    private PhysicalObject physicalObject;
+    private final PhysicalObject physicalObject;
 
     public PitBlock(World world, Rectangle bounds, OnLoseListener onLoseListener) {
         this.onLoseListener = onLoseListener;
