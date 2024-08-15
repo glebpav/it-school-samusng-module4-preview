@@ -38,10 +38,6 @@ public class GameUi extends UiComponent {
         hudUi.setPosition(SCREEN_WIDTH / 2f - hudUi.getWidth() / 2, SCREEN_HEIGHT - 50);
     }
 
-    public void makeHudCentered(float cameraX) {
-        hudUi.setPosition(cameraX - hudUi.getWidth() / 2, SCREEN_HEIGHT - 50);
-    }
-
     public void showLoseDialog(String loseText) {
         loseDialog.setText(loseText);
         addActor(loseDialog);

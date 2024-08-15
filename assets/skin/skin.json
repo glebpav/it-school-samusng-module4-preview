@@ -1,5 +1,11 @@
 {
 com.badlogic.gdx.graphics.g2d.BitmapFont: {
+	BungeeSpice-Regular: {
+		file: BungeeSpice-Regular.fnt
+		scaledSize: -1
+		markupEnabled: false
+		flip: false
+	}
 	piratheregular: {
 		file: piratheregular-m2zvp.fnt
 		scaledSize: -1
@@ -59,6 +65,9 @@ com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
 		font: piratheregular
 		fontColor: white
+	}
+	labelTitle: {
+		font: BungeeSpice-Regular
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.List$ListStyle: {

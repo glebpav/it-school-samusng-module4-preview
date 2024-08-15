@@ -8,9 +8,6 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
-import ru.samsung.gamestudio.game.GameSettings;
-
-import java.util.ArrayList;
 
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
@@ -18,10 +15,12 @@ import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
 public class LiveBackground extends Group {
 
     private final Image backgroundImage;
+    private final Image smallReflectionImage;
     private final Image bigReflectionImage;
     private final Image bigCloudImage;
 
     private final Animation<TextureRegion> bigReflectionAnimation;
+    private final Animation<TextureRegion> smallReflectionAnimation;
 
     private float timer;
     private float cloudX1;
@@ -37,9 +36,13 @@ public class LiveBackground extends Group {
         for (int i = 0; i < 4; i++) frames.add(new TextureRegion(reflectionsTileset, 0, 10 * i, 170, 10));
         bigReflectionAnimation = new Animation<>(0.1f, frames, Animation.PlayMode.LOOP);
         frames.clear();
+        for (int i = 0; i < 4; i++) frames.add(new TextureRegion(reflectionsTileset, 170, 3 * i, 35, 3));
+        smallReflectionAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
+        frames.clear();
 
         backgroundImage = new Image(new Texture("texture/background/background.png"));
-        bigReflectionImage = new Image(getReflectionDrawable(0));
+        bigReflectionImage = new Image(getBigReflectionDrawable(0));
+        smallReflectionImage = new Image(getSmallReflectionDrawable(0));
 
         bigCloudImage = new Image(new Texture("texture/background/big-clouds.png"));
 
@@ -49,9 +52,14 @@ public class LiveBackground extends Group {
         bigCloudImage.setSize(SCREEN_WIDTH, SCREEN_HEIGHT / 3);
 
         bigReflectionImage.setSize(670, 50);
+        smallReflectionImage.setSize(135, 13);
         bigReflectionImage.setPosition(
                 SCREEN_WIDTH / 2 - bigReflectionImage.getWidth() / 2,
                 (SCREEN_HEIGHT / 4 - bigReflectionImage.getHeight() / 2)
+        );
+        smallReflectionImage.setPosition(
+                SCREEN_WIDTH / 7 - smallReflectionImage.getWidth() / 2,
+                SCREEN_HEIGHT / 6 - smallReflectionImage.getHeight() / 2
         );
 
         timer = 0;
@@ -60,8 +68,13 @@ public class LiveBackground extends Group {
 
     }
 
-    private Drawable getReflectionDrawable(float timer) {
+    private Drawable getBigReflectionDrawable(float timer) {
         TextureRegion region = bigReflectionAnimation.getKeyFrame(timer, true);
+        return (new Image(region)).getDrawable();
+    }
+
+    private Drawable getSmallReflectionDrawable(float timer) {
+        TextureRegion region = smallReflectionAnimation.getKeyFrame(timer, true);
         return (new Image(region)).getDrawable();
     }
 
@@ -69,7 +82,8 @@ public class LiveBackground extends Group {
     public void act(float delta) {
         super.act(delta);
         timer += delta;
-        bigReflectionImage.setDrawable(getReflectionDrawable(timer));
+        bigReflectionImage.setDrawable(getBigReflectionDrawable(timer));
+        smallReflectionImage.setDrawable(getSmallReflectionDrawable(timer));
     }
 
     @Override
@@ -80,6 +94,16 @@ public class LiveBackground extends Group {
         bigCloudImage.draw(batch, parentAlpha);
         bigCloudImage.setPosition(cloudX2, SCREEN_HEIGHT / 3);
         bigCloudImage.draw(batch, parentAlpha);
+        smallReflectionImage.setPosition(
+                SCREEN_WIDTH / 7 - smallReflectionImage.getWidth() / 2,
+                SCREEN_HEIGHT / 6 - smallReflectionImage.getHeight() / 2
+        );
+        smallReflectionImage.draw(batch, parentAlpha);
+        smallReflectionImage.setPosition(
+                SCREEN_WIDTH / 1.3f - smallReflectionImage.getWidth() / 2,
+                SCREEN_HEIGHT / 12 - smallReflectionImage.getHeight() / 2
+        );
+        smallReflectionImage.draw(batch, parentAlpha);
     }
 
     public void computeCloudPositions(float cameraX) {
