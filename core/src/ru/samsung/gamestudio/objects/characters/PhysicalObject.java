@@ -3,7 +3,6 @@ package ru.samsung.gamestudio.objects.characters;
 import com.badlogic.gdx.physics.box2d.*;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 import static ru.samsung.gamestudio.game.GameSettings.SCALE;
 
@@ -28,10 +27,6 @@ public class PhysicalObject {
 
     public Body getBody() {
         return body;
-    }
-
-    public ArrayList<Fixture> getFixturesList() {
-        return fixturesList;
     }
 
     public static class PhysicalObjectBuilder {

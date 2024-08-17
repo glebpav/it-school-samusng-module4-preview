@@ -39,7 +39,6 @@ public class B2WorldManager {
     private OnDamageListener onDamageListener;
 
     public B2WorldManager() {
-
         Box2D.init();
         world = new World(new Vector2(0, -10), true);
         world.setContactListener(new ContactManager());

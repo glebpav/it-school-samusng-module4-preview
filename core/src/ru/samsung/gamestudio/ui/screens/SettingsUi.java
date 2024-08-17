@@ -23,11 +23,10 @@ public class SettingsUi extends UiComponent {
 
         add(titleLabel).height(100);
         row();
-        add(resetLevelsButton). width(160).height(70);
+        add(resetLevelsButton).width(160).height(70);
         row();
         add(homeButton).width(160).height(70).padTop(20);
         row();
-
     }
 
 }

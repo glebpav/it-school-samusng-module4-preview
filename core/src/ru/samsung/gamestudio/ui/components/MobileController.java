@@ -14,7 +14,6 @@ public class MobileController extends Table {
     public final Button forwardButton;
 
     public MobileController(Skin skin) {
-
         upButton = new Button(skin, "buttonUp");
         backButton = new Button(skin, "buttonBack");
         forwardButton = new Button(skin, "buttonForward");
@@ -26,7 +25,6 @@ public class MobileController extends Table {
         add().expand();
         add(attackButton).height(100).width(100).padRight(30).padBottom(130);
         add(upButton).height(100).width(100).padRight(30).padBottom(130);
-
     }
 
 }

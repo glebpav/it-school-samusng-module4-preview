@@ -1,9 +1,6 @@
 package ru.samsung.gamestudio.ui.components;
 
-
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Align;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 

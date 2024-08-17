@@ -8,7 +8,7 @@ import ru.samsung.gamestudio.utils.Level;
 import ru.samsung.gamestudio.utils.LevelManager;
 import ru.samsung.gamestudio.utils.MemoryManager;
 
-public class SettingsScreen extends BaseScreen{
+public class SettingsScreen extends BaseScreen {
 
     private final SettingsUi ui;
 
@@ -20,7 +20,6 @@ public class SettingsScreen extends BaseScreen{
 
         ui.homeButton.addListener(onButtonHomeClicked);
         ui.resetLevelsButton.addListener(onButtonResetLevelsClicked);
-
     }
 
     ClickListener onButtonHomeClicked = new ClickListener() {

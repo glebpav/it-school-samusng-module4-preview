@@ -13,7 +13,7 @@ public class LoseDialog extends Dialog {
 
     public TextButton restartButton;
     public TextButton homeButton;
-    private Label textLabel;
+    private final Label textLabel;
 
     public LoseDialog(Skin skin) {
         super("", skin);
@@ -33,7 +33,6 @@ public class LoseDialog extends Dialog {
         getContentTable().row();
         getContentTable().add(restartButton).height(70).width(120).align(Align.right);
         getContentTable().add(homeButton).height(70).width(120).align(Align.left);
-
     }
 
     public void setText(String text) {

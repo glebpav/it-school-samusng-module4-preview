@@ -15,7 +15,6 @@ public class MenuUi extends UiComponent {
     public TextButton settingsButton;
 
     public MenuUi(Skin skin) {
-
         LiveBackground liveBackground = new LiveBackground();
         startButton = new TextButton("Start this game", skin);
         exitButton = new TextButton("Exit game", skin);
@@ -40,7 +39,6 @@ public class MenuUi extends UiComponent {
         row();
         add(exitButton).width(195).height(60).space(10);
         add(settingsButton).width(195).height(60).space(10);
-
     }
 
 }

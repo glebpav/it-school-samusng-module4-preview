@@ -14,15 +14,13 @@ public class MapManager {
     private final float tileScale;
 
     public MapManager(String pathToMap) {
-
         TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load(pathToMap);
         MapProperties properties = map.getProperties();
         tileSize = properties.get("tilewidth", Integer.class);
         countOfTilesHorizontal = properties.get("width", Integer.class);
         float countOfTilesVertical = properties.get("height", Integer.class);
-        tileScale = (float) SCREEN_HEIGHT / tileSize / countOfTilesVertical;
-
+        tileScale = SCREEN_HEIGHT / tileSize / countOfTilesVertical;
     }
 
     public TiledMap getMap() {

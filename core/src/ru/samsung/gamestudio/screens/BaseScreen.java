@@ -5,7 +5,6 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.samsung.gamestudio.MyGdxGame;
@@ -52,5 +51,6 @@ public abstract class BaseScreen extends ScreenAdapter {
         handleInput();
     }
 
-    public void handleInput() {}
+    public void handleInput() {
+    }
 }

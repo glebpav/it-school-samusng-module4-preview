@@ -21,7 +21,6 @@ public class MenuScreen extends BaseScreen {
         menuUi.exitButton.addListener(onButtonExitClickedListener);
         menuUi.startButton.addListener(onButtonStartClickedListener);
         menuUi.settingsButton.addListener(onButtonSettingsClickedListener);
-
     }
 
     private void updateList() {

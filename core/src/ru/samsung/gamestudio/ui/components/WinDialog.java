@@ -15,8 +15,8 @@ import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
 public class WinDialog extends Dialog {
 
     public TextButton homeButton;
-    private Label timeLabel;
-    private Label scoreLabel;
+    private final Label timeLabel;
+    private final Label scoreLabel;
 
     public WinDialog(Skin skin) {
         super("", skin);

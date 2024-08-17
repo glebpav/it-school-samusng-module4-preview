@@ -65,7 +65,6 @@ public class LiveBackground extends Group {
         timer = 0;
         cloudX1 = 0;
         cloudX2 = SCREEN_WIDTH;
-
     }
 
     private Drawable getBigReflectionDrawable(float timer) {
@@ -107,7 +106,7 @@ public class LiveBackground extends Group {
     }
 
     public void computeCloudPositions(float cameraX) {
-        cloudX1 =  - cameraX / CLOUD_SPEED_RATIO % SCREEN_WIDTH;
-        cloudX2 = - cameraX / CLOUD_SPEED_RATIO % SCREEN_WIDTH + SCREEN_WIDTH;
+        cloudX1 = -cameraX / CLOUD_SPEED_RATIO % SCREEN_WIDTH;
+        cloudX2 = -cameraX / CLOUD_SPEED_RATIO % SCREEN_WIDTH + SCREEN_WIDTH;
     }
 }

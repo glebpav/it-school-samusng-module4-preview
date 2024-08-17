@@ -1,12 +1,9 @@
 package ru.samsung.gamestudio.utils;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
 
 public class LevelManager {
 
-    private final static Level[] levelsArray = new Level[] {
+    private final static Level[] levelsArray = new Level[]{
             new Level("First fight", "maps/level4.tmx"),
             new Level("New enemies", "maps/level5.tmx"),
             new Level("Wow, ladder", "maps/level4.tmx"),

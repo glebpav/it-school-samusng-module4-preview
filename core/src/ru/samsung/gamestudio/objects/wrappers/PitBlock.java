@@ -36,5 +36,6 @@ public class PitBlock implements Hittable {
     }
 
     @Override
-    public void release(short hitObjectBits) {}
+    public void release(short hitObjectBits) {
+    }
 }

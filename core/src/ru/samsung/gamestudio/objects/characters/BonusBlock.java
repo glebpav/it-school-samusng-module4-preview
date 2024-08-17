@@ -58,7 +58,7 @@ public class BonusBlock extends PhysicalActor {
         Texture texture = new Texture(GameResources.BONUS_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
 
-        frames.add(new TextureRegion(new TextureRegion(texture, 0,0, 32, 32)));
+        frames.add(new TextureRegion(new TextureRegion(texture, 0, 0, 32, 32)));
         idleAnimation = new Animation<>(1f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
@@ -89,7 +89,7 @@ public class BonusBlock extends PhysicalActor {
     public void act(float delta) {
         super.act(delta);
         setDrawable(getFrame(delta));
-        if (state == State.DESTROYED && destroyAnimation.isAnimationFinished(timer)){
+        if (state == State.DESTROYED && destroyAnimation.isAnimationFinished(timer)) {
             remove();
             onRemoveBodyListener.onRemoveBody(getPhysicalObject().getBody());
             onScoreEarnedListener.onScoreEarned(BONUS_VALUE);
@@ -102,6 +102,5 @@ public class BonusBlock extends PhysicalActor {
             state = State.DESTROYED;
             timer = 0;
         }
-
     }
 }

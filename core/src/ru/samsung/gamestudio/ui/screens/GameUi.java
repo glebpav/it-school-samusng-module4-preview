@@ -2,10 +2,7 @@ package ru.samsung.gamestudio.ui.screens;
 
 import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.math.Vector3;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import ru.samsung.gamestudio.ui.UiComponent;
 import ru.samsung.gamestudio.ui.components.HudUi;
 import ru.samsung.gamestudio.ui.components.LoseDialog;
@@ -23,7 +20,6 @@ public class GameUi extends UiComponent {
     public MobileController mobileController;
 
     public GameUi(Skin skin) {
-
         hudUi = new HudUi(skin);
         loseDialog = new LoseDialog(skin);
         winDialog = new WinDialog(skin);
