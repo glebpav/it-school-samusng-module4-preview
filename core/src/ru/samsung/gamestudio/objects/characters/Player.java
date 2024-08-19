@@ -7,8 +7,10 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
 import ru.samsung.gamestudio.world.listeners.OnLoseListener;
 import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
@@ -16,7 +18,7 @@ import ru.samsung.gamestudio.world.listeners.OnDamageListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class Player extends PhysicalActor {
+public class Player extends PhysicalActor implements Disposable {
 
     private enum State {JUMPING, IDLE, RUNNING, ATTACKING, DEAD, GETTING_DAMAGE}
 
@@ -78,7 +80,7 @@ public class Player extends PhysicalActor {
         Array<TextureRegion> frames = new Array<>();
 
         for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 64 * i, 4 * 40, 64, 40));
-        idleAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
+        idleAnimation = new Animation(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
         for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 64 * i, 0, 64, 40));
@@ -245,4 +247,8 @@ public class Player extends PhysicalActor {
         }
     }
 
+    @Override
+    public void dispose() {
+        idleAnimation.getKeyFrame(0).getTexture().dispose();
+    }
 }

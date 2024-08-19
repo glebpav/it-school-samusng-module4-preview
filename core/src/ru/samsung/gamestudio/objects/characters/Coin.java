@@ -9,13 +9,14 @@ import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
 import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
 import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class Coin extends PhysicalActor {
+public class Coin extends PhysicalActor implements Disposable {
 
     private enum State {IDLE, COLLECTED}
 
@@ -106,4 +107,8 @@ public class Coin extends PhysicalActor {
         }
     }
 
+    @Override
+    public void dispose() {
+        idleAnimation.getKeyFrame(0).getTexture().dispose();
+    }
 }

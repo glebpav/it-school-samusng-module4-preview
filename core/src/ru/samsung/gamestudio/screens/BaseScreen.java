@@ -53,4 +53,9 @@ public abstract class BaseScreen extends ScreenAdapter {
 
     public void handleInput() {
     }
+
+    @Override
+    public void dispose() {
+        baseStage.dispose();
+    }
 }

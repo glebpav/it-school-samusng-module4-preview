@@ -3,10 +3,11 @@ package ru.samsung.gamestudio.utils;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.utils.Disposable;
 
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
 
-public class MapManager {
+public class MapManager implements Disposable {
 
     private final TiledMap map;
     private final int tileSize;
@@ -37,6 +38,11 @@ public class MapManager {
 
     public float getTileScale() {
         return tileScale;
+    }
+
+    @Override
+    public void dispose() {
+        map.dispose();
     }
 
 }

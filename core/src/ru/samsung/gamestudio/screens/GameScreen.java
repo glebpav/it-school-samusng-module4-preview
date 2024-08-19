@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
@@ -169,6 +170,17 @@ public class GameScreen extends BaseScreen {
         myGdxGame.camera.position.x = SCREEN_WIDTH / 2f;
     }
 
+    @Override
+    public void dispose() {
+        mapManager.dispose();
+        mapRenderer.dispose();
+        hudStage.dispose();
+        baseStage.dispose();
+        b2WorldManager.dispose();
+        liveBackground.dispose();
+        super.dispose();
+    }
+
     OnLoseListener onLoseListener = new OnLoseListener() {
         @Override
         public void onLose(String loseText) {
@@ -215,4 +227,6 @@ public class GameScreen extends BaseScreen {
             startGame();
         }
     };
+
+
 }

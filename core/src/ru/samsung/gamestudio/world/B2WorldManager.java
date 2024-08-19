@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.objects.wrappers.Ladder;
 import ru.samsung.gamestudio.objects.characters.*;
 import ru.samsung.gamestudio.objects.wrappers.PitBlock;
@@ -21,7 +22,7 @@ import java.util.List;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
-public class B2WorldManager {
+public class B2WorldManager implements Disposable {
 
     public World world;
 
@@ -29,6 +30,7 @@ public class B2WorldManager {
 
     private final ArrayList<Actor> actorsList;
     private final ArrayList<Body> bodiesGarbageList;
+    private final ArrayList<Disposable> disposablesList;
 
     private float accumulator;
     private float tileScale;
@@ -45,6 +47,7 @@ public class B2WorldManager {
 
         actorsList = new ArrayList<>();
         bodiesGarbageList = new ArrayList<>();
+        disposablesList = new ArrayList<>();
     }
 
     public void buildWorld(MapManager mapManager) {
@@ -78,13 +81,15 @@ public class B2WorldManager {
                 case "player": {
                     Rectangle rect = object.getRectangle();
                     player = new Player(world, rect, onDamageListener, onScoreEarnedListener, onLoseListener, tileScale);
+                    disposablesList.add(player);
                     break;
                 }
                 case "enemy1": {
                     Rectangle rect = object.getRectangle();
-                    actorsList.add(new Enemy(world, rect, (int) object.getProperties().get("walkLength"),
-                            onRemoveBodyListener, tileScale
-                    ));
+                    Enemy enemy = new Enemy(world, rect, (int) object.getProperties().get("walkLength"),
+                            onRemoveBodyListener, tileScale);
+                    actorsList.add(enemy);
+                    disposablesList.add(enemy);
                 }
             }
         }
@@ -101,12 +106,16 @@ public class B2WorldManager {
                 }
                 case "finishLine": {
                     Rectangle rect = object.getRectangle();
-                    actorsList.add(new FinishLine(world, rect, onWinListener, tileScale));
+                    FinishLine finishLine = new FinishLine(world, rect, onWinListener, tileScale);
+                    actorsList.add(finishLine);
+                    disposablesList.add(finishLine);
                     break;
                 }
                 case "coin": {
                     Rectangle rect = object.getRectangle();
-                    actorsList.add(new Coin(world, rect, onScoreEarnedListener, onRemoveBodyListener, tileScale));
+                    Coin coin = new Coin(world, rect, onScoreEarnedListener, onRemoveBodyListener, tileScale);
+                    actorsList.add(coin);
+                    disposablesList.add(coin);
                     break;
                 }
                 case "ladder": {
@@ -117,7 +126,9 @@ public class B2WorldManager {
                 case "bonusBlock": {
                     System.out.println("bonusBlock");
                     Rectangle rect = object.getRectangle();
-                    actorsList.add(new BonusBlock(world, rect, onRemoveBodyListener, onScoreEarnedListener, tileScale));
+                    BonusBlock bonusBlock = new BonusBlock(world, rect, onRemoveBodyListener, onScoreEarnedListener, tileScale);
+                    actorsList.add(bonusBlock);
+                    disposablesList.add(bonusBlock);
                     break;
                 }
             }
@@ -151,6 +162,7 @@ public class B2WorldManager {
 
         player = null;
         actorsList.clear();
+        dispose();
     }
 
     public void setOnLoseListener(OnLoseListener onLoseListener) {
@@ -176,4 +188,9 @@ public class B2WorldManager {
         }
     };
 
+    @Override
+    public void dispose() {
+        for (Disposable disposable : disposablesList) disposable.dispose();
+        disposablesList.clear();
+    }
 }

@@ -8,11 +8,12 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
+import com.badlogic.gdx.utils.Disposable;
 
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
 
-public class LiveBackground extends Group {
+public class LiveBackground extends Group implements Disposable {
 
     private final Image backgroundImage;
     private final Image smallReflectionImage;
@@ -108,5 +109,11 @@ public class LiveBackground extends Group {
     public void computeCloudPositions(float cameraX) {
         cloudX1 = -cameraX / CLOUD_SPEED_RATIO % SCREEN_WIDTH;
         cloudX2 = -cameraX / CLOUD_SPEED_RATIO % SCREEN_WIDTH + SCREEN_WIDTH;
+    }
+
+    @Override
+    public void dispose() {
+        smallReflectionAnimation.getKeyFrame(0).getTexture().dispose();
+        bigReflectionAnimation.getKeyFrame(0).getTexture().dispose();
     }
 }
