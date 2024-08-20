@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
@@ -22,6 +23,7 @@ public class BonusBlock extends PhysicalActor implements Disposable {
 
     private Animation<TextureRegion> destroyAnimation;
     private Animation<TextureRegion> idleAnimation;
+    private TextureRegionDrawable drawable;
 
     private State state;
     private float timer;
@@ -58,6 +60,8 @@ public class BonusBlock extends PhysicalActor implements Disposable {
     private void createAnimations() {
         Texture texture = new Texture(GameResources.BONUS_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
+        drawable = new TextureRegionDrawable();
+        setDrawable(drawable);
 
         frames.add(new TextureRegion(new TextureRegion(texture, 0, 0, 32, 32)));
         idleAnimation = new Animation<>(1f, frames, Animation.PlayMode.LOOP);
@@ -68,8 +72,7 @@ public class BonusBlock extends PhysicalActor implements Disposable {
         frames.clear();
     }
 
-    private Drawable getFrame(float delta) {
-
+    private void setAppropriateDrawable(float delta) {
         TextureRegion region;
 
         switch (state) {
@@ -82,14 +85,13 @@ public class BonusBlock extends PhysicalActor implements Disposable {
         }
 
         timer += delta;
-        return (new Image(region)).getDrawable();
-
+        drawable.setRegion(region);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        setDrawable(getFrame(delta));
+        setAppropriateDrawable(delta);
         if (state == State.DESTROYED && destroyAnimation.isAnimationFinished(timer)) {
             remove();
             onRemoveBodyListener.onRemoveBody(getPhysicalObject().getBody());

@@ -9,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Disableable;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
@@ -28,6 +29,7 @@ public class Player extends PhysicalActor implements Disposable {
     private Animation<TextureRegion> attackAnimation;
     private Animation<TextureRegion> gettingDamageAnimation;
     private Animation<TextureRegion> becomeDeadAnimation;
+    private TextureRegionDrawable drawable;
 
     private final float tileScale;
 
@@ -75,9 +77,10 @@ public class Player extends PhysicalActor implements Disposable {
     }
 
     private void createAnimations() {
-
         Texture texture = new Texture(GameResources.PLAYER_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
+        drawable = new TextureRegionDrawable();
+        setDrawable(drawable);
 
         for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 64 * i, 4 * 40, 64, 40));
         idleAnimation = new Animation(0.15f, frames, Animation.PlayMode.LOOP);
@@ -102,11 +105,9 @@ public class Player extends PhysicalActor implements Disposable {
         for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, 64 * i, 5 * 40, 64, 40));
         becomeDeadAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
-
     }
 
-    private Drawable getFrame(float delta) {
-
+    private void setAppropriateDrawable(float delta) {
         TextureRegion region;
 
         switch (state) {
@@ -138,8 +139,7 @@ public class Player extends PhysicalActor implements Disposable {
             region.flip(true, false);
 
         timer += delta;
-        return (new Image(region)).getDrawable();
-
+        drawable.setRegion(region);
     }
 
     public void moveLeft() {
@@ -204,7 +204,7 @@ public class Player extends PhysicalActor implements Disposable {
                 (getPhysicalObject().getBody().getPosition().x) / SCALE * tileScale - getWidth() / 2,
                 (getPhysicalObject().getBody().getPosition().y) / SCALE * tileScale - getHeight() / 1.5f
         );
-        setDrawable(getFrame(delta));
+        setAppropriateDrawable(delta);
         if (state == State.RUNNING
                 && getPhysicalObject().getBody().getLinearVelocity().y == 0
                 && getPhysicalObject().getBody().getLinearVelocity().x == 0

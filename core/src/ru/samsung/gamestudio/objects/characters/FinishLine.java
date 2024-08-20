@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
@@ -23,6 +24,7 @@ public class FinishLine extends PhysicalActor implements Hittable, Disposable {
     private float timer;
 
     private Animation<TextureRegion> idleAnimation;
+    private TextureRegionDrawable drawable;
 
     public FinishLine(World world, Rectangle bounds, OnWinListener onWinListener, float tileScale) {
         this.onWinListener = onWinListener;
@@ -42,28 +44,26 @@ public class FinishLine extends PhysicalActor implements Hittable, Disposable {
     }
 
     private void createAnimations() {
-
         Texture texture = new Texture(GameResources.FINIS_LINE_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
+        drawable = new TextureRegionDrawable();
+        setDrawable(drawable);
 
         for (int i = 0; i < 9; i++) frames.add(new TextureRegion(texture, 34 * i, 0, 34, 93));
         idleAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
-
     }
 
-    private Drawable getFrame(float delta) {
-
+    private void setAppropriateDrawable(float delta) {
         TextureRegion region = idleAnimation.getKeyFrame(timer, true);
         timer += delta;
-        return (new Image(region)).getDrawable();
-
+        drawable.setRegion(region);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        setDrawable(getFrame(delta));
+        setAppropriateDrawable(delta);
     }
 
     @Override

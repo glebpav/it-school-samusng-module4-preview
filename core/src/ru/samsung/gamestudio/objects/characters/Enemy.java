@@ -8,6 +8,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
@@ -22,6 +23,7 @@ public class Enemy extends PhysicalActor implements Disposable {
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> runAnimation;
     private Animation<TextureRegion> deadAnimation;
+    private TextureRegionDrawable drawable;
 
     private final OnRemoveBodyListener onRemoveBodyListener;
 
@@ -63,9 +65,10 @@ public class Enemy extends PhysicalActor implements Disposable {
     }
 
     private void createAnimations() {
-
         Texture texture = new Texture(GameResources.ENEMY_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
+        drawable = new TextureRegionDrawable();
+        setDrawable(drawable);
 
         for (int i = 0; i < 8; i++) frames.add(new TextureRegion(texture, i * 34, 0, 34, 30));
 
@@ -79,11 +82,9 @@ public class Enemy extends PhysicalActor implements Disposable {
         for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, i * 34, 60, 34, 30));
         deadAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
-
     }
 
-    private Drawable getFrame(float delta) {
-
+    private void setAppropriateDrawable(float delta) {
         TextureRegion region;
 
         switch (state) {
@@ -102,8 +103,7 @@ public class Enemy extends PhysicalActor implements Disposable {
         if (needToBeSwapped == region.isFlipX()) region.flip(true, false);
 
         timer += delta;
-        return (new Image(region)).getDrawable();
-
+        drawable.setRegion(region);
     }
 
     private void moveLeft() {
@@ -120,7 +120,7 @@ public class Enemy extends PhysicalActor implements Disposable {
 
     @Override
     public void act(float delta) {
-        setDrawable(getFrame(delta));
+        setAppropriateDrawable(delta);
         if (state != State.DEAD) {
 
             setPosition((

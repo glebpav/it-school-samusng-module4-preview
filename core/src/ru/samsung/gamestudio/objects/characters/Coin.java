@@ -8,6 +8,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
@@ -22,6 +23,7 @@ public class Coin extends PhysicalActor implements Disposable {
 
     private Animation<TextureRegion> idleAnimation;
     private Animation<TextureRegion> disappearAnimation;
+    private TextureRegionDrawable drawable;
 
     private State state;
     private float timer;
@@ -56,9 +58,10 @@ public class Coin extends PhysicalActor implements Disposable {
     }
 
     private void createAnimations() {
-
         Texture texture = new Texture(GameResources.COIN_TILESET_PATH);
         Array<TextureRegion> frames = new Array<>();
+        drawable = new TextureRegionDrawable();
+        setDrawable(drawable);
 
         for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, 0, i * 24, 24, 24));
         idleAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
@@ -67,11 +70,9 @@ public class Coin extends PhysicalActor implements Disposable {
         for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, 24, i * 24, 24, 24));
         disappearAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
-
     }
 
-    private Drawable getFrame(float delta) {
-
+    private void setAppropriateDrawable(float delta) {
         TextureRegion region;
 
         switch (state) {
@@ -84,14 +85,13 @@ public class Coin extends PhysicalActor implements Disposable {
         }
 
         timer += delta;
-        return (new Image(region)).getDrawable();
-
+        drawable.setRegion(region);
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        setDrawable(getFrame(delta));
+        setAppropriateDrawable(delta);
         if (state == State.COLLECTED && disappearAnimation.isAnimationFinished(timer)) {
             remove();
             onRemoveBodyListener.onRemoveBody(getPhysicalObject().getBody());
