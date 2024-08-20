@@ -105,7 +105,7 @@ public class GameScreen extends BaseScreen {
         mapRenderer.setView(myGdxGame.camera);
         mapRenderer.render();
 
-        debugRenderer.render(b2WorldManager.world, myGdxGame.camera.combined);
+        // debugRenderer.render(b2WorldManager.world, myGdxGame.camera.combined);
         super.render(delta, false);
         hudStage.act();
         hudStage.draw();

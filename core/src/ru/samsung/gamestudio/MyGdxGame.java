@@ -21,7 +21,7 @@ public class MyGdxGame extends Game {
 
     @Override
     public void create() {
-        camera = new OrthographicCamera(SCREEN_WIDTH, SCREEN_HEIGHT);
+        camera = new OrthographicCamera();
 
         skin = new Skin(Gdx.files.internal(SKIN_PATH));
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);

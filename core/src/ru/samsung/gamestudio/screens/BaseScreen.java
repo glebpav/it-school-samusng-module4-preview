@@ -5,12 +5,14 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.samsung.gamestudio.MyGdxGame;
 import ru.samsung.gamestudio.game.GameSettings;
 
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
+import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
 
 public abstract class BaseScreen extends ScreenAdapter {
 
@@ -20,7 +22,7 @@ public abstract class BaseScreen extends ScreenAdapter {
 
     public BaseScreen(MyGdxGame myGdxGame) {
         this.myGdxGame = myGdxGame;
-        baseViewport = new FitViewport(GameSettings.SCREEN_WIDTH, SCREEN_HEIGHT, myGdxGame.camera);
+        baseViewport = new FitViewport(SCREEN_WIDTH, SCREEN_HEIGHT, myGdxGame.camera);
         baseStage = new Stage(baseViewport);
     }
 
