@@ -31,8 +31,8 @@ public class LoseDialog extends Dialog {
         getContentTable().align(Align.center);
         getContentTable().add(textLabel).height(150).colspan(2);
         getContentTable().row();
-        getContentTable().add(restartButton).height(70).width(120).align(Align.right);
-        getContentTable().add(homeButton).height(70).width(120).align(Align.left);
+        getContentTable().add(restartButton).height(70).width(120);
+        getContentTable().add(homeButton).height(70).width(120);
     }
 
     public void setText(String text) {

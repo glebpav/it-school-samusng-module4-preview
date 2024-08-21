@@ -8,13 +8,18 @@ public class HudUi extends Table {
 
     private final Label scoreLabel;
     private final Label leftLivesLabel;
+    public final TextButton pauseButton;
 
     public HudUi(Skin skin) {
         scoreLabel = new Label("", skin);
         leftLivesLabel = new Label("", skin);
+        pauseButton = new TextButton("Pause", skin);
 
-        add(scoreLabel).padRight(20);
-        add(leftLivesLabel).padLeft(20);
+        setWidth(SCREEN_WIDTH);
+        add(scoreLabel).padLeft(30);
+        add(leftLivesLabel).padLeft(30);
+        add().expand();
+        add(pauseButton).width(100).padRight(30);
     }
 
     public void setScore(int score) {

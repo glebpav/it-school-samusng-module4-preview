@@ -69,7 +69,9 @@ public class GameScreen extends BaseScreen {
         gameUi.loseDialog.homeButton.addListener(onButtonHomeClicked);
         gameUi.winDialog.homeButton.addListener(onButtonHomeClicked);
         gameUi.loseDialog.restartButton.addListener(onButtonRestartClicked);
-
+        gameUi.pauseDialog.homeButton.addListener(onButtonHomeClicked);
+        gameUi.pauseDialog.resumeButton.addListener(onButtonResumeClicked);
+        gameUi.hudUi.pauseButton.addListener(onButtonPauseClicked);
     }
 
     public void setLevel(Level level) {
@@ -225,6 +227,22 @@ public class GameScreen extends BaseScreen {
         public void clicked(InputEvent event, float x, float y) {
             clearLevel();
             startGame();
+        }
+    };
+
+    ClickListener onButtonPauseClicked = new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            gameUi.showPauseDialog();
+            session.pauseGame();
+        }
+    };
+
+    ClickListener onButtonResumeClicked = new ClickListener() {
+        @Override
+        public void clicked(InputEvent event, float x, float y) {
+            gameUi.hideDialogs();
+            session.resumeGame();
         }
     };
 

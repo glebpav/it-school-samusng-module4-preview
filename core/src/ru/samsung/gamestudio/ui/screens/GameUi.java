@@ -4,10 +4,7 @@ import com.badlogic.gdx.Application;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import ru.samsung.gamestudio.ui.UiComponent;
-import ru.samsung.gamestudio.ui.components.HudUi;
-import ru.samsung.gamestudio.ui.components.LoseDialog;
-import ru.samsung.gamestudio.ui.components.MobileController;
-import ru.samsung.gamestudio.ui.components.WinDialog;
+import ru.samsung.gamestudio.ui.components.*;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
@@ -15,6 +12,7 @@ public class GameUi extends UiComponent {
 
     public final LoseDialog loseDialog;
     public final WinDialog winDialog;
+    public final PauseDialog pauseDialog;
 
     public final HudUi hudUi;
     public MobileController mobileController;
@@ -23,6 +21,7 @@ public class GameUi extends UiComponent {
         hudUi = new HudUi(skin);
         loseDialog = new LoseDialog(skin);
         winDialog = new WinDialog(skin);
+        pauseDialog = new PauseDialog(skin);
 
         addActor(hudUi);
 
@@ -45,9 +44,13 @@ public class GameUi extends UiComponent {
         addActor(winDialog);
     }
 
+    public void showPauseDialog() {
+        addActor(pauseDialog);
+    }
+
     public void hideDialogs() {
         winDialog.remove();
         loseDialog.remove();
+        pauseDialog.remove();
     }
-
 }
