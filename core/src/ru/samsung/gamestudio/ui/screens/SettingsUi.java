@@ -6,6 +6,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import ru.samsung.gamestudio.ui.UiComponent;
 import ru.samsung.gamestudio.ui.components.LiveBackground;
 
+import static ru.samsung.gamestudio.game.GameSettings.localizationBundle;
+
 public class SettingsUi extends UiComponent {
 
     public TextButton homeButton;
@@ -14,9 +16,9 @@ public class SettingsUi extends UiComponent {
     public SettingsUi(Skin skin) {
         super();
 
-        homeButton = new TextButton("home", skin);
-        resetLevelsButton = new TextButton("reset levels", skin);
-        Label titleLabel = new Label("Settings", skin, "labelTitle");
+        homeButton = new TextButton(localizationBundle.get("homeButtonText"), skin);
+        resetLevelsButton = new TextButton(localizationBundle.get("resetLevelsButtonText"), skin);
+        Label titleLabel = new Label(localizationBundle.get("settingsScreenTitleText"), skin, "labelTitle");
         LiveBackground liveBackground = new LiveBackground();
 
         addActor(liveBackground);

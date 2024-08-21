@@ -13,7 +13,7 @@ public class HudUi extends Table {
     public HudUi(Skin skin) {
         scoreLabel = new Label("", skin);
         leftLivesLabel = new Label("", skin);
-        pauseButton = new TextButton("Pause", skin);
+        pauseButton = new TextButton(localizationBundle.get("pauseButtonText"), skin);
 
         setWidth(SCREEN_WIDTH);
         add(scoreLabel).padLeft(30);
@@ -23,16 +23,16 @@ public class HudUi extends Table {
     }
 
     public void setScore(int score) {
-        scoreLabel.setText("Score: " + score);
+        scoreLabel.setText(localizationBundle.format("scoreLabelText", score));
     }
 
     public void setLeftLives(int leftLives) {
-        leftLivesLabel.setText("Left Lives: " + leftLives);
+        leftLivesLabel.setText(localizationBundle.format("leftLivesLabelText", leftLives));
     }
 
     public void clearHud() {
-        scoreLabel.setText("Score: 0");
-        leftLivesLabel.setText("Left Lives: " + PLAYER_LIVES);
+        scoreLabel.setText(localizationBundle.format("scoreLabelText", 0));
+        leftLivesLabel.setText(localizationBundle.format("leftLivesLabelText", PLAYER_LIVES));
     }
 
 }

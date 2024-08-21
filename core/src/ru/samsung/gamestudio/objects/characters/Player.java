@@ -213,7 +213,7 @@ public class Player extends PhysicalActor implements Disposable {
                 || state == State.GETTING_DAMAGE && gettingDamageAnimation.isAnimationFinished(timer)) {
             state = State.IDLE;
         } else if (state == State.DEAD && becomeDeadAnimation.isAnimationFinished(timer)) {
-            onLoseListener.onLose(GameResources.LOOSE_TEXT_NO_LIVES_LEFT_CASE);
+            onLoseListener.onLose(localizationBundle.get("loseTextNoLeftLivesCase"));
         }
     }
 

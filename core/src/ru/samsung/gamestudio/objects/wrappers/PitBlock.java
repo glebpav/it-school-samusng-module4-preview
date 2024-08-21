@@ -9,6 +9,7 @@ import ru.samsung.gamestudio.objects.characters.PhysicalObject;
 import ru.samsung.gamestudio.world.listeners.OnLoseListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.PIT_BIT;
+import static ru.samsung.gamestudio.game.GameSettings.localizationBundle;
 
 public class PitBlock implements Hittable {
 
@@ -32,7 +33,7 @@ public class PitBlock implements Hittable {
 
     @Override
     public void hit(short hitObjectBits) {
-        onLoseListener.onLose(GameResources.LOOSE_TEXT_PIT_CASE);
+        onLoseListener.onLose(localizationBundle.get("loseTextPitCase"));
     }
 
     @Override

@@ -27,7 +27,7 @@ public class MenuScreen extends BaseScreen {
         String[] levelList = new String[LevelManager.getAllLevels().length];
         for (int i = 0; i < LevelManager.getAllLevels().length; i++) {
             Level level = LevelManager.getAllLevels()[i];
-            levelList[i] = level.getName() + (LevelManager.isLevelAvailable(i) ? "" : " (unavailable)");
+            levelList[i] = level.getName() + (LevelManager.isLevelAvailable(i) ? "" : " (-)");
         }
         menuUi.listView.setItems(levelList);
     }

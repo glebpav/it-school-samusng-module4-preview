@@ -5,6 +5,8 @@ import com.badlogic.gdx.utils.Align;
 import ru.samsung.gamestudio.ui.UiComponent;
 import ru.samsung.gamestudio.ui.components.LiveBackground;
 
+import static ru.samsung.gamestudio.game.GameSettings.localizationBundle;
+
 public class MenuUi extends UiComponent {
 
     public ScrollPane scrollPane;
@@ -16,10 +18,10 @@ public class MenuUi extends UiComponent {
 
     public MenuUi(Skin skin) {
         LiveBackground liveBackground = new LiveBackground();
-        startButton = new TextButton("Start this game", skin);
-        exitButton = new TextButton("Exit game", skin);
-        settingsButton = new TextButton("Settings", skin);
-        Label title = new Label("Pirate treasure", skin, "labelTitle");
+        startButton = new TextButton(localizationBundle.get("startButtonText"), skin);
+        exitButton = new TextButton(localizationBundle.get("exitButtonText"), skin);
+        settingsButton = new TextButton(localizationBundle.get("settingsButtonText"), skin);
+        Label title = new Label(localizationBundle.get("menuScreenTitleText"), skin, "labelTitle");
 
         listView = new List<>(skin);
         scrollPane = new ScrollPane(listView, skin);

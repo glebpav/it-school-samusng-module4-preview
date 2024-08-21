@@ -1,6 +1,7 @@
 package ru.samsung.gamestudio.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.I18NBundle;
 
 public class GameSettings {
 
@@ -11,6 +12,7 @@ public class GameSettings {
     public static final float SCREEN_HEIGHT = Gdx.graphics.getHeight() / baseRatio;
 
     public static final String SKIN_PATH = "skin/skin.json";
+    private static final String LOCALIZATION_BUNDLE_PATH = "localization/bundle";
 
     public static final int COIN_VALUE = 50;
     public static final int PLAYER_LIVES = 3;
@@ -36,5 +38,8 @@ public class GameSettings {
     public static final short BONUS_BIT = 256;
     public static final short PLAYER_HEAD_BIT = 512;
     public static final short PLAYER_FEET_BIT = 1024;
+
+    public static I18NBundle localizationBundle =
+            I18NBundle.createBundle(Gdx.files.internal(LOCALIZATION_BUNDLE_PATH));
 
 }

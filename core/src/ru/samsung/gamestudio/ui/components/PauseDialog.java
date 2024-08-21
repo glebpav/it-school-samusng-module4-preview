@@ -6,8 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.utils.Align;
 
-import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
-import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
+import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public class PauseDialog extends Dialog {
 
@@ -17,9 +16,9 @@ public class PauseDialog extends Dialog {
     public PauseDialog(Skin skin) {
         super("", skin);
 
-        Label label = new Label("Game on pause", skin);
-        resumeButton = new TextButton("resume", skin);
-        homeButton = new TextButton("home", skin);
+        Label label = new Label(localizationBundle.get("pauseDialogText"), skin);
+        resumeButton = new TextButton(localizationBundle.get("resumeButtonText"), skin);
+        homeButton = new TextButton(localizationBundle.get("homeButtonText"), skin);
 
         setSize(400, 300);
         setPosition(SCREEN_WIDTH / 2f - getWidth() / 2, SCREEN_HEIGHT / 2f - getHeight() / 2);

@@ -60,7 +60,6 @@ public class GameScreen extends BaseScreen {
         backgroundStage.addActor(liveBackground);
         hudStage.addActor(gameUi);
 
-
         b2WorldManager.setOnLoseListener(onLoseListener);
         b2WorldManager.setOnWinListener(onWinListener);
         b2WorldManager.setOnCollectCoinListener(onScoreEarnedListener);

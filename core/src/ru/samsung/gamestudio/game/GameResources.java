@@ -7,8 +7,8 @@ public class GameResources {
     public static final String BONUS_TILESET_PATH = "texture/items/bonus-tileset.png";
     public static final String COIN_TILESET_PATH = "texture/items/coin-tileset.png";
     public static final String FINIS_LINE_TILESET_PATH = "texture/items/finish-line-tileset.png";
-
-    public static final String LOOSE_TEXT_PIT_CASE = "Don't fall into the pit";
-    public static final String LOOSE_TEXT_NO_LIVES_LEFT_CASE = "Don't touch enemies,\nthey don't like it";
+    public static final String REFLECTIONS_TILESET_PATH = "texture/background/reflections-tileset.png";
+    public static final String BACKGROUND_IMAGE_PATH = "texture/background/background.png";
+    public static final String BIT_CLOUD_IMAGE_PATH = "texture/background/big-clouds.png";
 
 }

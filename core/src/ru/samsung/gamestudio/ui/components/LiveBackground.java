@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.Drawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 
+import static ru.samsung.gamestudio.game.GameResources.*;
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
 
@@ -31,7 +32,7 @@ public class LiveBackground extends Group implements Disposable {
 
     public LiveBackground() {
 
-        Texture reflectionsTileset = new Texture("texture/background/reflections-tileset.png");
+        Texture reflectionsTileset = new Texture(REFLECTIONS_TILESET_PATH);
 
         Array<TextureRegion> frames = new Array<>();
         for (int i = 0; i < 4; i++) frames.add(new TextureRegion(reflectionsTileset, 0, 10 * i, 170, 10));
@@ -41,11 +42,11 @@ public class LiveBackground extends Group implements Disposable {
         smallReflectionAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        backgroundImage = new Image(new Texture("texture/background/background.png"));
+        backgroundImage = new Image(new Texture(BACKGROUND_IMAGE_PATH));
         bigReflectionImage = new Image(getBigReflectionDrawable(0));
         smallReflectionImage = new Image(getSmallReflectionDrawable(0));
 
-        bigCloudImage = new Image(new Texture("texture/background/big-clouds.png"));
+        bigCloudImage = new Image(new Texture(BIT_CLOUD_IMAGE_PATH));
 
         backgroundImage.setPosition(0, 0);
         backgroundImage.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
