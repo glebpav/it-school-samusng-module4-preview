@@ -109,7 +109,7 @@ public class LiveBackground extends Group implements Disposable {
 
     public void computeCloudPositions(float cameraX) {
         cloudX1 = -cameraX / CLOUD_SPEED_RATIO % SCREEN_WIDTH;
-        cloudX2 = -cameraX / CLOUD_SPEED_RATIO % SCREEN_WIDTH + SCREEN_WIDTH;
+        cloudX2 = cloudX1 + SCREEN_WIDTH;
     }
 
     @Override

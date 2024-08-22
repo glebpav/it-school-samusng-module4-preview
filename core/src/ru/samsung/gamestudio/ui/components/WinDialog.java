@@ -43,7 +43,7 @@ public class WinDialog extends Dialog {
     public void setTime(long time) {
         String timeColonPattern = "mm:ss";
         DateTimeFormatter timeColonFormatter = DateTimeFormatter.ofPattern(timeColonPattern);
-        LocalTime colonTime = LocalTime.of(0, (int) (time / 1000 / 60), (int) (time / 1000 % 60));
+        LocalTime colonTime = LocalTime.of(0, (int) (time / 1000 / 60 % 60), (int) (time / 1000 % 60));
         timeLabel.setText(localizationBundle.format("timeLabelText", timeColonFormatter.format(colonTime)));
     }
 

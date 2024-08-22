@@ -8,7 +8,7 @@ public class LevelManager {
     private final static Level[] levelsArray = new Level[]{
             new Level(localizationBundle.get("level1Name"), "maps/level4.tmx"),
             new Level(localizationBundle.get("level2Name"), "maps/level5.tmx"),
-            new Level(localizationBundle.get("level3Name"), "maps/level4.tmx"),
+            new Level(localizationBundle.get("level3Name"), "maps/level6.tmx"),
             new Level(localizationBundle.get("level4Name"), "maps/level4.tmx"),
             new Level(localizationBundle.get("level2Name"), "maps/level2.tmx"),
             new Level(localizationBundle.get("level3Name"), "maps/level2.tmx"),

@@ -20,11 +20,6 @@ public class PhysicalObject {
         }
     }
 
-    private PhysicalObject(Body body, ArrayList<Fixture> fixturesList) {
-        this.body = body;
-        this.fixturesList = fixturesList;
-    }
-
     public Body getBody() {
         return body;
     }
@@ -88,10 +83,6 @@ public class PhysicalObject {
 
         public PhysicalObject build(Object objectHolder) {
             return new PhysicalObject(body, fixturesList, objectHolder);
-        }
-
-        public PhysicalObject build() {
-            return new PhysicalObject(body, fixturesList);
         }
 
     }
