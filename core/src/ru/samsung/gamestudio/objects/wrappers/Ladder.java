@@ -18,9 +18,4 @@ public class Ladder {
                 .setBodyAsSensor()
                 .build(this);
     }
-
-    public PhysicalObject getPhysicalObject() {
-        return physicalObject;
-    }
-
 }

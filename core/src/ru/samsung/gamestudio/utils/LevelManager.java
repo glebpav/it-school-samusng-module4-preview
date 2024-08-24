@@ -15,11 +15,6 @@ public class LevelManager {
             new Level(localizationBundle.get("level4Name"), "maps/level2.tmx"),
             new Level(localizationBundle.get("level1Name"), "maps/level2.tmx"),
             new Level(localizationBundle.get("level2Name"), "maps/level2.tmx"),
-            new Level(localizationBundle.get("level3Name"), "maps/level2.tmx"),
-            new Level(localizationBundle.get("level4Name"), "maps/level2.tmx"),
-            new Level(localizationBundle.get("level1Name"), "maps/level2.tmx"),
-            new Level(localizationBundle.get("level2Name"), "maps/level2.tmx"),
-            new Level(localizationBundle.get("level3Name"), "maps/level2.tmx"),
     };
 
     public static Level[] getAllLevels() {
