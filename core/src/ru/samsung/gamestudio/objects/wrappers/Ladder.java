@@ -3,7 +3,7 @@ package ru.samsung.gamestudio.objects.wrappers;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import ru.samsung.gamestudio.objects.characters.PhysicalObject;
+import ru.samsung.gamestudio.objects.PhysicalObject;
 
 import static ru.samsung.gamestudio.game.GameSettings.LADDER_BIT;
 

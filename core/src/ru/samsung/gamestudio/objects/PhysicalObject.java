@@ -1,4 +1,4 @@
-package ru.samsung.gamestudio.objects.characters;
+package ru.samsung.gamestudio.objects;
 
 import com.badlogic.gdx.physics.box2d.*;
 

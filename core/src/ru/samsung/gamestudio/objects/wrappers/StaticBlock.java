@@ -5,7 +5,7 @@ import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import ru.samsung.gamestudio.game.GameSettings;
 import ru.samsung.gamestudio.objects.Hittable;
-import ru.samsung.gamestudio.objects.characters.PhysicalObject;
+import ru.samsung.gamestudio.objects.PhysicalObject;
 
 public class StaticBlock implements Hittable {
 

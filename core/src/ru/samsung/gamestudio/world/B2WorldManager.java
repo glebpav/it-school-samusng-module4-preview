@@ -53,10 +53,6 @@ public class B2WorldManager implements Disposable {
     public void buildWorld(MapManager mapManager) {
         tileScale = mapManager.getTileScale();
 
-        for (MapLayer mapLayer : mapManager.getMap().getLayers()) {
-            System.out.println("mapLayer: " + mapLayer.getName());
-        }
-
         for (
                 RectangleMapObject object :
                 mapManager.getMap().getLayers().get("walls").getObjects().getByType(RectangleMapObject.class)

@@ -3,9 +3,8 @@ package ru.samsung.gamestudio.objects.wrappers;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
-import ru.samsung.gamestudio.game.GameResources;
 import ru.samsung.gamestudio.objects.Hittable;
-import ru.samsung.gamestudio.objects.characters.PhysicalObject;
+import ru.samsung.gamestudio.objects.PhysicalObject;
 import ru.samsung.gamestudio.world.listeners.OnLoseListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.PIT_BIT;

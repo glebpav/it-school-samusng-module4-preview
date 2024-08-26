@@ -37,11 +37,6 @@ public abstract class BaseScreen extends ScreenAdapter {
     }
 
     @Override
-    public void resume() {
-        System.out.println("resume");
-    }
-
-    @Override
     public void render(float delta) {
         render(delta, true);
     }
