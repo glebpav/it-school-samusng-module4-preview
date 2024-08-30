@@ -1,9 +1,11 @@
 package ru.samsung.gamestudio.utils;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.maps.MapProperties;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
 
@@ -16,12 +18,20 @@ public class MapManager implements Disposable {
 
     public MapManager(String pathToMap) {
         TmxMapLoader mapLoader = new TmxMapLoader();
-        map = mapLoader.load(pathToMap);
-        MapProperties properties = map.getProperties();
-        tileSize = properties.get("tilewidth", Integer.class);
-        countOfTilesHorizontal = properties.get("width", Integer.class);
-        float countOfTilesVertical = properties.get("height", Integer.class);
-        tileScale = SCREEN_HEIGHT / tileSize / countOfTilesVertical;
+        try {
+            map = mapLoader.load(pathToMap);
+            MapProperties properties = map.getProperties();
+            tileSize = properties.get("tilewidth", Integer.class);
+            countOfTilesHorizontal = properties.get("width", Integer.class);
+            float countOfTilesVertical = properties.get("height", Integer.class);
+            tileScale = SCREEN_HEIGHT / tileSize / countOfTilesVertical;
+        } catch (GdxRuntimeException e) {
+            Gdx.app.error("MapManager", "Failed to load map, check the file path or format: " + pathToMap, e);
+            throw e;
+        } catch (NullPointerException e) {
+            Gdx.app.error("MapManager", "Map properties missing or invalid in: " + pathToMap, e);
+            throw e;
+        }
     }
 
     public TiledMap getMap() {

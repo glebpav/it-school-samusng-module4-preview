@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
+import ru.samsung.gamestudio.utils.TextureLoader;
 import ru.samsung.gamestudio.objects.PhysicalObject;
 import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
@@ -57,7 +58,8 @@ public class BonusBlock extends PhysicalActor implements Disposable {
     }
 
     private void createAnimations() {
-        Texture texture = new Texture(GameResources.BONUS_TILESET_PATH);
+        Texture texture = TextureLoader.loadTexture(GameResources.BONUS_TILESET_PATH, "BonusBlock");
+
         Array<TextureRegion> frames = new Array<>();
         drawable = new TextureRegionDrawable();
         setDrawable(drawable);

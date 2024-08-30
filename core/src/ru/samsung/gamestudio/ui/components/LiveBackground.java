@@ -14,6 +14,8 @@ import static ru.samsung.gamestudio.game.GameResources.*;
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
 
+import ru.samsung.gamestudio.utils.TextureLoader;
+
 public class LiveBackground extends Group implements Disposable {
 
     private final Image backgroundImage;
@@ -31,22 +33,24 @@ public class LiveBackground extends Group implements Disposable {
     private final float CLOUD_SPEED_RATIO = 7;
 
     public LiveBackground() {
-
-        Texture reflectionsTileset = new Texture(REFLECTIONS_TILESET_PATH);
+        Texture reflectionsTileset = TextureLoader.loadTexture(REFLECTIONS_TILESET_PATH, "LiveBackground");
 
         Array<TextureRegion> frames = new Array<>();
-        for (int i = 0; i < 4; i++) frames.add(new TextureRegion(reflectionsTileset, 0, 10 * i, 170, 10));
+        for (int i = 0; i < 4; i++)
+            frames.add(new TextureRegion(reflectionsTileset, 0, 10 * i, 170, 10));
         bigReflectionAnimation = new Animation<>(0.1f, frames, Animation.PlayMode.LOOP);
         frames.clear();
-        for (int i = 0; i < 4; i++) frames.add(new TextureRegion(reflectionsTileset, 170, 3 * i, 35, 3));
+
+        for (int i = 0; i < 4; i++)
+            frames.add(new TextureRegion(reflectionsTileset, 170, 3 * i, 35, 3));
         smallReflectionAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        backgroundImage = new Image(new Texture(BACKGROUND_IMAGE_PATH));
+        backgroundImage = new Image(TextureLoader.loadTexture( BACKGROUND_IMAGE_PATH, "LiveBackground"));
         bigReflectionImage = new Image(getBigReflectionDrawable(0));
         smallReflectionImage = new Image(getSmallReflectionDrawable(0));
 
-        bigCloudImage = new Image(new Texture(BIT_CLOUD_IMAGE_PATH));
+        bigCloudImage = new Image(TextureLoader.loadTexture( BIT_CLOUD_IMAGE_PATH, "LiveBackground"));
 
         backgroundImage.setPosition(0, 0);
         backgroundImage.setSize(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -67,6 +71,7 @@ public class LiveBackground extends Group implements Disposable {
         timer = 0;
         cloudX1 = 0;
         cloudX2 = SCREEN_WIDTH;
+
     }
 
     private Drawable getBigReflectionDrawable(float timer) {

@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
+import ru.samsung.gamestudio.utils.TextureLoader;
 import ru.samsung.gamestudio.objects.PhysicalObject;
 import ru.samsung.gamestudio.world.listeners.OnLoseListener;
 import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
@@ -75,7 +76,7 @@ public class Player extends PhysicalActor implements Disposable {
     }
 
     private void createAnimations() {
-        Texture texture = new Texture(GameResources.PLAYER_TILESET_PATH);
+        Texture texture = TextureLoader.loadTexture( GameResources.PLAYER_TILESET_PATH, "Player");
         Array<TextureRegion> frames = new Array<>();
         drawable = new TextureRegionDrawable();
         setDrawable(drawable);
@@ -155,7 +156,7 @@ public class Player extends PhysicalActor implements Disposable {
                 || state == State.GETTING_DAMAGE && !gettingDamageAnimation.isAnimationFinished(timer)
                 || state == State.DEAD) return;
 
-        getPhysicalObject().getBody().applyForceToCenter(new Vector2(10f, 0), true);
+        getPhysicalObject().getBody().applyForceToCenter(new Vector2(6f, 0), true);
         needToBeSwapped = false;
         state = State.RUNNING;
     }

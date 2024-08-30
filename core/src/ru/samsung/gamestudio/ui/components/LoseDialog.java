@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Align;
 
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_HEIGHT;
 import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
+import static ru.samsung.gamestudio.game.GameSettings.localizationBundle;
 
 public class LoseDialog extends Dialog {
 
@@ -18,8 +19,8 @@ public class LoseDialog extends Dialog {
     public LoseDialog(Skin skin) {
         super("", skin);
 
-        restartButton = new TextButton("restart", skin);
-        homeButton = new TextButton("home", skin);
+        restartButton = new TextButton(localizationBundle.get("restartButtonText"), skin);
+        homeButton = new TextButton(localizationBundle.get("homeButtonText"), skin);
         textLabel = new Label("", skin);
         textLabel.setScale(10);
 

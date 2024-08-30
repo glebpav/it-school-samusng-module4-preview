@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
+import ru.samsung.gamestudio.utils.TextureLoader;
 import ru.samsung.gamestudio.objects.PhysicalObject;
 import ru.samsung.gamestudio.world.listeners.OnScoreEarnedListener;
 import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
@@ -56,7 +57,8 @@ public class Coin extends PhysicalActor implements Disposable {
     }
 
     private void createAnimations() {
-        Texture texture = new Texture(GameResources.COIN_TILESET_PATH);
+        Texture texture = TextureLoader.loadTexture(GameResources.COIN_TILESET_PATH, "Coin");
+
         Array<TextureRegion> frames = new Array<>();
         drawable = new TextureRegionDrawable();
         setDrawable(drawable);

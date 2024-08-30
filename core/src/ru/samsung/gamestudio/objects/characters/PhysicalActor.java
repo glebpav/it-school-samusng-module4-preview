@@ -1,8 +1,6 @@
 package ru.samsung.gamestudio.objects.characters;
 
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import ru.samsung.gamestudio.objects.Drawable;
 import ru.samsung.gamestudio.objects.Hittable;
 import ru.samsung.gamestudio.objects.PhysicalObject;
 

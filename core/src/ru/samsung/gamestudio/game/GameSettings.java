@@ -1,7 +1,9 @@
 package ru.samsung.gamestudio.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.GdxRuntimeException;
 import com.badlogic.gdx.utils.I18NBundle;
+
 
 public class GameSettings {
 
@@ -39,7 +41,15 @@ public class GameSettings {
     public static final short PLAYER_HEAD_BIT = 512;
     public static final short PLAYER_FEET_BIT = 1024;
 
-    public static I18NBundle localizationBundle =
-            I18NBundle.createBundle(Gdx.files.internal(LOCALIZATION_BUNDLE_PATH));
+    public static I18NBundle localizationBundle;
+
+    static {
+        try {
+            localizationBundle = I18NBundle.createBundle(Gdx.files.internal(LOCALIZATION_BUNDLE_PATH));
+        } catch (GdxRuntimeException e) {
+            Gdx.app.error("GameSettings", "Failed to load localization bundle: "+ LOCALIZATION_BUNDLE_PATH, e);
+            throw e;
+        }
+    }
 
 }

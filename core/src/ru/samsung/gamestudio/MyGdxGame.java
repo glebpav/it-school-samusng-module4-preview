@@ -2,15 +2,12 @@ package ru.samsung.gamestudio;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.I18NBundle;
 import ru.samsung.gamestudio.screens.GameScreen;
 import ru.samsung.gamestudio.screens.MenuScreen;
 import ru.samsung.gamestudio.screens.SettingsScreen;
-
-import java.util.logging.FileHandler;
+import ru.samsung.gamestudio.utils.LogFileManager;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
 
@@ -22,6 +19,7 @@ public class MyGdxGame extends Game {
     public GameScreen gameScreen;
     public MenuScreen menuScreen;
     public SettingsScreen settingsScreen;
+    private LogFileManager logFileManager;
 
     @Override
     public void create() {
@@ -29,6 +27,8 @@ public class MyGdxGame extends Game {
 
         skin = new Skin(Gdx.files.internal(SKIN_PATH));
         camera.setToOrtho(false, SCREEN_WIDTH, SCREEN_HEIGHT);
+
+        logFileManager = LogFileManager.getInstance();
 
         gameScreen = new GameScreen(this);
         menuScreen = new MenuScreen(this);
@@ -40,6 +40,7 @@ public class MyGdxGame extends Game {
     @Override
     public void dispose() {
         skin.dispose();
+        logFileManager.dispose();
     }
 
 }

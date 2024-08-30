@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
 import ru.samsung.gamestudio.objects.Hittable;
+import ru.samsung.gamestudio.utils.TextureLoader;
 import ru.samsung.gamestudio.objects.PhysicalObject;
 import ru.samsung.gamestudio.world.listeners.OnWinListener;
 
@@ -42,7 +43,7 @@ public class FinishLine extends PhysicalActor implements Hittable, Disposable {
     }
 
     private void createAnimations() {
-        Texture texture = new Texture(GameResources.FINIS_LINE_TILESET_PATH);
+        Texture texture = TextureLoader.loadTexture(GameResources.FINIS_LINE_TILESET_PATH, "FinishLine");
         Array<TextureRegion> frames = new Array<>();
         drawable = new TextureRegionDrawable();
         setDrawable(drawable);

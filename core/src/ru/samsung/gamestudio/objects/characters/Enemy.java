@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.Disposable;
 import ru.samsung.gamestudio.game.GameResources;
 import ru.samsung.gamestudio.objects.PhysicalObject;
+import ru.samsung.gamestudio.utils.TextureLoader;
 import ru.samsung.gamestudio.world.listeners.OnRemoveBodyListener;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
@@ -64,7 +65,8 @@ public class Enemy extends PhysicalActor implements Disposable {
     }
 
     private void createAnimations() {
-        Texture texture = new Texture(GameResources.ENEMY_TILESET_PATH);
+        Texture texture = TextureLoader.loadTexture(GameResources.ENEMY_TILESET_PATH, "Enemy");
+
         Array<TextureRegion> frames = new Array<>();
         drawable = new TextureRegionDrawable();
         setDrawable(drawable);
