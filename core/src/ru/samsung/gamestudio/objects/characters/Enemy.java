@@ -71,16 +71,24 @@ public class Enemy extends PhysicalActor implements Disposable {
         drawable = new TextureRegionDrawable();
         setDrawable(drawable);
 
-        for (int i = 0; i < 8; i++) frames.add(new TextureRegion(texture, i * 34, 0, 34, 30));
+        for (int i = 0; i < 8; i++) {
+            frames.add(new TextureRegion(texture, i * 34, 0, 34, 30));
+        }
 
         idleAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, i * 34, 30, 34, 30));
+        for (int i = 0; i < 6; i++) {
+            frames.add(new TextureRegion(texture, i * 34, 30, 34, 30));
+        }
+
         runAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, i * 34, 60, 34, 30));
+        for (int i = 0; i < 4; i++) {
+            frames.add(new TextureRegion(texture, i * 34, 60, 34, 30));
+        }
+
         deadAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
     }

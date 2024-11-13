@@ -148,15 +148,17 @@ public class GameScreen extends BaseScreen {
 
         b2WorldManager.buildWorld(mapManager);
 
-        for (Actor actor : b2WorldManager.getAllActors())
+        for (Actor actor : b2WorldManager.getAllActors()) {
             baseStage.addActor(actor);
+        }
 
         gameUi.toFront();
     }
 
     public void clearLevel() {
-        for (Actor actor : b2WorldManager.getAllActors())
+        for (Actor actor : b2WorldManager.getAllActors()) {
             actor.remove();
+        }
         b2WorldManager.clearWorld();
     }
 

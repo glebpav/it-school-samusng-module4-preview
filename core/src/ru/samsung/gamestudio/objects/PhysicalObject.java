@@ -77,7 +77,9 @@ public class PhysicalObject {
         }
 
         public PhysicalObjectBuilder setBodyAsSensor() {
-            for (Fixture fixture : fixturesList) fixture.setSensor(true);
+            for (Fixture fixture : fixturesList) {
+                fixture.setSensor(true);
+            }
             return this;
         }
 

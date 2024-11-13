@@ -68,7 +68,9 @@ public class BonusBlock extends PhysicalActor implements Disposable {
         idleAnimation = new Animation<>(1f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 8; i++) frames.add(new TextureRegion(texture, 32 * i, 0, 32, 32));
+        for (int i = 0; i < 8; i++) {
+            frames.add(new TextureRegion(texture, 32 * i, 0, 32, 32));
+        }
         destroyAnimation = new Animation<>(0.1f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
     }

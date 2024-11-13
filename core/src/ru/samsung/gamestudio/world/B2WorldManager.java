@@ -125,7 +125,9 @@ public class B2WorldManager implements Disposable {
             world.step(STEP_TIME, VELOCITY_ITERATIONS, POSITION_ITERATIONS);
         }
 
-        for (Body body : bodiesGarbageList) world.destroyBody(body);
+        for (Body body : bodiesGarbageList) {
+            world.destroyBody(body);
+        }
         bodiesGarbageList.clear();
 
     }
@@ -171,7 +173,9 @@ public class B2WorldManager implements Disposable {
 
     @Override
     public void dispose() {
-        for (Disposable disposable : disposablesList) disposable.dispose();
+        for (Disposable disposable : disposablesList) {
+            disposable.dispose();
+        }
         disposablesList.clear();
     }
 }

@@ -48,7 +48,10 @@ public class FinishLine extends PhysicalActor implements Hittable, Disposable {
         drawable = new TextureRegionDrawable();
         setDrawable(drawable);
 
-        for (int i = 0; i < 9; i++) frames.add(new TextureRegion(texture, 34 * i, 0, 34, 93));
+        for (int i = 0; i < 9; i++) {
+            frames.add(new TextureRegion(texture, 34 * i, 0, 34, 93));
+        }
+
         idleAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
     }

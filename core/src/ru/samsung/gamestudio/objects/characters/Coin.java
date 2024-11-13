@@ -63,11 +63,17 @@ public class Coin extends PhysicalActor implements Disposable {
         drawable = new TextureRegionDrawable();
         setDrawable(drawable);
 
-        for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, 0, i * 24, 24, 24));
+        for (int i = 0; i < 4; i++) {
+            frames.add(new TextureRegion(texture, 0, i * 24, 24, 24));
+        }
+
         idleAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, 24, i * 24, 24, 24));
+        for (int i = 0; i < 4; i++) {
+            frames.add(new TextureRegion(texture, 24, i * 24, 24, 24));
+        }
+
         disappearAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
     }

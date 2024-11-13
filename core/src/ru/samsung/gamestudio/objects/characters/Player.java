@@ -81,27 +81,45 @@ public class Player extends PhysicalActor implements Disposable {
         drawable = new TextureRegionDrawable();
         setDrawable(drawable);
 
-        for (int i = 0; i < 5; i++) frames.add(new TextureRegion(texture, 64 * i, 4 * 40, 64, 40));
+        for (int i = 0; i < 5; i++) {
+            frames.add(new TextureRegion(texture, 64 * i, 4 * 40, 64, 40));
+        }
+
         idleAnimation = new Animation(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 6; i++) frames.add(new TextureRegion(texture, 64 * i, 0, 64, 40));
+        for (int i = 0; i < 6; i++) {
+            frames.add(new TextureRegion(texture, 64 * i, 0, 64, 40));
+        }
+
         runAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 3; i++) frames.add(new TextureRegion(texture, 64 * i, 40, 64, 40));
+        for (int i = 0; i < 3; i++) {
+            frames.add(new TextureRegion(texture, 64 * i, 40, 64, 40));
+        }
+
         jumpAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
 
-        for (int i = 0; i < 3; i++) frames.add(new TextureRegion(texture, 64 * i, 3 * 40, 64, 40));
+        for (int i = 0; i < 3; i++) {
+            frames.add(new TextureRegion(texture, 64 * i, 3 * 40, 64, 40));
+        }
+
         attackAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
 
-        for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, 64 * i, 2 * 40, 64, 40));
+        for (int i = 0; i < 4; i++) {
+            frames.add(new TextureRegion(texture, 64 * i, 2 * 40, 64, 40));
+        }
+
         gettingDamageAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
 
-        for (int i = 0; i < 4; i++) frames.add(new TextureRegion(texture, 64 * i, 5 * 40, 64, 40));
+        for (int i = 0; i < 4; i++) {
+            frames.add(new TextureRegion(texture, 64 * i, 5 * 40, 64, 40));
+        }
+
         becomeDeadAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.NORMAL);
         frames.clear();
     }
