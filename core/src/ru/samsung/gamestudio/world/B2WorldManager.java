@@ -1,7 +1,6 @@
 package ru.samsung.gamestudio.world;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -10,6 +9,7 @@ import com.badlogic.gdx.physics.box2d.Box2D;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.Disposable;
+import ru.samsung.gamestudio.objects.MapObjects;
 import ru.samsung.gamestudio.objects.wrappers.Ladder;
 import ru.samsung.gamestudio.objects.characters.*;
 import ru.samsung.gamestudio.objects.wrappers.PitBlock;
@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ru.samsung.gamestudio.game.GameSettings.*;
+import static ru.samsung.gamestudio.objects.MapLayers.*;
 
 public class B2WorldManager implements Disposable {
 
@@ -55,7 +56,7 @@ public class B2WorldManager implements Disposable {
 
         for (
                 RectangleMapObject object :
-                mapManager.getMap().getLayers().get("walls").getObjects().getByType(RectangleMapObject.class)
+                mapManager.getMap().getLayers().get(WALL.getName()).getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = object.getRectangle();
             new StaticBlock(world, rect);
@@ -63,7 +64,7 @@ public class B2WorldManager implements Disposable {
 
         for (
                 RectangleMapObject object :
-                mapManager.getMap().getLayers().get("floor").getObjects().getByType(RectangleMapObject.class)
+                mapManager.getMap().getLayers().get(FLOOR.getName()).getObjects().getByType(RectangleMapObject.class)
         ) {
             Rectangle rect = object.getRectangle();
             new StaticBlock(world, rect);
@@ -71,63 +72,47 @@ public class B2WorldManager implements Disposable {
 
         for (
                 RectangleMapObject object :
-                mapManager.getMap().getLayers().get("actors").getObjects().getByType(RectangleMapObject.class)
+                mapManager.getMap().getLayers().get(ACTOR.getName()).getObjects().getByType(RectangleMapObject.class)
         ) {
-            switch (object.getName()) {
-                case "player": {
-                    Rectangle rect = object.getRectangle();
-                    player = new Player(world, rect, onDamageListener, onScoreEarnedListener, onLoseListener, tileScale);
-                    disposablesList.add(player);
-                    break;
-                }
-                case "enemy1": {
-                    Rectangle rect = object.getRectangle();
-                    Enemy enemy = new Enemy(world, rect, (int) object.getProperties().get("walkLength"),
-                            onRemoveBodyListener, tileScale);
-                    actorsList.add(enemy);
-                    disposablesList.add(enemy);
-                }
+            Rectangle rect = object.getRectangle();
+
+            if (object.getName().equals(MapObjects.PLAYER.getName())) {
+                player = new Player(world, rect, onDamageListener, onScoreEarnedListener, onLoseListener, tileScale);
+            } else if (object.getName().equals(MapObjects.ENEMY.getName())) {
+                Enemy enemy = new Enemy(world, rect, (int) object.getProperties().get("walkLength"),
+                        onRemoveBodyListener, tileScale);
+                actorsList.add(enemy);
+            } else {
+                continue;
             }
+
+            disposablesList.add(player);
         }
 
         for (
                 RectangleMapObject object :
-                mapManager.getMap().getLayers().get("interactiveObjects").getObjects().getByType(RectangleMapObject.class)
+                mapManager.getMap().getLayers().get(INTERACTIVE_OBJECTS.getName()).getObjects().getByType(RectangleMapObject.class)
         ) {
-            switch (object.getName()) {
-                case "pit": {
-                    Rectangle rect = object.getRectangle();
-                    new PitBlock(world, rect, onLoseListener);
-                    break;
-                }
-                case "finishLine": {
-                    Rectangle rect = object.getRectangle();
-                    FinishLine finishLine = new FinishLine(world, rect, onWinListener, tileScale);
-                    actorsList.add(finishLine);
-                    disposablesList.add(finishLine);
-                    break;
-                }
-                case "coin": {
-                    Rectangle rect = object.getRectangle();
-                    Coin coin = new Coin(world, rect, onScoreEarnedListener, onRemoveBodyListener, tileScale);
-                    actorsList.add(coin);
-                    disposablesList.add(coin);
-                    break;
-                }
-                case "ladder": {
-                    Rectangle rect = object.getRectangle();
-                    new Ladder(world, rect);
-                    break;
-                }
-                case "bonusBlock": {
-                    System.out.println("bonusBlock");
-                    Rectangle rect = object.getRectangle();
-                    BonusBlock bonusBlock = new BonusBlock(world, rect, onRemoveBodyListener, onScoreEarnedListener, tileScale);
-                    actorsList.add(bonusBlock);
-                    disposablesList.add(bonusBlock);
-                    break;
-                }
+            Rectangle rect = object.getRectangle();
+
+            if (object.getName().equals(MapObjects.PIT.getName())) {
+                new PitBlock(world, rect, onLoseListener);
+            } else if (object.getName().equals(MapObjects.FINISH.getName())) {
+                FinishLine finishLine = new FinishLine(world, rect, onWinListener, tileScale);
+                actorsList.add(finishLine);
+                disposablesList.add(finishLine);
+            } else if (object.getName().equals(MapObjects.COIN.getName())) {
+                Coin coin = new Coin(world, rect, onScoreEarnedListener, onRemoveBodyListener, tileScale);
+                actorsList.add(coin);
+                disposablesList.add(coin);
+            } else if (object.getName().equals(MapObjects.LADDER.getName())) {
+                new Ladder(world, rect);
+            } else if (object.getName().equals(MapObjects.BONUS.getName())) {
+                BonusBlock bonusBlock = new BonusBlock(world, rect, onRemoveBodyListener, onScoreEarnedListener, tileScale);
+                actorsList.add(bonusBlock);
+                disposablesList.add(bonusBlock);
             }
+
         }
     }
 
