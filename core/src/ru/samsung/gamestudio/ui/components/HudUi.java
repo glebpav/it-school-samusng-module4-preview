@@ -6,6 +6,9 @@ import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public class HudUi extends Table {
 
+    private final int HUD_PADDING = 30;
+    private final int HUD_WIDTH = 100;
+
     private final Label scoreLabel;
     private final Label leftLivesLabel;
     public final TextButton pauseButton;
@@ -16,10 +19,10 @@ public class HudUi extends Table {
         pauseButton = new TextButton(localizationBundle.get("pauseButtonText"), skin);
 
         setWidth(SCREEN_WIDTH);
-        add(scoreLabel).padLeft(30);
-        add(leftLivesLabel).padLeft(30);
+        add(scoreLabel).padLeft(HUD_PADDING);
+        add(leftLivesLabel).padLeft(HUD_PADDING);
         add().expand();
-        add(pauseButton).width(100).padRight(30);
+        add(pauseButton).width(HUD_WIDTH).padRight(HUD_PADDING);
     }
 
     public void setScore(int score) {

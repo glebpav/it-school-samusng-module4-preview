@@ -36,13 +36,17 @@ public class LiveBackground extends Group implements Disposable {
         Texture reflectionsTileset = TextureLoader.loadTexture(REFLECTIONS_TILESET_PATH, "LiveBackground");
 
         Array<TextureRegion> frames = new Array<>();
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++) {
             frames.add(new TextureRegion(reflectionsTileset, 0, 10 * i, 170, 10));
+        }
+
         bigReflectionAnimation = new Animation<>(0.1f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 
-        for (int i = 0; i < 4; i++)
+        for (int i = 0; i < 4; i++) {
             frames.add(new TextureRegion(reflectionsTileset, 170, 3 * i, 35, 3));
+        }
+
         smallReflectionAnimation = new Animation<>(0.15f, frames, Animation.PlayMode.LOOP);
         frames.clear();
 

@@ -9,6 +9,15 @@ import static ru.samsung.gamestudio.game.GameSettings.localizationBundle;
 
 public class MenuUi extends UiComponent {
 
+    private final int BUTTON_HEIGHT = 60;
+    private final int SPACE_BETWEEN_COMPONENTS = 10;
+    private final int SCROLL_PANEL_WIDTH = 400;
+    private final int SCROLL_PANEL_HEIGHT = 250;
+    private final int START_BUTTON_WIDTH = 400;
+    private final int SECONDARY_BUTTON_WIDTH = 195;
+    private final int LIST_VIEW_WIDTH = 250;
+    private final int COMMON_PADDING_BOTTOM = 30;
+
     public ScrollPane scrollPane;
     public List<String> listView;
 
@@ -27,20 +36,20 @@ public class MenuUi extends UiComponent {
         scrollPane = new ScrollPane(listView, skin);
 
         listView.setAlignment(Align.center);
-        listView.setWidth(300);
+        listView.setWidth(LIST_VIEW_WIDTH);
         scrollPane.setActor(listView);
 
         addActor(liveBackground);
 
         columnDefaults(2);
-        add(title).colspan(2).padBottom(30);
+        add(title).colspan(2).padBottom(COMMON_PADDING_BOTTOM);
         row();
-        add(scrollPane).width(400).height(250).colspan(2).space(10);
+        add(scrollPane).width(SCROLL_PANEL_WIDTH).height(SCROLL_PANEL_HEIGHT).colspan(2).space(SPACE_BETWEEN_COMPONENTS);
         row();
-        add(startButton).width(400).height(60).colspan(2).space(10);
+        add(startButton).width(START_BUTTON_WIDTH).height(BUTTON_HEIGHT).colspan(2).space(SPACE_BETWEEN_COMPONENTS);
         row();
-        add(exitButton).width(195).height(60).space(10);
-        add(settingsButton).width(195).height(60).space(10);
+        add(exitButton).width(SECONDARY_BUTTON_WIDTH).height(BUTTON_HEIGHT).space(SPACE_BETWEEN_COMPONENTS);
+        add(settingsButton).width(SECONDARY_BUTTON_WIDTH).height(BUTTON_HEIGHT).space(SPACE_BETWEEN_COMPONENTS);
     }
 
 }

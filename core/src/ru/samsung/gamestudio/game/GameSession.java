@@ -27,7 +27,6 @@ public class GameSession {
     }
 
     public void endGame() {
-        // todo: implement end case
         state = GameState.ENDED;
     }
 

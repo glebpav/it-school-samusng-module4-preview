@@ -12,6 +12,14 @@ import static ru.samsung.gamestudio.game.GameSettings.localizationBundle;
 
 public class LoseDialog extends Dialog {
 
+    private final int DIALOG_WIDTH = 400;
+    private final int DIALOG_HEIGHT = 300;
+    private final int LABEL_HEIGHT = 150;
+    private final int BUTTON_WIDTH = 120;
+    private final int BUTTON_HEIGHT = 70;
+
+    private final int LABEL_SCALE = 10;
+
     public TextButton restartButton;
     public TextButton homeButton;
     private final Label textLabel;
@@ -22,18 +30,18 @@ public class LoseDialog extends Dialog {
         restartButton = new TextButton(localizationBundle.get("restartButtonText"), skin);
         homeButton = new TextButton(localizationBundle.get("homeButtonText"), skin);
         textLabel = new Label("", skin);
-        textLabel.setScale(10);
+        textLabel.setScale(LABEL_SCALE);
 
-        setSize(400, 300);
+        setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
         setPosition(SCREEN_WIDTH / 2f - getWidth() / 2, SCREEN_HEIGHT / 2f - getHeight() / 2);
 
         getContentTable().columnDefaults(2);
 
         getContentTable().align(Align.center);
-        getContentTable().add(textLabel).height(150).colspan(2);
+        getContentTable().add(textLabel).height(LABEL_HEIGHT).colspan(2);
         getContentTable().row();
-        getContentTable().add(restartButton).height(70).width(120);
-        getContentTable().add(homeButton).height(70).width(120);
+        getContentTable().add(restartButton).height(BUTTON_HEIGHT).width(BUTTON_WIDTH);
+        getContentTable().add(homeButton).height(BUTTON_HEIGHT).width(BUTTON_WIDTH);
     }
 
     public void setText(String text) {

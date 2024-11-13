@@ -13,22 +13,28 @@ import static ru.samsung.gamestudio.game.GameSettings.*;
 
 public class WinDialog extends Dialog {
 
+    private final int DIALOG_WIDTH = 400;
+    private final int DIALOG_HEIGHT = 300;
+    private final int PADDING_TOP = 40;
+    private final int BUTTON_HEIGHT = 70;
+    private final int BUTTON_WIDTH = 120;
+
     public TextButton homeButton;
     private final Label timeLabel;
     private final Label scoreLabel;
 
     public WinDialog(Skin skin) {
         super("", skin);
-        homeButton = new TextButton("home", skin);
+        homeButton = new TextButton(localizationBundle.get("homeButtonText"), skin);
         timeLabel = new Label("00:00", skin);
         scoreLabel = new Label("0", skin);
 
-        setSize(400, 300);
+        setSize(DIALOG_WIDTH, DIALOG_HEIGHT);
         setPosition(SCREEN_WIDTH / 2f - getWidth() / 2, SCREEN_HEIGHT / 2f - getHeight() / 2);
 
         getContentTable().columnDefaults(2);
         getContentTable().align(Align.center);
-        getContentTable().add(new Label(localizationBundle.get("winDialogText"), skin)).padTop(40).colspan(2);
+        getContentTable().add(new Label(localizationBundle.get("winDialogText"), skin)).padTop(PADDING_TOP).colspan(2);
         getContentTable().row();
         getContentTable().add(new Label("", skin)).align(Align.right);
         getContentTable().add(timeLabel).align(Align.left);
@@ -36,7 +42,7 @@ public class WinDialog extends Dialog {
         getContentTable().add(new Label("", skin)).align(Align.right);
         getContentTable().add(scoreLabel).align(Align.left);
         getContentTable().row();
-        getContentTable().add(homeButton).height(70).width(120).padTop(40).colspan(2);
+        getContentTable().add(homeButton).height(BUTTON_HEIGHT).width(BUTTON_WIDTH).padTop(PADDING_TOP).colspan(2);
 
     }
 

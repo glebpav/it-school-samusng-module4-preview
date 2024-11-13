@@ -10,6 +10,11 @@ import static ru.samsung.gamestudio.game.GameSettings.localizationBundle;
 
 public class SettingsUi extends UiComponent {
 
+    private final int LABEL_HEIGHT = 100;
+    private final int BUTTON_WIDTH = 160;
+    private final int BUTTON_HEIGHT = 70;
+    private final int BUTTON_PADDING = 20;
+
     public TextButton homeButton;
     public TextButton resetLevelsButton;
 
@@ -23,11 +28,11 @@ public class SettingsUi extends UiComponent {
 
         addActor(liveBackground);
 
-        add(titleLabel).height(100);
+        add(titleLabel).height(LABEL_HEIGHT);
         row();
-        add(resetLevelsButton).width(160).height(70);
+        add(resetLevelsButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT);
         row();
-        add(homeButton).width(160).height(70).padTop(20);
+        add(homeButton).width(BUTTON_WIDTH).height(BUTTON_HEIGHT).padTop(BUTTON_PADDING);
         row();
     }
 
