@@ -5,7 +5,7 @@ public enum MapObjects {
     PLAYER("player"),
     ENEMY("enemy1"),
     PIT("pit"),
-    FINISH("finish_line"),
+    FINISH("finishLine"),
     COIN("coin"),
     LADDER("ladder"),
     BONUS("bonusBlock");

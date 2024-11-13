@@ -30,7 +30,6 @@ import static ru.samsung.gamestudio.game.GameSettings.*;
 public class GameScreen extends BaseScreen {
 
     private final B2WorldManager b2WorldManager;
-    private final Box2DDebugRenderer debugRenderer;
     private MapManager mapManager;
     private OrthoCachedTiledMapRenderer mapRenderer;
     private Level level;
@@ -50,7 +49,6 @@ public class GameScreen extends BaseScreen {
         hudStage = new Stage(viewport2);
         backgroundStage = new Stage(viewport2);
 
-        debugRenderer = new Box2DDebugRenderer();
         b2WorldManager = new B2WorldManager();
         session = new GameSession();
         gameUi = new GameUi(myGdxGame.skin);
@@ -59,17 +57,7 @@ public class GameScreen extends BaseScreen {
         backgroundStage.addActor(liveBackground);
         hudStage.addActor(gameUi);
 
-        b2WorldManager.setOnLoseListener(onLoseListener);
-        b2WorldManager.setOnWinListener(onWinListener);
-        b2WorldManager.setOnCollectCoinListener(onScoreEarnedListener);
-        b2WorldManager.setOnDamageListener(onDamageListener);
-
-        gameUi.loseDialog.homeButton.addListener(onButtonHomeClicked);
-        gameUi.winDialog.homeButton.addListener(onButtonHomeClicked);
-        gameUi.loseDialog.restartButton.addListener(onButtonRestartClicked);
-        gameUi.pauseDialog.homeButton.addListener(onButtonHomeClicked);
-        gameUi.pauseDialog.resumeButton.addListener(onButtonResumeClicked);
-        gameUi.hudUi.pauseButton.addListener(onButtonPauseClicked);
+        setListeners();
     }
 
     public void setLevel(Level level) {
@@ -105,11 +93,9 @@ public class GameScreen extends BaseScreen {
         mapRenderer.setView(myGdxGame.camera);
         mapRenderer.render();
 
-        // debugRenderer.render(b2WorldManager.world, myGdxGame.camera.combined);
         super.render(delta, false);
         hudStage.act();
         hudStage.draw();
-
     }
 
     @Override
@@ -132,6 +118,20 @@ public class GameScreen extends BaseScreen {
                 b2WorldManager.player.attack();
             }
         }
+    }
+
+    private void setListeners() {
+        b2WorldManager.setOnLoseListener(onLoseListener);
+        b2WorldManager.setOnWinListener(onWinListener);
+        b2WorldManager.setOnCollectCoinListener(onScoreEarnedListener);
+        b2WorldManager.setOnDamageListener(onDamageListener);
+
+        gameUi.loseDialog.homeButton.addListener(onButtonHomeClicked);
+        gameUi.winDialog.homeButton.addListener(onButtonHomeClicked);
+        gameUi.loseDialog.restartButton.addListener(onButtonRestartClicked);
+        gameUi.pauseDialog.homeButton.addListener(onButtonHomeClicked);
+        gameUi.pauseDialog.resumeButton.addListener(onButtonResumeClicked);
+        gameUi.hudUi.pauseButton.addListener(onButtonPauseClicked);
     }
 
     private void startGame() {

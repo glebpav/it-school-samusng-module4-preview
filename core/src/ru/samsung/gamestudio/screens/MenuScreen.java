@@ -18,9 +18,7 @@ public class MenuScreen extends BaseScreen {
         menuUi = new MenuUi(myGdxGame.skin);
         baseStage.addActor(menuUi);
 
-        menuUi.exitButton.addListener(onButtonExitClickedListener);
-        menuUi.startButton.addListener(onButtonStartClickedListener);
-        menuUi.settingsButton.addListener(onButtonSettingsClickedListener);
+        setListeners();
     }
 
     private void updateList() {
@@ -36,6 +34,12 @@ public class MenuScreen extends BaseScreen {
     public void show() {
         super.show();
         updateList();
+    }
+
+    private void setListeners() {
+        menuUi.exitButton.addListener(onButtonExitClickedListener);
+        menuUi.startButton.addListener(onButtonStartClickedListener);
+        menuUi.settingsButton.addListener(onButtonSettingsClickedListener);
     }
 
     ClickListener onButtonExitClickedListener = new ClickListener() {

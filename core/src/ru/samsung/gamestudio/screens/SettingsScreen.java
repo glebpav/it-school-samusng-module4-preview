@@ -18,6 +18,10 @@ public class SettingsScreen extends BaseScreen {
         ui = new SettingsUi(myGdxGame.skin);
         baseStage.addActor(ui);
 
+        setListeners();
+    }
+
+    private void setListeners() {
         ui.homeButton.addListener(onButtonHomeClicked);
         ui.resetLevelsButton.addListener(onButtonResetLevelsClicked);
     }

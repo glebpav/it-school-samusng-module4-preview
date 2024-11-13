@@ -5,8 +5,8 @@ public enum MapLayers {
 
     WALL("walls"),
     FLOOR("floor"),
-    ACTOR("actor"),
-    INTERACTIVE_OBJECTS("interactive_objects");
+    ACTOR("actors"),
+    INTERACTIVE_OBJECTS("interactiveObjects");
 
     public final String name;
 
