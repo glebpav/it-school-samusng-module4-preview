@@ -8,6 +8,10 @@ import static ru.samsung.gamestudio.game.GameSettings.SCREEN_WIDTH;
 
 public class MobileController extends Table {
 
+    private final int CONTROLLER_PADDING_HORIZONTAL = 30;
+    private final int CONTROLLER_PADDING_BOTTOM = 130;
+    private final int BUTTONS_SIZE = 100;
+
     public final Button upButton;
     public final Button attackButton;
     public final Button backButton;
@@ -20,11 +24,20 @@ public class MobileController extends Table {
         attackButton = new Button(skin, "buttonAttack");
 
         setWidth(SCREEN_WIDTH);
-        add(backButton).height(100).width(100).padLeft(30).padBottom(130);
-        add(forwardButton).height(100).width(100).padLeft(30).padBottom(130);
+
+        add(backButton).height(BUTTONS_SIZE).width(BUTTONS_SIZE)
+                .padLeft(CONTROLLER_PADDING_HORIZONTAL).padBottom(CONTROLLER_PADDING_BOTTOM);
+
+        add(forwardButton).height(BUTTONS_SIZE).width(BUTTONS_SIZE)
+                .padLeft(CONTROLLER_PADDING_HORIZONTAL).padBottom(CONTROLLER_PADDING_BOTTOM);
+
         add().expand();
-        add(attackButton).height(100).width(100).padRight(30).padBottom(130);
-        add(upButton).height(100).width(100).padRight(30).padBottom(130);
+
+        add(attackButton).height(BUTTONS_SIZE).width(BUTTONS_SIZE)
+                .padRight(CONTROLLER_PADDING_HORIZONTAL).padBottom(CONTROLLER_PADDING_BOTTOM);
+
+        add(upButton).height(BUTTONS_SIZE).width(BUTTONS_SIZE)
+                .padRight(CONTROLLER_PADDING_HORIZONTAL).padBottom(CONTROLLER_PADDING_BOTTOM);
     }
 
 }
